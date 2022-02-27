@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/client_applied_menu_id"
+        android:icon="@drawable/ic_applied"
+        android:title="Applied"
+        />
+    <item
+        android:id="@+id/client_myPost_menu_id"
+        android:icon="@drawable/ic_post"
+        android:title="My Post" />
+    <item
+        android:id="@+id/client_callForInterview_menu_id"
+        android:icon="@drawable/ic_baseline_call_24"
+        android:title="Call for interView" />
+</menu>

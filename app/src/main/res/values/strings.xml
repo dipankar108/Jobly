@@ -1,0 +1,33 @@
+<resources>
+    <string name="app_name">Jobly</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="register_pageName">Register Now</string>
+    <string name="email">Email</string>
+    <string name="pass">Password</string>
+    <string name="fName">First Name</string>
+    <string name="lName">Last Name</string>
+    <string name="submit">Submit</string>
+    <string name="login_pageName">Log In</string>
+    <string name="logIn">Log In</string>
+    <string-array name="userTypeArray">
+        <item>Select</item>
+        <item>Client</item>
+        <item>Employee</item>
+    </string-array>
+    <string-array name="postCatagory">
+        <item>Select a post Catagory</item>
+        <item>Client</item>
+        <item>Employee</item>
+    </string-array>
+    <string-array name="postSubCatagory">
+        <item>Select a post SubCatagory</item>
+        <item>Client</item>
+        <item>Employee</item>
+    </string-array>
+    <string-array name="postservicetype">
+        <item>Select a post SubCatagory</item>
+        <item>Client</item>
+        <item>Employee</item>
+    </string-array>
+</resources>
