@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.databinding.ActivityCreateJobPostBinding
 import com.university_project.jobly.datamodel.CreatePostModel
 
@@ -139,12 +140,13 @@ class CreateJobPost : AppCompatActivity() {
                             )
                         ).addOnSuccessListener {
                             Toast.makeText(this,"Post created",Toast.LENGTH_SHORT).show()
+                            val intent= Intent(this,ClientActivity::class.java)
+                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                            startActivity(intent)
+                            finish()
                         }
                 }
-            val intent= Intent(this,MainActivity::class.java)
-            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            startActivity(intent)
-            finish()
+
         }
     }
 }

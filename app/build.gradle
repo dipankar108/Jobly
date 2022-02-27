@@ -7,9 +7,9 @@ plugins {
 android {
     compileSdkVersion 32
     buildToolsVersion "32.0.0"
-buildFeatures{
-    viewBinding true
-}
+    buildFeatures {
+        viewBinding true
+    }
     defaultConfig {
         applicationId "com.university_project.jobly"
         minSdkVersion 22
@@ -36,7 +36,7 @@ buildFeatures{
 }
 
 dependencies {
-
+    def lifecycle_version = "2.5.0-alpha01"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.7.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
@@ -53,5 +53,15 @@ dependencies {
     implementation 'com.google.firebase:firebase-firestore-ktx:24.0.1'
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.android.gms:play-services-auth:20.1.0'
-
+//ViewModel dependancy
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    // ViewModel utilities for Compose
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    // Lifecycles only (without ViewModel or LiveData)
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    // Saved state module for ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
 }
