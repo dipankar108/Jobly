@@ -10,6 +10,7 @@
     <string name="submit">Submit</string>
     <string name="login_pageName">Log In</string>
     <string name="logIn">Log In</string>
+    <string name="menu_refresh">Pull to refresh</string>
     <string-array name="userTypeArray">
         <item>Select</item>
         <item>Client</item>

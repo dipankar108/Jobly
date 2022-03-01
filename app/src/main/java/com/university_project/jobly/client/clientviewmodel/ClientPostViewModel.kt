@@ -9,9 +9,9 @@ class ClientPostViewModel: ViewModel() {
         return getData
     }
     fun init(){
-        if (getData.value!=null){
-            return
-        }
+//        if (getData.value!=null){
+//            return
+//        }
         PostRepo.setJobPost()
     }
 }

@@ -39,6 +39,14 @@ class ClientJobPostFragment : Fragment() {
             postViewAdapter.setArrayList(it)
             postViewAdapter.notifyDataSetChanged()
         })
+        binding.sflClientPostViewRefreshId.setOnRefreshListener {
+            Log.d("TAG", "onViewCreated: refreshing")
+            myUpdateOperation();
+        }
+    }
+
+    private fun myUpdateOperation() {
+liveDataModel.init()
     }
 }
 
