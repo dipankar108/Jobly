@@ -7,13 +7,13 @@
     tools:context=".client.ClientJobPostFragment"
     >
 
-    <LinearLayout
-        android:id="@+id/ll_clientpostLayout_id"
-        android:layout_width="match-parent"
-        android:layout_height="match-parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_clientPostView_id"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:orientation="vertical" />
+        tools:listitem="@layout/postitemview"
+        />
 </androidx.constraintlayout.widget.ConstraintLayout>
