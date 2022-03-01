@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".client.ClientJobPostFragment"
     >
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_clientPostView_id"
         android:layout_width="match_parent"

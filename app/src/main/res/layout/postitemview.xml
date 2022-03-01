@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:gravity="left"
             android:text="This is job"
-            android:textColor="@color/black"
+            android:textColor="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -42,7 +42,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:maxLines="2"
-        android:textColor="@color/black"
+        android:textColor="@color/white"
         android:ellipsize="end"
         android:padding="10dp"
         android:text="This is  a job that we need an employee who is very good at android app developement with kotlin mobile programming platform" />
