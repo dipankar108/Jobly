@@ -5,14 +5,13 @@ import androidx.lifecycle.ViewModel
 class ClientPostViewModel: ViewModel() {
     private  var getData=MutableLiveData<ArrayList<ClientPostDataModel>>()
     fun getLiveData():MutableLiveData<ArrayList<ClientPostDataModel>>{
-        PostRepo.setJobPost()
-        //getData=
-        return PostRepo.getJobPost() as MutableLiveData<ArrayList<ClientPostDataModel>>
+       getData=PostRepo.getJobPost() as MutableLiveData<ArrayList<ClientPostDataModel>>
+        return getData
     }
-//    fun init(){
-//        if (getData.value!=null){
-//            return
-//        }
-//        PostRepo.setJobPost()
-//    }
+    fun init(){
+        if (getData.value!=null){
+            return
+        }
+        PostRepo.setJobPost()
+    }
 }

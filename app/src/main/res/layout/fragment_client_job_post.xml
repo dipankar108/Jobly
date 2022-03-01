@@ -5,18 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".client.ClientJobPostFragment"
-
     >
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Home Fragment"
-        android:textColor="@color/white"
+    <LinearLayout
+        android:id="@+id/ll_clientpostLayout_id"
+        android:layout_width="match-parent"
+        android:layout_height="match-parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical" />
 </androidx.constraintlayout.widget.ConstraintLayout>

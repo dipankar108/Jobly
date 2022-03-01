@@ -28,7 +28,6 @@ class ClientJobPostFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        liveDataModel= ViewModelProvider(this)[ClientPostViewModel::class.java]
         _binding=FragmentClientJobPostBinding.inflate(layoutInflater,container,false)
         return binding.root
     }
@@ -36,9 +35,9 @@ class ClientJobPostFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         auth=Firebase.auth
-
+        liveDataModel= ViewModelProvider(this)[ClientPostViewModel::class.java]
         liveDataModel.getLiveData().observe(viewLifecycleOwner,{
-            Log.d("TAG", "onViewCreated: ${liveDataModel.getLiveData().value}")
+            Log.d("mTAG", "onViewCreated: $it")
         })
     }
 }
