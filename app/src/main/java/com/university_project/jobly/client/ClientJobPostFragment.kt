@@ -14,6 +14,10 @@ import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.client.adapter.PostViewAdapter
 import com.university_project.jobly.client.clientviewmodel.ClientPostViewModel
 import com.university_project.jobly.databinding.FragmentClientJobPostBinding
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class ClientJobPostFragment : Fragment() {
     private lateinit var _binding: FragmentClientJobPostBinding
@@ -34,19 +38,27 @@ class ClientJobPostFragment : Fragment() {
         val postViewAdapter = PostViewAdapter()
         binding.rvClientPostViewId.layoutManager = LinearLayoutManager(requireContext())
         binding.rvClientPostViewId.adapter = postViewAdapter
-        liveDataModel = ViewModelProvider(this)[ClientPostViewModel::class.java]
-        liveDataModel.getLiveData().observe(viewLifecycleOwner, {
-            postViewAdapter.setArrayList(it)
-            postViewAdapter.notifyDataSetChanged()
-        })
+        liveDataModel = ViewModelProvider(requireActivity())[ClientPostViewModel::class.java]
+        liveDataModel.getLiveData()
+        GlobalScope.launch(Dispatchers.Main) {
+            delay(800)
+            Log.d("TAG", "onViewCreated: main context")
+            liveDataModel.postList.observe(viewLifecycleOwner, {
+                Log.d("TAG", "onViewCreated: "+it.size)
+               postViewAdapter.setArrayList(it)
+               postViewAdapter.notifyDataSetChanged()
+           })
+       }
         binding.sflClientPostViewRefreshId.setOnRefreshListener {
             Log.d("TAG", "onViewCreated: refreshing")
-            myUpdateOperation();
+           // myUpdateOperation();
+            postViewAdapter.notifyDataSetChanged()
         }
     }
 
-    private fun myUpdateOperation() {
-liveDataModel.init()
+    private suspend fun myUpdateOperation() {
+        liveDataModel.getLiveData()
+        binding.sflClientPostViewRefreshId.isRefreshing=false
     }
 }
 
