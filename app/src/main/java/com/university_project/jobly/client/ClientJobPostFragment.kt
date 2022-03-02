@@ -13,13 +13,14 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.client.adapter.PostViewAdapter
 import com.university_project.jobly.client.clientviewmodel.ClientPostViewModel
+import com.university_project.jobly.client.interfaces.ClickHandle
 import com.university_project.jobly.databinding.FragmentClientJobPostBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-class ClientJobPostFragment : Fragment() {
+class ClientJobPostFragment : Fragment(), ClickHandle {
     private lateinit var _binding: FragmentClientJobPostBinding
     private lateinit var liveDataModel: ClientPostViewModel
     private lateinit var auth: FirebaseAuth
@@ -27,7 +28,7 @@ class ClientJobPostFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentClientJobPostBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
@@ -35,31 +36,39 @@ class ClientJobPostFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         auth = Firebase.auth
-        val postViewAdapter = PostViewAdapter()
+        val postViewAdapter = PostViewAdapter(this)
         binding.rvClientPostViewId.layoutManager = LinearLayoutManager(requireContext())
         binding.rvClientPostViewId.adapter = postViewAdapter
         liveDataModel = ViewModelProvider(requireActivity())[ClientPostViewModel::class.java]
         liveDataModel.getLiveData()
+        Log.d("TAG", "onViewCreated: " + liveDataModel.loading())
+        if (liveDataModel.loading()) {
+            binding.pbClientViewId.visibility = View.VISIBLE
+        } else binding.pbClientViewId.visibility = View.GONE
+        liveDataModel.postList?.value?.let { postViewAdapter.setArrayList(it) }
         GlobalScope.launch(Dispatchers.Main) {
             delay(800)
-            Log.d("TAG", "onViewCreated: main context")
             liveDataModel.postList.observe(viewLifecycleOwner, {
-                Log.d("TAG", "onViewCreated: "+it.size)
-               postViewAdapter.setArrayList(it)
-               postViewAdapter.notifyDataSetChanged()
-           })
-       }
-        binding.sflClientPostViewRefreshId.setOnRefreshListener {
-            Log.d("TAG", "onViewCreated: refreshing")
-           // myUpdateOperation();
-            postViewAdapter.notifyDataSetChanged()
+                postViewAdapter.setArrayList(it)
+                postViewAdapter.notifyDataSetChanged()
+                binding.pbClientViewId.visibility = View.GONE
+            })
         }
+//        binding.sflClientPostViewRefreshId.setOnRefreshListener {
+//            Log.d("TAG", "onViewCreated: refreshing")
+//           // myUpdateOperation();
+//            postViewAdapter.notifyDataSetChanged()
+//        }
     }
 
-    private suspend fun myUpdateOperation() {
-        liveDataModel.getLiveData()
-        binding.sflClientPostViewRefreshId.isRefreshing=false
+    override fun itemClicked(id: String) {
+        Log.d("TAG", "itemClicked: $id")
     }
+
+//    private suspend fun myUpdateOperation() {
+//        liveDataModel.getLiveData()
+//        binding.sflClientPostViewRefreshId.isRefreshing=false
+//    }
 }
 
 //{

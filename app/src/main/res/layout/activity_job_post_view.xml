@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".JobPostView">
+
+ <androidx.constraintlayout.widget.ConstraintLayout
+     android:layout_width="match_parent"
+     android:layout_height="match_parent"
+     >
+     <TextView
+         android:id="@+id/tv_SinglePostViewTitle_id"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:text="Job Title"
+         app:layout_constraintEnd_toEndOf="parent"
+         app:layout_constraintTop_toTopOf="parent" />
+
+     <TextView
+         android:id="@+id/tv_SinglePostViewDesc_id"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="20dp"
+         android:text="Post Desc"
+         app:layout_constraintTop_toBottomOf="@+id/tv_SinglePostViewTitle_id"
+         tools:layout_editor_absoluteX="0dp" />
+
+     <TextView
+         android:id="@+id/tv_SinglePostViewJobPosition_id"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="24dp"
+         android:text="Job position"
+         app:layout_constraintTop_toBottomOf="@+id/tv_SinglePostViewDesc_id"
+         tools:layout_editor_absoluteX="0dp" />
+
+     <TextView
+         android:id="@+id/tv_SinglePostViewExperience_id"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:layout_marginTop="16dp"
+         android:text="Experience"
+         app:layout_constraintTop_toBottomOf="@+id/tv_SinglePostViewJobPosition_id"
+         tools:layout_editor_absoluteX="0dp" />
+
+     <TextView
+         android:id="@+id/tv_SinglePostViewSalary_id"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:text="Salary"
+         app:layout_constraintTop_toBottomOf="@+id/tv_SinglePostViewExperience_id"
+         tools:layout_editor_absoluteX="16dp" />
+
+     <TextView
+         android:id="@+id/tv_SinglePostViewLocation_id"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:text="Location"
+         app:layout_constraintTop_toBottomOf="@+id/tv_SinglePostViewSalary_id"
+         tools:layout_editor_absoluteX="0dp" />
+
+     <TextView
+         android:id="@+id/tv_SinglePostViewCompanyName_id"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:text="Company Name"
+         app:layout_constraintTop_toBottomOf="@+id/tv_SinglePostViewLocation_id"
+         tools:layout_editor_absoluteX="0dp" />
+
+     <com.google.android.material.button.MaterialButton
+         android:id="@+id/btn_SinglePostViewSubmit_id"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:text="Apply Now"
+         app:layout_constraintBottom_toBottomOf="parent"
+         app:layout_constraintTop_toBottomOf="parent" />
+ </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

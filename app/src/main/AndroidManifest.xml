@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Jobly">
-        <activity android:name=".client.ClientActivity"></activity>
+        <activity android:name=".JobPostView"></activity>
+        <activity android:name=".client.ClientActivity" />
         <activity android:name=".CreateJobPost" />
         <activity android:name=".accountlog.AccountLog" />
         <activity

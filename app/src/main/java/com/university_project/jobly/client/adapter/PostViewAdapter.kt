@@ -6,9 +6,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.university_project.jobly.R
+import com.university_project.jobly.client.interfaces.ClickHandle
 import com.university_project.jobly.client.clientviewmodel.ClientPostDataModel
 
-class PostViewAdapter : RecyclerView.Adapter<PostViewAdapter.PostViewHolder>() {
+class PostViewAdapter(private val listner: ClickHandle) : RecyclerView.Adapter<PostViewAdapter.PostViewHolder>() {
     private val myArrayList = arrayListOf<ClientPostDataModel>()
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val postTitle: TextView = itemView.findViewById(R.id.tv_postViewTitle_id)
@@ -34,8 +35,12 @@ class PostViewAdapter : RecyclerView.Adapter<PostViewAdapter.PostViewHolder>() {
         holder.position.text = res.category
         holder.experience.text = res.experience.toString()
         holder.location.text = res.location
+        holder.postDesc.setOnClickListener {
+            listner.itemClicked(res.docId)
+        }
     }
     override fun getItemCount(): Int {
         return myArrayList.size
     }
+
 }
