@@ -1,5 +1,6 @@
 package com.university_project.jobly.client
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.university_project.jobly.JobPostView
 import com.university_project.jobly.client.adapter.PostViewAdapter
 import com.university_project.jobly.client.clientviewmodel.ClientPostViewModel
 import com.university_project.jobly.client.interfaces.ClickHandle
@@ -59,10 +61,15 @@ class ClientJobPostFragment : Fragment(), ClickHandle {
 //           // myUpdateOperation();
 //            postViewAdapter.notifyDataSetChanged()
 //        }
+
     }
 
     override fun itemClicked(id: String) {
-        Log.d("TAG", "itemClicked: $id")
+     val intent=Intent(context,JobPostView::class.java)
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.putExtra("docId",id)
+        startActivity(intent)
+        activity?.finish()
     }
 
 //    private suspend fun myUpdateOperation() {
