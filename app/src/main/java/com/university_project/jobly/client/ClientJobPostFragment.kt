@@ -14,6 +14,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.JobPostView
 import com.university_project.jobly.client.adapter.PostViewAdapter
+import com.university_project.jobly.client.clientviewmodel.ClientPostDataModel
 import com.university_project.jobly.client.clientviewmodel.ClientPostViewModel
 import com.university_project.jobly.client.interfaces.ClickHandle
 import com.university_project.jobly.databinding.FragmentClientJobPostBinding
@@ -64,12 +65,11 @@ class ClientJobPostFragment : Fragment(), ClickHandle {
 
     }
 
-    override fun itemClicked(id: String) {
+    override fun itemClicked(id: String,clientPostDataModel: ClientPostDataModel) {
      val intent=Intent(context,JobPostView::class.java)
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK
         intent.putExtra("docId",id)
         startActivity(intent)
-        activity?.finish()
     }
 
 //    private suspend fun myUpdateOperation() {

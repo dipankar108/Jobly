@@ -36,7 +36,7 @@ class PostViewAdapter(private val listner: ClickHandle) : RecyclerView.Adapter<P
         holder.experience.text = res.experience.toString()
         holder.location.text = res.location
         holder.postDesc.setOnClickListener {
-            listner.itemClicked(res.docId)
+            listner.itemClicked(res.docId,res)
         }
     }
     override fun getItemCount(): Int {

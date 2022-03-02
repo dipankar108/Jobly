@@ -35,7 +35,7 @@ class SplashScreen : AppCompatActivity() {
         binding.progressBar.requestLayout()
         Log.d(TAG, "onCreate: " + auth.uid)
         GlobalScope.launch {
-            delay(2000)
+            delay(800)
             if (auth.uid != null) {
                 Firebase.firestore.collection("User").document(auth.uid.toString()).get()
                     .addOnSuccessListener {
