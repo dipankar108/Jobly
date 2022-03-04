@@ -47,6 +47,7 @@ class SplashScreen : AppCompatActivity() {
                             changeActivity(userinfo)
                         } else {
                             auth.signOut()
+                            editor.clear()
                             startActivity(Intent(this@SplashScreen, AccountLog::class.java))
                         }
 
