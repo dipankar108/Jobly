@@ -1,4 +1,4 @@
-package com.university_project.jobly.client
+package com.university_project.jobly.client.fragment
 
 import android.content.Intent
 import android.os.Bundle
