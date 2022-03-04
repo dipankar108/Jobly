@@ -2,7 +2,6 @@ package com.university_project.jobly.client
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,10 +17,6 @@ import com.university_project.jobly.client.clientviewmodel.ClientPostDataModel
 import com.university_project.jobly.client.clientviewmodel.ClientPostViewModel
 import com.university_project.jobly.client.interfaces.ClickHandle
 import com.university_project.jobly.databinding.FragmentClientJobPostBinding
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 
 class ClientJobPostFragment : Fragment(), ClickHandle {
     private lateinit var _binding: FragmentClientJobPostBinding
@@ -43,20 +38,10 @@ class ClientJobPostFragment : Fragment(), ClickHandle {
         binding.rvClientPostViewId.layoutManager = LinearLayoutManager(requireContext())
         binding.rvClientPostViewId.adapter = postViewAdapter
         liveDataModel = ViewModelProvider(requireActivity())[ClientPostViewModel::class.java]
-        liveDataModel.getLiveData()
-        Log.d("TAG", "onViewCreated: " + liveDataModel.loading())
         if (liveDataModel.loading()) {
             binding.pbClientViewId.visibility = View.VISIBLE
         } else binding.pbClientViewId.visibility = View.GONE
-        liveDataModel.postList?.value?.let { postViewAdapter.setArrayList(it) }
-        GlobalScope.launch(Dispatchers.Main) {
-            delay(800)
-            liveDataModel.postList.observe(viewLifecycleOwner, {
-                postViewAdapter.setArrayList(it)
-                postViewAdapter.notifyDataSetChanged()
-                binding.pbClientViewId.visibility = View.GONE
-            })
-        }
+        getMutableData(postViewAdapter)
 //        binding.sflClientPostViewRefreshId.setOnRefreshListener {
 //            Log.d("TAG", "onViewCreated: refreshing")
 //           // myUpdateOperation();
@@ -65,10 +50,18 @@ class ClientJobPostFragment : Fragment(), ClickHandle {
 
     }
 
-    override fun itemClicked(id: String,clientPostDataModel: ClientPostDataModel) {
-     val intent=Intent(context,JobPostView::class.java)
-        intent.flags=Intent.FLAG_ACTIVITY_NEW_TASK
-        intent.putExtra("docId",id)
+    private fun getMutableData(postViewAdapter: PostViewAdapter) {
+        liveDataModel.postList.observe(viewLifecycleOwner, {
+            postViewAdapter.setArrayList(it as ArrayList<ClientPostDataModel>)
+            postViewAdapter.notifyDataSetChanged()
+            binding.pbClientViewId.visibility = View.GONE
+        })
+    }
+
+    override fun itemClicked(id: String, clientPostDataModel: ClientPostDataModel) {
+        val intent = Intent(context, JobPostView::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        intent.putExtra("docId", id)
         startActivity(intent)
     }
 
