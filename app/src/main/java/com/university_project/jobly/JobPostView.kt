@@ -9,7 +9,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.client.ClientActivity
-import com.university_project.jobly.client.clientviewmodel.ClientPostDataModel
+import com.university_project.jobly.client.datamodel.ClientPostDataModel
 import com.university_project.jobly.databinding.ActivityJobPostViewBinding
 
 class JobPostView : AppCompatActivity() {

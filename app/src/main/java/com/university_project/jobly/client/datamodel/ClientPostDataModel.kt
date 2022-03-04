@@ -1,4 +1,4 @@
-package com.university_project.jobly.client.clientviewmodel
+package com.university_project.jobly.client.datamodel
 
 data class ClientPostDataModel(
     val userId: String = "",
@@ -13,5 +13,6 @@ data class ClientPostDataModel(
     val timeStamp: Long = 0,
     val companyName: String = "",
     val genderName: String = "",
-    val docId: String = ""
+    val docId: String = "",
+    val type: String = "ADDED"
 )

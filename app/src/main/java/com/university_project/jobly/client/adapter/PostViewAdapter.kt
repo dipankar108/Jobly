@@ -7,10 +7,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.university_project.jobly.R
 import com.university_project.jobly.client.interfaces.ClickHandle
-import com.university_project.jobly.client.clientviewmodel.ClientPostDataModel
+import com.university_project.jobly.client.datamodel.ClientPostDataModel
 
 class PostViewAdapter(private val listner: ClickHandle) : RecyclerView.Adapter<PostViewAdapter.PostViewHolder>() {
-    private val myArrayList = arrayListOf<ClientPostDataModel>()
+    private var myArrayList =listOf<ClientPostDataModel>()
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val postTitle: TextView = itemView.findViewById(R.id.tv_postViewTitle_id)
         val postDesc: TextView = itemView.findViewById(R.id.tv_postViewDesc_id)
@@ -19,8 +19,8 @@ class PostViewAdapter(private val listner: ClickHandle) : RecyclerView.Adapter<P
         val location: TextView = itemView.findViewById(R.id.tv_postViewLocation_id)
     }
 
-    fun setArrayList(arrayList: ArrayList<ClientPostDataModel>) {
-        myArrayList.addAll(arrayList)
+    fun setArrayList(arrayList: List<ClientPostDataModel>) {
+        myArrayList= arrayList
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {

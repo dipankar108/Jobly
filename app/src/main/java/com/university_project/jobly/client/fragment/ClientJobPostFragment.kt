@@ -2,6 +2,7 @@ package com.university_project.jobly.client.fragment
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,10 +14,11 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.JobPostView
 import com.university_project.jobly.client.adapter.PostViewAdapter
-import com.university_project.jobly.client.clientviewmodel.ClientPostDataModel
+import com.university_project.jobly.client.datamodel.ClientPostDataModel
 import com.university_project.jobly.client.clientviewmodel.ClientPostViewModel
 import com.university_project.jobly.client.interfaces.ClickHandle
 import com.university_project.jobly.databinding.FragmentClientJobPostBinding
+import com.university_project.jobly.utils.TimeStampConverter
 
 class ClientJobPostFragment : Fragment(), ClickHandle {
     private lateinit var _binding: FragmentClientJobPostBinding
@@ -51,8 +53,9 @@ class ClientJobPostFragment : Fragment(), ClickHandle {
     }
 
     private fun getMutableData(postViewAdapter: PostViewAdapter) {
-        liveDataModel.postList.observe(viewLifecycleOwner, {
-            postViewAdapter.setArrayList(it as ArrayList<ClientPostDataModel>)
+        liveDataModel.postList.observe(viewLifecycleOwner, { list ->
+           val sortedList= list.sortedBy {it.timeStamp}
+            postViewAdapter.setArrayList(sortedList)
             postViewAdapter.notifyDataSetChanged()
             binding.pbClientViewId.visibility = View.GONE
         })

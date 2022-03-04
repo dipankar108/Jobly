@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.university_project.jobly.CreateJobPost
 import com.university_project.jobly.R
-import com.university_project.jobly.client.clientviewmodel.ClientPostViewModel
 import com.university_project.jobly.client.fragment.ClientAppliedFragment
 import com.university_project.jobly.client.fragment.ClientCallForInterViewFragment
 import com.university_project.jobly.client.fragment.ClientJobPostFragment
@@ -17,7 +16,6 @@ import kotlin.system.exitProcess
 
 class ClientActivity : AppCompatActivity() {
     private lateinit var binding: ActivityClientBinding
-    private lateinit var liveDataModel: ClientPostViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityClientBinding.inflate(layoutInflater)
@@ -48,7 +46,6 @@ class ClientActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-       // super.onBackPressed()
         val alertDialog = AlertDialog.Builder(requireContext())
         alertDialog.setMessage("Are you sure you want to exit?")
             .setPositiveButton("Yes") { _, _ ->

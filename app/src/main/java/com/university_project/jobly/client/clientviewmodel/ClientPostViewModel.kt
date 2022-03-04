@@ -2,6 +2,7 @@ package com.university_project.jobly.client.clientviewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.university_project.jobly.client.datamodel.ClientPostDataModel
 
 class ClientPostViewModel : ViewModel() {
     private var _postList = PostRepo.getResponseUsingLiveData()
