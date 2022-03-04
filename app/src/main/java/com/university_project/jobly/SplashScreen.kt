@@ -43,6 +43,7 @@ class SplashScreen : AppCompatActivity() {
                         if (it.data != null) {
                             val userinfo = it.data!!["userType"].toString()
                             editor.putString("m_userType", userinfo)
+                            editor.apply()
                             changeActivity(userinfo)
                         } else {
                             auth.signOut()

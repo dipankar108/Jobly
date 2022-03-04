@@ -38,13 +38,28 @@ class JobPostView : AppCompatActivity() {
         }.addOnFailureListener { e ->
             Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()
         }
+        val sh = getSharedPreferences("userType", MODE_PRIVATE)
+        val userInfo = sh.getString("m_userType", null)
+        setBtnText(userInfo!!)
+        binding.btnSinglePostViewSubmitId.setOnClickListener {
+            if (userInfo == "Client") {
 
+            } else {
+
+            }
+        }
+    }
+
+    private fun setBtnText(string: String?) {
+        if (string == "Client") {
+            binding.btnSinglePostViewSubmitId.text = "Edit"
+        } else binding.btnSinglePostViewSubmitId.text = "Apply"
     }
 
     override fun onBackPressed() {
         super.onBackPressed()
-        val intent=Intent(applicationContext, ClientActivity::class.java)
-        intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP
+        val intent = Intent(applicationContext, ClientActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         startActivity(intent)
         finish()
     }
