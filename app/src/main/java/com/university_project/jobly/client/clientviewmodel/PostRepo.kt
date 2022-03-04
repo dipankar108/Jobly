@@ -7,11 +7,11 @@ import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.client.datamodel.ClientPostDataModel
+import java.util.*
 
 object PostRepo {
-    val auth = Firebase.auth
-    val TAG = "TAG"
-    val myPost = ArrayList<ClientPostDataModel>()
+    private val auth = Firebase.auth
+    private val myPost = mutableSetOf<ClientPostDataModel>()
     fun getResponseUsingLiveData(): MutableLiveData<List<ClientPostDataModel>> {
         val mutableLiveData = MutableLiveData<List<ClientPostDataModel>>()
         val db = Firebase.firestore.collection("JobPost")
@@ -24,17 +24,24 @@ object PostRepo {
                     DocumentChange.Type.MODIFIED -> modifiedFromArray(addData("REMOVED", dc))
                 }
             }
-            mutableLiveData.value = myPost
+            mutableLiveData.value = myPost.toTypedArray().asList()
         }
         return mutableLiveData
     }
 
     private fun modifiedFromArray(addData: ClientPostDataModel) {
-        myPost.forEachIndexed { index, dt ->
-            dt.takeIf { it.docId == addData.docId }?.let {
-                myPost[index]=addData
-            }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            myPost.removeIf { it.docId == addData.docId }
+            myPost.add(addData)
         }
+        /**
+        myPost.forEachIndexed { index, dt ->
+        dt.takeIf { it.docId == addData.docId }?.let {
+
+        myPost[index]=addData
+        }
+        }
+         **/
     }
 
     private fun removeFromArray(addData: ClientPostDataModel) {
@@ -62,54 +69,56 @@ object PostRepo {
             type
         )
     }
-
-//    private fun convertToObject(doc: DocumentSnapshot, type: String): ClientPostDataModel {
-//        return ClientPostDataModel(
-//            doc["userId"].toString(),
-//            doc["title"].toString(),
-//            doc["desc"].toString(),
-//            doc["category"].toString(),
-//            doc["experience"].toString().toInt(),
-//            doc["salary"].toString().toInt(),
-//            doc["location"].toString(),
-//            doc["appliedEmployee"] as Map<String, String>,
-//            doc["attachment"].toString(),
-//            doc["timeStamp"].toString().toLong(),
-//            doc["companyName"].toString(),
-//            doc["genderName"].toString(),
-//            doc.id,
-//            type
-//        )
-//    }
+    /**
+    private fun convertToObject(doc: DocumentSnapshot, type: String): ClientPostDataModel {
+    return ClientPostDataModel(
+    doc["userId"].toString(),
+    doc["title"].toString(),
+    doc["desc"].toString(),
+    doc["category"].toString(),
+    doc["experience"].toString().toInt(),
+    doc["salary"].toString().toInt(),
+    doc["location"].toString(),
+    doc["appliedEmployee"] as Map<String, String>,
+    doc["attachment"].toString(),
+    doc["timeStamp"].toString().toLong(),
+    doc["companyName"].toString(),
+    doc["genderName"].toString(),
+    doc.id,
+    type
+    )
+    }
+     **/
 }
-// suspend fun getAllPost()=Firebase.firestore.collection(auth.toString()).whereEqualTo("userId", auth.uid.toString())
-//    suspend fun getJobPost(): ArrayList<ClientPostDataModel> {
-//        val arrayList: ArrayList<ClientPostDataModel> = ArrayList()
-//
-//        val db = Firebase.firestore.collection("JobPost")
-//        val query = db.whereEqualTo()
-//        query.get().addOnSuccessListener {
-//            for (doc in it.documents) {
-//                val singleJobPost = ClientPostDataModel(
-//                    doc["userId"].toString(),
-//                    doc["title"].toString(),
-//                    doc["desc"].toString(),
-//                    doc["category"].toString(),
-//                    doc["experience"].toString().toInt(),
-//                    doc["salary"].toString().toInt(),
-//                    doc["location"].toString(),
-//                    doc["appliedEmployee"] as Map<String, String>,
-//                    doc["arrachment"].toString(),
-//                    doc["timeStamp"].toString().toLong(),
-//                    doc["companyName"].toString(),
-//                    doc["genderName"].toString(),
-//                    doc.id
-//                )
-//                if (singleJobPost != null) {
-//                    arrayList.add(singleJobPost)
-//                }
-//            }
-//        }
-//        return arrayList
-//    }
-//}
+/**
+suspend fun getAllPost()=Firebase.firestore.collection(auth.toString()).whereEqualTo("userId", auth.uid.toString())
+suspend fun getJobPost(): ArrayList<ClientPostDataModel> {
+val arrayList: ArrayList<ClientPostDataModel> = ArrayList()
+
+val db = Firebase.firestore.collection("JobPost")
+val query = db.whereEqualTo()
+query.get().addOnSuccessListener {
+for (doc in it.documents) {
+val singleJobPost = ClientPostDataModel(
+doc["userId"].toString(),
+doc["title"].toString(),
+doc["desc"].toString(),
+doc["category"].toString(),
+doc["experience"].toString().toInt(),
+doc["salary"].toString().toInt(),
+doc["location"].toString(),
+doc["appliedEmployee"] as Map<String, String>,
+doc["arrachment"].toString(),
+doc["timeStamp"].toString().toLong(),
+doc["companyName"].toString(),
+doc["genderName"].toString(),
+doc.id
+)
+if (singleJobPost != null) {
+arrayList.add(singleJobPost)
+}
+}
+}
+return arrayList
+}
+ **/
