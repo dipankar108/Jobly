@@ -3,58 +3,60 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
+    android:layout_marginBottom="10dp"
     android:gravity="center"
-
-    >
+    android:orientation="horizontal">
 
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.7"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
+
         <TextView
+            android:id="@+id/tv_clientAppliedTitle_id"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Post title"
-            android:textSize="30sp"
             android:padding="4dp"
             android:textColor="@color/white"
-            />
+            android:textSize="30dp"
+            tools:text="Post title" />
+
         <TextView
+            android:id="@+id/tv_clientAppliedDesc_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="18sp"
-            android:padding="4dp"
-            android:maxLines="2"
             android:ellipsize="end"
-            android:text="This is a post description and we need a man to get or work on this description"
+            android:maxLines="2"
+            android:padding="4dp"
             android:textColor="@color/white"
-            />
+            android:textSize="18dp"
+            tools:text="This is a post description and we need a man to get or work on this description" />
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="0.3"
         android:orientation="vertical"
-        android:textColor="@color/white"
         android:padding="4dp"
-        >
+        android:textColor="@color/white">
+
         <TextView
+            android:id="@+id/tv_clientAppliedApplied_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Applied"
-            android:textSize="25sp"
             android:textColor="@color/white"
-            />
+            android:textSize="25dp" />
+
         <TextView
+            android:id="@+id/tv_clientAppliedNumber_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="10"
-            android:textSize="25sp"
             android:layout_gravity="center"
             android:textColor="@color/white"
-            />
+            android:textSize="25dp"
+            tools:text="10" />
     </LinearLayout>
 </LinearLayout>

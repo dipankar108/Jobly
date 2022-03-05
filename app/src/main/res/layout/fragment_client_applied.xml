@@ -7,8 +7,9 @@
     tools:context=".client.fragment.ClientAppliedFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_clientApplied_id"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:padding="5dp"
         tools:listitem="@layout/applied_items_view"
         app:layout_constraintEnd_toEndOf="parent"

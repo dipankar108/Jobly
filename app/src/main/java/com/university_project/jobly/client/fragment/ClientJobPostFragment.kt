@@ -14,13 +14,13 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.JobPostView
 import com.university_project.jobly.client.adapter.PostViewAdapter
-import com.university_project.jobly.client.datamodel.ClientPostDataModel
 import com.university_project.jobly.client.clientviewmodel.ClientPostViewModel
+import com.university_project.jobly.client.datamodel.ClientPostDataModel
 import com.university_project.jobly.client.interfaces.ClickHandle
 import com.university_project.jobly.databinding.FragmentClientJobPostBinding
-import com.university_project.jobly.utils.TimeStampConverter
 
 class ClientJobPostFragment : Fragment(), ClickHandle {
+    private  val TAG = "ClientJobPostFragment"
     private lateinit var _binding: FragmentClientJobPostBinding
     private lateinit var liveDataModel: ClientPostViewModel
     private lateinit var auth: FirebaseAuth
@@ -54,7 +54,10 @@ class ClientJobPostFragment : Fragment(), ClickHandle {
 
     private fun getMutableData(postViewAdapter: PostViewAdapter) {
         liveDataModel.postList.observe(viewLifecycleOwner, { list ->
-           val sortedList= list.sortedBy {it.timeStamp}
+            val sortedList = list.sortedByDescending { it.timeStamp }
+            sortedList.forEach {
+                Log.d(TAG, "getMutableData: ${it.timeStamp} ${it.title}")
+            }
             postViewAdapter.setArrayList(sortedList)
             postViewAdapter.notifyDataSetChanged()
             binding.pbClientViewId.visibility = View.GONE
