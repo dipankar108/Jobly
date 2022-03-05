@@ -1,6 +1,6 @@
 package com.university_project.jobly.datamodel
 
-data class ClientTypeModel(
+data class EmployeeProfileModel(
     val userId: String,
     val fName: String,
     val lName: String,
@@ -8,7 +8,8 @@ data class ClientTypeModel(
     val userEmail: String,
     val userType: String,
     val companyName: String,
-    val totalPost: ArrayList<String>,
+    val appliedList:Map<String,String>,
+    val calledForInterview:ArrayList<CallForInterViewDataModel>,
     val hobbyClient: String,
     val aboutYourself: String,
     val verify: Boolean,

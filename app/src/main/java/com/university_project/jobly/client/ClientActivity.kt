@@ -6,15 +6,19 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.common.api.Api
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.CreateJobPost
 import com.university_project.jobly.R
 import com.university_project.jobly.accountlog.AccountLog
+import com.university_project.jobly.baseviewmodel.UserViewModel
 import com.university_project.jobly.client.fragment.ClientAppliedFragment
 import com.university_project.jobly.client.fragment.ClientCallForInterViewFragment
 import com.university_project.jobly.client.fragment.ClientJobPostFragment
@@ -23,6 +27,7 @@ import kotlin.system.exitProcess
 
 class ClientActivity : AppCompatActivity() {
     private val TAG = "ClientActivity"
+    private lateinit var userLiveData: UserViewModel
     private lateinit var binding: ActivityClientBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +35,16 @@ class ClientActivity : AppCompatActivity() {
         setContentView(binding.root)
         changeFragment(ClientJobPostFragment())
         Firebase.auth.uid!!
+        userLiveData= ViewModelProvider(this)[UserViewModel::class.java]
+        userLiveData.userBanInfo.observe(this,{
+           if(it){
+               Toast.makeText(this,"You are banned from using our service.Please contact with us If you think we're made wrong decision.Thank you",Toast.LENGTH_LONG).show()
+               val intent=Intent(this,AccountLog::class.java)
+               intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP
+               startActivity(intent)
+               finish()
+           }
+        })
         binding.bmnClientNavBar.menu.findItem(R.id.client_myPost_menu_id).isChecked = true
         binding.bmnClientNavBar.setOnItemSelectedListener {
             when (it.itemId) {

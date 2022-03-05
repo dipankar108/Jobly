@@ -16,7 +16,6 @@ import com.university_project.jobly.utils.screensize.GetScreen
 import com.university_project.jobly.utils.screensize.SplashScreenSize
 import kotlinx.coroutines.*
 
-
 class SplashScreen : AppCompatActivity() {
     lateinit var binding: ActivitySplashScreenBinding
     val TAG = "TAG"

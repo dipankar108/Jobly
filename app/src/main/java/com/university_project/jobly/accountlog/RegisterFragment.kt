@@ -20,8 +20,8 @@ import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.MainActivity
 import com.university_project.jobly.R
 import com.university_project.jobly.databinding.FragmentRegisterBinding
-import com.university_project.jobly.datamodel.ClientTypeModel
-import com.university_project.jobly.datamodel.User
+import com.university_project.jobly.datamodel.ClientProfileModel
+import com.university_project.jobly.datamodel.EmployeeProfileModel
 import com.university_project.jobly.utils.GetTheme
 import com.university_project.jobly.utils.screensize.GetScreen
 import com.university_project.jobly.utils.screensize.RegisterFragmentSize
@@ -104,7 +104,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                 val db = Firebase.firestore.collection("User")
                 if (userType == "Client") {
                     val user =
-                        ClientTypeModel(
+                        ClientProfileModel(
                             auth.uid.toString(), fName, lName, userPass, userEmail, userType, "",
                             ArrayList(), "", "",
                             verify = false,
@@ -116,13 +116,13 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                             startActivity(Intent(requireContext(), MainActivity::class.java))
                         }
                 } else {
-                    val user =
-                        User(auth.uid.toString(), fName, lName, userPass, userEmail, userType)
-                    db.add(user)
-                        .addOnSuccessListener {
-                            binding.pbRegId.visibility = GONE
-                            startActivity(Intent(requireContext(), MainActivity::class.java))
-                        }
+//                    val user =
+//                        EmployeeProfileModel(auth.uid.toString(), fName, lName, userPass, userEmail, userType)
+//                    db.add(user)
+//                        .addOnSuccessListener {
+//                            binding.pbRegId.visibility = GONE
+//                            startActivity(Intent(requireContext(), MainActivity::class.java))
+//                        }
                 }
 
 
