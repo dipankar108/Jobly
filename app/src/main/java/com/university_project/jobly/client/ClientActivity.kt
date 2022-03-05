@@ -9,10 +9,12 @@ import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.google.android.gms.common.api.Api
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.CreateJobPost
 import com.university_project.jobly.R
+import com.university_project.jobly.accountlog.AccountLog
 import com.university_project.jobly.client.fragment.ClientAppliedFragment
 import com.university_project.jobly.client.fragment.ClientCallForInterViewFragment
 import com.university_project.jobly.client.fragment.ClientJobPostFragment
@@ -78,8 +80,11 @@ class ClientActivity : AppCompatActivity() {
     private fun snoutActivity() {
         val sh = getSharedPreferences("userType", MODE_PRIVATE).edit()
         Firebase.auth.signOut()
-        sh.clear().commit()
-        exitProcess(0)
+        sh.clear().apply()
+        val intent=Intent(this@ClientActivity,AccountLog::class.java)
+        intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(intent)
+        finish()
     }
 
     private fun requireContext(): Context {
