@@ -3,9 +3,14 @@ package com.university_project.jobly.client
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.CreateJobPost
 import com.university_project.jobly.R
 import com.university_project.jobly.client.fragment.ClientAppliedFragment
@@ -15,6 +20,7 @@ import com.university_project.jobly.databinding.ActivityClientBinding
 import kotlin.system.exitProcess
 
 class ClientActivity : AppCompatActivity() {
+    private val TAG = "ClientActivity"
     private lateinit var binding: ActivityClientBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,6 +60,26 @@ class ClientActivity : AppCompatActivity() {
             .setNegativeButton("No") { di, _ ->
                 di.dismiss()
             }.show()
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.optionsmenu, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_settings_id -> Log.d(TAG, "onOptionsItemSelected: menu sign out clicked")
+            R.id.menu_sign_out_id -> snoutActivity()
+        }
+        return true
+    }
+
+    private fun snoutActivity() {
+        val sh = getSharedPreferences("userType", MODE_PRIVATE).edit()
+        Firebase.auth.signOut()
+        sh.clear().commit()
+        exitProcess(0)
     }
 
     private fun requireContext(): Context {

@@ -3,6 +3,7 @@ package com.university_project.jobly
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -37,7 +38,9 @@ class SplashScreen : AppCompatActivity() {
         sh = getSharedPreferences("userType", MODE_PRIVATE)
         val editor = sh.edit()
         if (auth.uid != null) {
+            Log.d(TAG, "onCreate: ${auth.uid}")
             if (sh.getString("m_userType", null) == null) {
+                Log.d(TAG, "onCreate: Im on siginsplash")
                 Firebase.firestore.collection("User").document(auth.uid.toString()).get()
                     .addOnSuccessListener {
                         if (it.data != null) {
@@ -56,6 +59,7 @@ class SplashScreen : AppCompatActivity() {
 
             } else {
                 GlobalScope.launch {
+                    Log.d(TAG, "onCreate: Coroutinescope")
                     delay(500)
                     sh.getString("m_userType", null)?.let { changeActivity(it) }
                 }
