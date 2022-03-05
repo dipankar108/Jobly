@@ -36,7 +36,7 @@ class LogInFragment : Fragment() {
         auth = Firebase.auth
         binding.btnLogSubmitId.setOnClickListener {
             val userEmail = binding.etLogEmailId.text.toString()
-            val userPass = binding.etLogEmailId.text.toString()
+            val userPass = binding.etLogPassId.text.toString()
             if (userEmail.isEmpty() || userPass.isEmpty()) {
                 Toast.makeText(context, "Field cannot be empty", Toast.LENGTH_SHORT).show()
             } else {
