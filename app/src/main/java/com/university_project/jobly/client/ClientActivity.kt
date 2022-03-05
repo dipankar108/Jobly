@@ -29,7 +29,7 @@ class ClientActivity : AppCompatActivity() {
         binding = ActivityClientBinding.inflate(layoutInflater)
         setContentView(binding.root)
         changeFragment(ClientJobPostFragment())
-
+        Firebase.auth.uid!!
         binding.bmnClientNavBar.menu.findItem(R.id.client_myPost_menu_id).isChecked = true
         binding.bmnClientNavBar.setOnItemSelectedListener {
             when (it.itemId) {

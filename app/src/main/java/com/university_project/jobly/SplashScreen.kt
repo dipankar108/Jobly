@@ -38,7 +38,7 @@ class SplashScreen : AppCompatActivity() {
         sh = getSharedPreferences("userType", MODE_PRIVATE)
         val editor = sh.edit()
         if (auth.uid != null) {
-            Log.d(TAG, "onCreate: ${auth.uid}")
+
             if (sh.getString("m_userType", null) == null) {
                 Log.d(TAG, "onCreate: Im on siginsplash")
                 Firebase.firestore.collection("User").document(auth.uid.toString()).get()
@@ -68,6 +68,7 @@ class SplashScreen : AppCompatActivity() {
             startActivity(Intent(this@SplashScreen, AccountLog::class.java))
             finish()
         }
+
     }
 
     private fun changeActivity(userInfo: String) {
