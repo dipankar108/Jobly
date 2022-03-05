@@ -10,8 +10,10 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.university_project.jobly.MainActivity
+import com.university_project.jobly.EmployeeActivity
+import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.databinding.FragmentLogInBinding
 
 class LogInFragment : Fragment() {
@@ -42,14 +44,32 @@ class LogInFragment : Fragment() {
             } else {
                 auth.signInWithEmailAndPassword(userEmail, userPass).addOnSuccessListener {
                     Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
-                    val intent = Intent(context, MainActivity::class.java)
-                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-                    startActivity(intent)
-                    activity?.finish()
+                    Firebase.firestore.collection("User").document(Firebase.auth.uid.toString())
+                        .get().addOnSuccessListener {
+                            val userType = it.data!!["userType"]
+                            changeActivity(userType)
+                        }.addOnFailureListener {
+                            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                        }
+
                 }.addOnFailureListener {
                     Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+    }
+
+    private fun changeActivity(userType: Any?) {
+        if (userType == "Client") {
+            val intent=Intent(requireContext(),ClientActivity::class.java)
+            intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP
+            startActivity(intent)
+            activity?.finish()
+        } else {
+            val intent=Intent(requireContext(),EmployeeActivity::class.java)
+            intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP
+            startActivity(intent)
+            activity?.finish()
         }
     }
 }
