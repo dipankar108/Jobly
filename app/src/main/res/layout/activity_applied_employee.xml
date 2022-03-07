@@ -4,6 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AppliedEmployeeActivity">
-
+    tools:context=".client.AppliedEmployeeActivity">
+<androidx.recyclerview.widget.RecyclerView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:listitem="@layout/applied_employee_item_view"
+    />
 </androidx.constraintlayout.widget.ConstraintLayout>

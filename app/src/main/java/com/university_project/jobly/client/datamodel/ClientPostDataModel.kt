@@ -1,5 +1,7 @@
 package com.university_project.jobly.client.datamodel
 
+import com.university_project.jobly.datamodel.CallForInterViewDataModel
+
 data class ClientPostDataModel(
     val userId: String = "",
     val title: String = "",
@@ -8,11 +10,11 @@ data class ClientPostDataModel(
     val experience: Int = 0,
     val Salary: Int = 0,
     val location: String = "",
-    val appliedEmployee: Map<String, String> = emptyMap<String, String>(),
+    val appliedEmployee: Map<String, String> = emptyMap(),
     val attachment: String = "",
     val timeStamp: Long = 0,
     val companyName: String = "",
     val genderName: String = "",
     val docId: String = "",
-    val type: String = "ADDED"
+    val call_for_interview:ArrayList<CallForInterViewDataModel>
 )

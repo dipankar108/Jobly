@@ -1,13 +1,16 @@
 package com.university_project.jobly.client.clientviewmodel
 
 import android.os.Build
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.client.datamodel.ClientPostDataModel
+import com.university_project.jobly.datamodel.CallForInterViewDataModel
 import java.util.*
+import kotlin.collections.ArrayList
 
 object PostRepo {
     private val auth = Firebase.auth
@@ -17,6 +20,7 @@ object PostRepo {
         val db = Firebase.firestore.collection("JobPost")
         val query = db.whereEqualTo("userId", auth.uid.toString())
         query.addSnapshotListener { document, _ ->
+            Log.d("TAG", "getResponseUsingLiveData: ${document?.documents}")
             for (dc in document!!.documentChanges) {
                 when (dc.type) {
                     DocumentChange.Type.ADDED -> myPost.add(addData("REMOVED", dc))
@@ -34,14 +38,6 @@ object PostRepo {
             myPost.removeIf { it.docId == addData.docId }
             myPost.add(addData)
         }
-        /**
-        myPost.forEachIndexed { index, dt ->
-        dt.takeIf { it.docId == addData.docId }?.let {
-
-        myPost[index]=addData
-        }
-        }
-         **/
     }
 
     private fun removeFromArray(addData: ClientPostDataModel) {
@@ -66,7 +62,7 @@ object PostRepo {
             doc["companyName"].toString(),
             doc["genderName"].toString(),
             m_doc.document.id,
-            type
+            doc["call_for_interview"] as ArrayList<CallForInterViewDataModel>
         )
     }
     /**

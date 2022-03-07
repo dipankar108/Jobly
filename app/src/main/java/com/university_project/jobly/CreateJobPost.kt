@@ -1,20 +1,19 @@
 package com.university_project.jobly
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import android.view.View.GONE
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.databinding.ActivityCreateJobPostBinding
+import com.university_project.jobly.datamodel.CallForInterViewDataModel
 import com.university_project.jobly.datamodel.CreatePostModel
 
 class CreateJobPost : AppCompatActivity() {
@@ -118,7 +117,8 @@ class CreateJobPost : AppCompatActivity() {
             val postGender = binding.spGenderCreatePostId.selectedItem.toString()
             val attachmentLink = ""
             val timeStamp = System.currentTimeMillis()
-
+            val callforinterview : ArrayList<CallForInterViewDataModel> = ArrayList()
+            callforinterview.add(CallForInterViewDataModel("",""))
             Firebase.firestore.collection("User").document(auth.uid.toString()).get()
                 .addOnSuccessListener {
                     val userInfo = it.data?.get("companyName") as String
@@ -136,11 +136,12 @@ class CreateJobPost : AppCompatActivity() {
                                 attachmentLink,
                                 timeStamp,
                                 userInfo,
-                                postGender
+                                postGender,
+                                callforinterview
                             )
                         ).addOnSuccessListener {
-                            Toast.makeText(this,"Post created",Toast.LENGTH_SHORT).show()
-                            val intent= Intent(this,ClientActivity::class.java)
+                            Toast.makeText(this, "Post created", Toast.LENGTH_SHORT).show()
+                            val intent = Intent(this, ClientActivity::class.java)
                             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
                             startActivity(intent)
                             finish()

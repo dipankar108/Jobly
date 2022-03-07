@@ -3,18 +3,22 @@ package com.university_project.jobly.client.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.university_project.jobly.R
 import com.university_project.jobly.client.datamodel.ClientPostDataModel
+import com.university_project.jobly.client.interfaces.AppliedClickedHandle
 
-class AppliedViewAdapter : RecyclerView.Adapter<AppliedViewAdapter.AppliedViewHolder>() {
+class AppliedViewAdapter(private val listner: AppliedClickedHandle) :
+    RecyclerView.Adapter<AppliedViewAdapter.AppliedViewHolder>() {
     private var appliedArrayList = listOf<ClientPostDataModel>()
 
     class AppliedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val appliedTitle: TextView = itemView.findViewById(R.id.tv_clientAppliedTitle_id)
         val appliedDesc: TextView = itemView.findViewById(R.id.tv_clientAppliedDesc_id)
         val appliedNumber: TextView = itemView.findViewById(R.id.tv_clientAppliedNumber_id)
+        val appliedLinearLayout: LinearLayout = itemView.findViewById(R.id.ll_appliedItemList_id)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppliedViewHolder {
@@ -28,7 +32,9 @@ class AppliedViewAdapter : RecyclerView.Adapter<AppliedViewAdapter.AppliedViewHo
         holder.appliedTitle.text = res.title
         holder.appliedDesc.text = res.desc
         holder.appliedNumber.text = res.appliedEmployee.size.toString()
-
+        holder.appliedLinearLayout.setOnClickListener {
+            listner.onAppliedClicked(res)
+        }
     }
 
     fun setArrayList(arrayList: List<ClientPostDataModel>) {

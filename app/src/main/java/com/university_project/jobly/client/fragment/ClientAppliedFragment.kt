@@ -1,18 +1,21 @@
 package com.university_project.jobly.client.fragment
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.university_project.jobly.client.AppliedEmployeeActivity
 import com.university_project.jobly.client.adapter.AppliedViewAdapter
 import com.university_project.jobly.client.clientviewmodel.ClientPostViewModel
+import com.university_project.jobly.client.datamodel.ClientPostDataModel
+import com.university_project.jobly.client.interfaces.AppliedClickedHandle
 import com.university_project.jobly.databinding.FragmentClientAppliedBinding
 
-class ClientAppliedFragment : Fragment() {
+class ClientAppliedFragment : Fragment(), AppliedClickedHandle {
     private lateinit var _binding: FragmentClientAppliedBinding
     private val binding get() = _binding
     private val TAG = "ClientAppliedFragment"
@@ -28,7 +31,7 @@ class ClientAppliedFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.rvClientAppliedId.layoutManager = LinearLayoutManager(requireContext())
-        val appliedViewAdapter = AppliedViewAdapter()
+        val appliedViewAdapter = AppliedViewAdapter(this)
         binding.rvClientAppliedId.adapter = appliedViewAdapter
         liveDataModel = ViewModelProvider(requireActivity())[ClientPostViewModel::class.java]
         setAppliedPostToRecyclerView(appliedViewAdapter)
@@ -37,8 +40,13 @@ class ClientAppliedFragment : Fragment() {
     private fun setAppliedPostToRecyclerView(appliedViewAdapter: AppliedViewAdapter) {
         liveDataModel.postList.observe(viewLifecycleOwner, {
             appliedViewAdapter.setArrayList(it)
-          //  it.forEach { data -> Log.d(TAG, "setAppliedPostToRecyclerView: ${data.appliedEmployee.size}") }
             appliedViewAdapter.notifyDataSetChanged()
         })
+    }
+
+    override fun onAppliedClicked(clientPostDataModel: ClientPostDataModel) {
+    val intent=Intent(requireContext(), AppliedEmployeeActivity::class.java)
+        startActivity(intent)
+
     }
 }

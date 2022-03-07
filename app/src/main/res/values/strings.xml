@@ -13,6 +13,7 @@
     <string name="menu_refresh">Pull to refresh</string>
     <string name="sign_out">Signout</string>
     <string name="setting">Setting</string>
+    <string name="dipankar_debnath">Dipankar Debnath</string>
     <string-array name="userTypeArray">
         <item>Select</item>
         <item>Client</item>
