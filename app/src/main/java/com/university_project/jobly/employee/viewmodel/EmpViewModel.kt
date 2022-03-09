@@ -8,4 +8,8 @@ class EmpViewModel : ViewModel() {
     fun getJobPost(skill: List<String>): LiveData<List<PostDataModel>> {
         return Repository.getPostFromDataBase(skill)
     }
+
+    fun updateLike(docId: String, userId: String, b: Boolean) {
+        Repository.updateLike(docId, userId,b)
+    }
 }

@@ -118,6 +118,7 @@ class CreateJobPost : AppCompatActivity() {
             val attachmentLink = ""
             val timeStamp = System.currentTimeMillis()
             val callforinterview : ArrayList<CallForInterViewDataModel> = ArrayList()
+            val isLike:ArrayList<String> =ArrayList()
             callforinterview.add(CallForInterViewDataModel("",""))
             Firebase.firestore.collection("User").document(auth.uid.toString()).get()
                 .addOnSuccessListener {
@@ -138,7 +139,7 @@ class CreateJobPost : AppCompatActivity() {
                                 userInfo,
                                 postGender,
                                 callforinterview,
-                                arrayListOf()
+                                isLike
                             )
                         ).addOnSuccessListener {
                             Toast.makeText(this, "Post created", Toast.LENGTH_SHORT).show()
