@@ -61,11 +61,13 @@ class SplashScreen : AppCompatActivity() {
                 GlobalScope.launch {
                     Log.d(TAG, "onCreate: Coroutinescope")
                     delay(500)
-                    sh.getString("m_userType", null)?.let { changeActivity(it) }
+                    sh.getString("m_userType", null)?.let {
+                        Log.d(TAG, "onCreate: $it")
+                        changeActivity(it) }
                 }
             }
         } else {
-            startActivity(Intent(this@SplashScreen, EmployeeActivity::class.java))
+            startActivity(Intent(this@SplashScreen, AccountLog::class.java))
             finish()
         }
 

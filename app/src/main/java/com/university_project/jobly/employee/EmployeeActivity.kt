@@ -54,6 +54,6 @@ class EmployeeActivity : AppCompatActivity() {
     }
 
     private fun snout() {
-        UtilClass.signOutNow(this, this, getSharedPreferences("userId", MODE_PRIVATE).edit())
+        UtilClass.signOutNow(this, this, getSharedPreferences("userType", MODE_PRIVATE).edit())
     }
 }
