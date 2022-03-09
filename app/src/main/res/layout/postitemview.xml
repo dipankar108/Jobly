@@ -25,15 +25,31 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
-            android:id="@+id/img_postViewliked_id"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="end"
-            android:src="@drawable/ic_unlike"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            >
+            <ImageView
+                android:id="@+id/img_postViewliked_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="end"
+                android:layout_margin="1dp"
+                tools:src="@drawable/ic_unlike"
+                 />
+            <TextView
+                android:id="@+id/tv_jobPostLikeNum_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                tools:text="30"
+                android:layout_gravity="center"
+                android:layout_margin="1dp"
+                />
+        </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView

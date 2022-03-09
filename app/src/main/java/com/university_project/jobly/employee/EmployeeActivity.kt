@@ -7,6 +7,8 @@ import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.R
 import com.university_project.jobly.databinding.ActivityEmployeeBinding
 import com.university_project.jobly.employee.viewmodel.EmpViewModel
@@ -23,7 +25,7 @@ class EmployeeActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.bnbEmpId.menu.findItem(R.id.e_allPost_menu_id).isChecked = true
         changedFragment(JobPostFragment())
-
+        Log.d(TAG, "onCreate: ${Firebase.auth.uid.toString()}")
         binding.bnbEmpId.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.e_allPost_menu_id -> changedFragment(JobPostFragment())
