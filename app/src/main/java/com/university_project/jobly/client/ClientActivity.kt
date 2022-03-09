@@ -10,9 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
-import com.google.android.gms.common.api.Api
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.CreateJobPost
@@ -23,6 +21,7 @@ import com.university_project.jobly.client.fragment.ClientAppliedFragment
 import com.university_project.jobly.client.fragment.ClientCallForInterViewFragment
 import com.university_project.jobly.client.fragment.ClientJobPostFragment
 import com.university_project.jobly.databinding.ActivityClientBinding
+import com.university_project.jobly.utils.UtilClass
 import kotlin.system.exitProcess
 
 class ClientActivity : AppCompatActivity() {
@@ -35,15 +34,19 @@ class ClientActivity : AppCompatActivity() {
         setContentView(binding.root)
         changeFragment(ClientJobPostFragment())
         Firebase.auth.uid!!
-        userLiveData= ViewModelProvider(this)[UserViewModel::class.java]
-        userLiveData.userBanInfo.observe(this,{
-           if(it){
-               Toast.makeText(this,"You are banned from using our service.Please contact with us If you think we're made wrong decision.Thank you",Toast.LENGTH_LONG).show()
-               val intent=Intent(this,AccountLog::class.java)
-               intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP
-               startActivity(intent)
-               finish()
-           }
+        userLiveData = ViewModelProvider(this)[UserViewModel::class.java]
+        userLiveData.userBanInfo.observe(this, {
+            if (it) {
+                Toast.makeText(
+                    this,
+                    "You are banned from using our service.Please contact with us If you think we're made wrong decision.Thank you",
+                    Toast.LENGTH_LONG
+                ).show()
+                val intent = Intent(this, AccountLog::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+                startActivity(intent)
+                finish()
+            }
         })
         binding.bmnClientNavBar.menu.findItem(R.id.client_myPost_menu_id).isChecked = true
         binding.bmnClientNavBar.setOnItemSelectedListener {
@@ -88,19 +91,14 @@ class ClientActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_settings_id -> Log.d(TAG, "onOptionsItemSelected: menu sign out clicked")
-            R.id.menu_sign_out_id -> snoutActivity()
+            R.id.menu_sign_out_id -> UtilClass.signOutNow(
+                this,
+                this,
+                getSharedPreferences("userType", MODE_PRIVATE).edit()
+            )
+
         }
         return true
-    }
-
-    private fun snoutActivity() {
-        val sh = getSharedPreferences("userType", MODE_PRIVATE).edit()
-        Firebase.auth.signOut()
-        sh.clear().apply()
-        val intent=Intent(this@ClientActivity,AccountLog::class.java)
-        intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP
-        startActivity(intent)
-        finish()
     }
 
     private fun requireContext(): Context {

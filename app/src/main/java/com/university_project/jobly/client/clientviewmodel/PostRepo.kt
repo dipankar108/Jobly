@@ -8,16 +8,15 @@ import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.client.datamodel.AppliedEmployeeDataModel
-import com.university_project.jobly.client.datamodel.ClientPostDataModel
+import com.university_project.jobly.datamodel.PostDataModel
 import com.university_project.jobly.datamodel.CallForInterViewDataModel
 
 object PostRepo {
     private val auth = Firebase.auth
     val dbPost = Firebase.firestore.collection("JobPost")
-    private val myPost = mutableSetOf<ClientPostDataModel>()
-    fun getResponseUsingLiveData(): MutableLiveData<List<ClientPostDataModel>> {
-        val mutableLiveData = MutableLiveData<List<ClientPostDataModel>>()
-
+    private val myPost = mutableSetOf<PostDataModel>()
+    fun getResponseUsingLiveData(): MutableLiveData<List<PostDataModel>> {
+        val mutableLiveData = MutableLiveData<List<PostDataModel>>()
         val query = dbPost.whereEqualTo("userId", auth.uid.toString())
         query.addSnapshotListener { document, _ ->
             Log.d("TAG", "getResponseUsingLiveData: ${document?.documents}")
@@ -57,22 +56,22 @@ object PostRepo {
         return appliedEmployeeList
     }
 
-    private fun modifiedFromArray(addData: ClientPostDataModel) {
+    private fun modifiedFromArray(addData: PostDataModel) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             myPost.removeIf { it.docId == addData.docId }
             myPost.add(addData)
         }
     }
 
-    private fun removeFromArray(addData: ClientPostDataModel) {
+    private fun removeFromArray(addData: PostDataModel) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             myPost.removeIf { it.docId == addData.docId }
         }
     }
 
-    private fun addData(type: String, m_doc: DocumentChange): ClientPostDataModel {
+    private fun addData(type: String, m_doc: DocumentChange): PostDataModel {
         val doc = m_doc.document.data
-        return ClientPostDataModel(
+        return PostDataModel(
             doc["userId"].toString(),
             doc["title"].toString(),
             doc["desc"].toString(),

@@ -7,11 +7,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.university_project.jobly.R
 import com.university_project.jobly.client.interfaces.ClickHandle
-import com.university_project.jobly.client.datamodel.ClientPostDataModel
+import com.university_project.jobly.datamodel.PostDataModel
 import com.university_project.jobly.utils.TimeStampConverter
 
 class PostViewAdapter(private val listener: ClickHandle) : RecyclerView.Adapter<PostViewAdapter.PostViewHolder>() {
-    private var myArrayList =listOf<ClientPostDataModel>()
+    private var myArrayList =listOf<PostDataModel>()
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val postTitle: TextView = itemView.findViewById(R.id.tv_postViewTitle_id)
         val postDesc: TextView = itemView.findViewById(R.id.tv_postViewDesc_id)
@@ -20,7 +20,7 @@ class PostViewAdapter(private val listener: ClickHandle) : RecyclerView.Adapter<
         val location: TextView = itemView.findViewById(R.id.tv_postViewLocation_id)
     }
 
-    fun setArrayList(arrayList: List<ClientPostDataModel>) {
+    fun setArrayList(arrayList: List<PostDataModel>) {
         myArrayList= arrayList
     }
 

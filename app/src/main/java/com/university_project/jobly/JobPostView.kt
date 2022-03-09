@@ -9,7 +9,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.client.ClientActivity
-import com.university_project.jobly.client.datamodel.ClientPostDataModel
+import com.university_project.jobly.datamodel.PostDataModel
 import com.university_project.jobly.databinding.ActivityJobPostViewBinding
 
 class JobPostView : AppCompatActivity() {
@@ -17,7 +17,7 @@ class JobPostView : AppCompatActivity() {
     lateinit var docID: String
     val TAG = "TAG"
     private lateinit var auth: FirebaseAuth
-    private lateinit var singlePostView: ClientPostDataModel
+    private lateinit var singlePostView: PostDataModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityJobPostViewBinding.inflate(layoutInflater)
@@ -27,7 +27,7 @@ class JobPostView : AppCompatActivity() {
         auth = Firebase.auth!!
         val db = Firebase.firestore.collection("JobPost").document(docID).get()
         db.addOnSuccessListener {
-            singlePostView = it.toObject(ClientPostDataModel::class.java)!!
+            singlePostView = it.toObject(PostDataModel::class.java)!!
             binding.tvSinglePostViewTitleId.text = singlePostView.title
             binding.tvSinglePostViewDescId.text = singlePostView.desc
             binding.tvSinglePostViewCompanyNameId.text = singlePostView.companyName

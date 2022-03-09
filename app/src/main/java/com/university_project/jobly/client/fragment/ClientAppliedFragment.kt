@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.university_project.jobly.client.AppliedEmployeeActivity
 import com.university_project.jobly.client.adapter.AppliedViewAdapter
 import com.university_project.jobly.client.clientviewmodel.ClientPostViewModel
-import com.university_project.jobly.client.datamodel.ClientPostDataModel
+import com.university_project.jobly.datamodel.PostDataModel
 import com.university_project.jobly.client.interfaces.AppliedClickedHandle
 import com.university_project.jobly.databinding.FragmentClientAppliedBinding
 
@@ -44,9 +44,9 @@ class ClientAppliedFragment : Fragment(), AppliedClickedHandle {
         })
     }
 
-    override fun onAppliedClicked(clientPostDataModel: ClientPostDataModel) {
+    override fun onAppliedClicked(postDataModel: PostDataModel) {
         val intent = Intent(requireContext(), AppliedEmployeeActivity::class.java).also {
-            it.putExtra("docId", clientPostDataModel.docId)
+            it.putExtra("docId", postDataModel.docId)
         }
         startActivity(intent)
 

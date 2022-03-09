@@ -7,12 +7,12 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.university_project.jobly.R
-import com.university_project.jobly.client.datamodel.ClientPostDataModel
+import com.university_project.jobly.datamodel.PostDataModel
 import com.university_project.jobly.client.interfaces.AppliedClickedHandle
 
 class AppliedViewAdapter(private val listner: AppliedClickedHandle) :
     RecyclerView.Adapter<AppliedViewAdapter.AppliedViewHolder>() {
-    private var appliedArrayList = listOf<ClientPostDataModel>()
+    private var appliedArrayList = listOf<PostDataModel>()
 
     class AppliedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val appliedTitle: TextView = itemView.findViewById(R.id.tv_clientAppliedTitle_id)
@@ -37,7 +37,7 @@ class AppliedViewAdapter(private val listner: AppliedClickedHandle) :
         }
     }
 
-    fun setArrayList(arrayList: List<ClientPostDataModel>) {
+    fun setArrayList(arrayList: List<PostDataModel>) {
         appliedArrayList = arrayList
     }
 

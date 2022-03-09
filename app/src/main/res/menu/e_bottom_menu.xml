@@ -6,11 +6,11 @@
         android:title="Applied"
         />
     <item
-        android:id="@+id/e_fabPost_menu_id"
+        android:id="@+id/e_allPost_menu_id"
         android:icon="@drawable/ic_post"
         android:title="All Post" />
     <item
-        android:id="@+id/e_allPost_menu_id"
+        android:id="@+id/e_fabPost_menu_id"
         android:icon="@drawable/ic_like"
         android:title="Fab Post" />
     <item
