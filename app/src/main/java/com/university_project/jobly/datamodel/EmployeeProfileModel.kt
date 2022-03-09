@@ -12,5 +12,5 @@ data class EmployeeProfileModel(
     val hobbyEmp: String,
     val aboutYourself: String,
     val verify: Boolean,
-    val banned: Boolean
+    val banned: Boolean,
 )

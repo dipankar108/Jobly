@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.datamodel.CallForInterViewDataModel
@@ -14,6 +15,7 @@ import com.university_project.jobly.datamodel.PostDataModel
 object Repository {
     val dbPost = Firebase.firestore.collection("JobPost")
     private val myJobPost = mutableSetOf<PostDataModel>()
+
     //updating like when user Clicked on the like button
     fun updateLike(docId: String, userId: String, b: Boolean) {
         if (b) {
@@ -28,33 +30,28 @@ object Repository {
         val query = dbPost.whereArrayContainsAny("category", categoryList)
         val mutableLiveData = MutableLiveData<List<PostDataModel>>()
         query.addSnapshotListener { document, _ ->
-            Log.d("TAG", "getResponseUsingLiveData: ${document?.documents}")
-            for (dc in document!!.documentChanges) {
-                when (dc.type) {
-                    DocumentChange.Type.ADDED -> myJobPost.add(
-                        addData(
-                            "REMOVED",
-                            dc
-                        )
-                    )
-                    DocumentChange.Type.REMOVED -> removeFromArray(
-                        addData(
-                            "REMOVED",
-                            dc
-                        )
-                    )
-                    DocumentChange.Type.MODIFIED -> modifiedFromArray(
-                        addData(
-                            "REMOVED",
-                            dc
-                        )
-                    )
-                }
-            }
-            Log.d("TAGM", "getPostFromDataBase: ${myJobPost.toTypedArray().asList()}")
+            documentChangesFun(document, "gpfdb")
             mutableLiveData.value = myJobPost.toTypedArray().asList()
         }
         return mutableLiveData
+    }
+
+    private fun documentChangesFun(document: QuerySnapshot?, s: String) {
+        for (dc in document!!.documentChanges) {
+            when (dc.type) {
+                DocumentChange.Type.ADDED -> addingPost(dc,s)
+                DocumentChange.Type.REMOVED -> removeFromArray(addData(dc))
+                DocumentChange.Type.MODIFIED -> modifiedFromArray(addData(dc))
+            }
+        }
+    }
+
+    private fun addingPost(dc: DocumentChange?, s: String) {
+        dc?.let {
+          if (s=="gpfdb"){
+              myJobPost.add(addData(dc))
+          }
+        }
     }
 
     private fun modifiedFromArray(addData: PostDataModel) {
@@ -70,7 +67,7 @@ object Repository {
         }
     }
 
-    private fun addData(type: String, m_doc: DocumentChange): PostDataModel {
+    private fun addData(m_doc: DocumentChange): PostDataModel {
         val doc = m_doc.document.data
         return PostDataModel(
             doc["userId"].toString(),
