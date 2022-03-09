@@ -85,7 +85,8 @@ object PostRepo {
             doc["companyName"].toString(),
             doc["genderName"].toString(),
             m_doc.document.id,
-            doc["call_for_interview"] as ArrayList<CallForInterViewDataModel>
+            doc["call_for_interview"] as ArrayList<CallForInterViewDataModel>,
+            doc["like"] as ArrayList<String>
         )
     }
     /**

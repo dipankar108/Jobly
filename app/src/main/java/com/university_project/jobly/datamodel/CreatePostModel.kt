@@ -13,5 +13,6 @@ data class CreatePostModel(
     val timeStamp: Long,
     val companyName: String,
     val genderName: String,
-    val call_for_interview: ArrayList<CallForInterViewDataModel> = ArrayList()
+    val call_for_interview: ArrayList<CallForInterViewDataModel> = ArrayList(),
+    val isLike: ArrayList<String> = arrayListOf()
 )

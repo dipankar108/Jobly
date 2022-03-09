@@ -16,7 +16,7 @@ class PostViewAdapter(private val listener: ClickHandle) : RecyclerView.Adapter<
         val postTitle: TextView = itemView.findViewById(R.id.tv_postViewTitle_id)
         val postDesc: TextView = itemView.findViewById(R.id.tv_postViewDesc_id)
         val position: TextView = itemView.findViewById(R.id.tv_postViewPosition_id)
-        val timeStamp: TextView = itemView.findViewById(R.id.tv_postViewExperiment_id)
+        val timeStamp: TextView = itemView.findViewById(R.id.tv_postViewTimeStamp_id)
         val location: TextView = itemView.findViewById(R.id.tv_postViewLocation_id)
     }
 

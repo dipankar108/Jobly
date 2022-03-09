@@ -137,7 +137,8 @@ class CreateJobPost : AppCompatActivity() {
                                 timeStamp,
                                 userInfo,
                                 postGender,
-                                callforinterview
+                                callforinterview,
+                                arrayListOf()
                             )
                         ).addOnSuccessListener {
                             Toast.makeText(this, "Post created", Toast.LENGTH_SHORT).show()

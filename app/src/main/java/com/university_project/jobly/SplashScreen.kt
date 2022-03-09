@@ -65,7 +65,7 @@ class SplashScreen : AppCompatActivity() {
                 }
             }
         } else {
-            startActivity(Intent(this@SplashScreen, AccountLog::class.java))
+            startActivity(Intent(this@SplashScreen, EmployeeActivity::class.java))
             finish()
         }
 

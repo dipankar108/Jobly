@@ -15,7 +15,7 @@ import com.university_project.jobly.utils.UtilClass
 
 class EmployeeActivity : AppCompatActivity() {
     private val TAG = "EmployeeActivityP"
-    private lateinit var liveData:EmpViewModel
+
     private lateinit var binding: ActivityEmployeeBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,10 +23,7 @@ class EmployeeActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.bnbEmpId.menu.findItem(R.id.e_allPost_menu_id).isChecked = true
         changedFragment(JobPostFragment())
-        liveData= ViewModelProvider(this)[EmpViewModel::class.java]
-        liveData.getJobPost(listOf("Computer")).observe(this,{
-            Log.d(TAG, "onCreate: $it")
-        })
+
         binding.bnbEmpId.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.e_allPost_menu_id -> changedFragment(JobPostFragment())

@@ -41,7 +41,7 @@ object Repository {
                     )
                 }
             }
-            Log.d("TAGM", "getPostFromDataBase: ${ myJobPost.toTypedArray().asList()}")
+            Log.d("TAGM", "getPostFromDataBase: ${myJobPost.toTypedArray().asList()}")
             mutableLiveData.value = myJobPost.toTypedArray().asList()
         }
         return mutableLiveData
@@ -76,8 +76,17 @@ object Repository {
             doc["companyName"].toString(),
             doc["genderName"].toString(),
             m_doc.document.id,
-            doc["call_for_interview"] as ArrayList<CallForInterViewDataModel>
+            doc["call_for_interview"] as ArrayList<CallForInterViewDataModel>,
+            isValueNull(doc["like"])
         )
+    }
+
+    private fun isValueNull(any: Any?): ArrayList<String> {
+        Log.d("TAG", "isValueNull: $any")
+        if (any == null) {
+            return arrayListOf("")
+        }
+        return any as ArrayList<String>
     }
 }
 
