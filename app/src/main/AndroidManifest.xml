@@ -14,7 +14,7 @@
         android:theme="@style/Theme.Jobly">
         <activity android:name=".client.AppliedEmployeeActivity"></activity>
         <activity android:name=".client.EditPostActivity" />
-        <activity android:name=".EmployeeActivity" />
+        <activity android:name=".employee.EmployeeActivity" />
         <activity android:name=".Emploee" />
         <activity android:name=".JobPostView" />
         <activity android:name=".client.ClientActivity" />

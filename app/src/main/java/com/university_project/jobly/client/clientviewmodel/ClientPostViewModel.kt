@@ -2,6 +2,7 @@ package com.university_project.jobly.client.clientviewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.university_project.jobly.client.datamodel.AppliedEmployeeDataModel
 import com.university_project.jobly.client.datamodel.ClientPostDataModel
 
 class ClientPostViewModel : ViewModel() {
@@ -12,6 +13,10 @@ class ClientPostViewModel : ViewModel() {
             return true
         }
         return false
+    }
+
+    fun getAppliedEmployee(docId: String): LiveData<List<AppliedEmployeeDataModel>> {
+        return PostRepo.getAppliedEmployeeList(docId)
     }
 }
 

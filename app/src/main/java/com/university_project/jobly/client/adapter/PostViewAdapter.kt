@@ -8,14 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.university_project.jobly.R
 import com.university_project.jobly.client.interfaces.ClickHandle
 import com.university_project.jobly.client.datamodel.ClientPostDataModel
+import com.university_project.jobly.utils.TimeStampConverter
 
-class PostViewAdapter(private val listner: ClickHandle) : RecyclerView.Adapter<PostViewAdapter.PostViewHolder>() {
+class PostViewAdapter(private val listener: ClickHandle) : RecyclerView.Adapter<PostViewAdapter.PostViewHolder>() {
     private var myArrayList =listOf<ClientPostDataModel>()
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val postTitle: TextView = itemView.findViewById(R.id.tv_postViewTitle_id)
         val postDesc: TextView = itemView.findViewById(R.id.tv_postViewDesc_id)
         val position: TextView = itemView.findViewById(R.id.tv_postViewPosition_id)
-        val experience: TextView = itemView.findViewById(R.id.tv_postViewExperiment_id)
+        val timeStamp: TextView = itemView.findViewById(R.id.tv_postViewExperiment_id)
         val location: TextView = itemView.findViewById(R.id.tv_postViewLocation_id)
     }
 
@@ -29,14 +30,15 @@ class PostViewAdapter(private val listner: ClickHandle) : RecyclerView.Adapter<P
     }
 
     override fun onBindViewHolder(holder: PostViewHolder, position: Int) {
+
         val res = myArrayList[position]
         holder.postTitle.text = res.title
         holder.postDesc.text = res.desc
-        holder.position.text = res.category
-        holder.experience.text = res.experience.toString()
+        holder.position.text = res.category[0]
+        holder.timeStamp.text = TimeStampConverter.getTimeAgo(res.timeStamp)
         holder.location.text = res.location
         holder.postDesc.setOnClickListener {
-            listner.itemClicked(res.docId,res)
+            listener.itemClicked(res.docId,res)
         }
     }
     override fun getItemCount(): Int {

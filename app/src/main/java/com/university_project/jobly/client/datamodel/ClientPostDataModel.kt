@@ -6,7 +6,7 @@ data class ClientPostDataModel(
     val userId: String = "",
     val title: String = "",
     val desc: String = "",
-    val category: String = "",
+    val category: ArrayList<String> = arrayListOf(),
     val experience: Int = 0,
     val Salary: Int = 0,
     val location: String = "",
@@ -16,5 +16,5 @@ data class ClientPostDataModel(
     val companyName: String = "",
     val genderName: String = "",
     val docId: String = "",
-    val call_for_interview:ArrayList<CallForInterViewDataModel>
+    val call_for_interview: ArrayList<CallForInterViewDataModel> = arrayListOf()
 )

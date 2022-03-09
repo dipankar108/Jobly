@@ -33,7 +33,7 @@ class JobPostView : AppCompatActivity() {
             binding.tvSinglePostViewCompanyNameId.text = singlePostView.companyName
             binding.tvSinglePostViewSalaryId.text = singlePostView.Salary.toString()
             binding.tvSinglePostViewExperienceId.text = singlePostView.experience.toString()
-            binding.tvSinglePostViewJobPositionId.text = singlePostView.category
+            binding.tvSinglePostViewJobPositionId.text = singlePostView.category[0]
             binding.tvSinglePostViewLocationId.text = singlePostView.location
         }.addOnFailureListener { e ->
             Toast.makeText(this, e.message, Toast.LENGTH_SHORT).show()

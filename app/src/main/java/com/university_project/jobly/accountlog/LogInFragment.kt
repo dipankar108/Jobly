@@ -12,7 +12,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.university_project.jobly.EmployeeActivity
+import com.university_project.jobly.employee.EmployeeActivity
 import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.databinding.FragmentLogInBinding
 
@@ -66,7 +66,7 @@ class LogInFragment : Fragment() {
             startActivity(intent)
             activity?.finish()
         } else {
-            val intent=Intent(requireContext(),EmployeeActivity::class.java)
+            val intent=Intent(requireContext(), EmployeeActivity::class.java)
             intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP
             startActivity(intent)
             activity?.finish()

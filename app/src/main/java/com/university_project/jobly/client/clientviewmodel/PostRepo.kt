@@ -7,18 +7,18 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.university_project.jobly.client.datamodel.AppliedEmployeeDataModel
 import com.university_project.jobly.client.datamodel.ClientPostDataModel
 import com.university_project.jobly.datamodel.CallForInterViewDataModel
-import java.util.*
-import kotlin.collections.ArrayList
 
 object PostRepo {
     private val auth = Firebase.auth
+    val dbPost = Firebase.firestore.collection("JobPost")
     private val myPost = mutableSetOf<ClientPostDataModel>()
     fun getResponseUsingLiveData(): MutableLiveData<List<ClientPostDataModel>> {
         val mutableLiveData = MutableLiveData<List<ClientPostDataModel>>()
-        val db = Firebase.firestore.collection("JobPost")
-        val query = db.whereEqualTo("userId", auth.uid.toString())
+
+        val query = dbPost.whereEqualTo("userId", auth.uid.toString())
         query.addSnapshotListener { document, _ ->
             Log.d("TAG", "getResponseUsingLiveData: ${document?.documents}")
             for (dc in document!!.documentChanges) {
@@ -31,6 +31,30 @@ object PostRepo {
             mutableLiveData.value = myPost.toTypedArray().asList()
         }
         return mutableLiveData
+    }
+
+    fun getAppliedEmployeeList(docId: String): MutableLiveData<List<AppliedEmployeeDataModel>> {
+        val appliedEmployeeList = MutableLiveData<List<AppliedEmployeeDataModel>>()
+        dbPost.document(docId).addSnapshotListener { mdoc, _ ->
+            if (mdoc != null) {
+                mdoc.data?.let { doc ->
+                    val myMap = doc["appliedEmployee"] as Map<String, String>
+                    if (myMap.isNotEmpty()) {
+                        appliedEmployeeList.value = listOf(
+                            AppliedEmployeeDataModel(
+                                doc["userId"].toString(),
+                                myMap,
+                                docId,
+                                doc["call_for_interview"] as ArrayList<CallForInterViewDataModel>
+                            )
+                        )
+                    }
+                }
+
+            }
+
+        }
+        return appliedEmployeeList
     }
 
     private fun modifiedFromArray(addData: ClientPostDataModel) {
@@ -52,7 +76,7 @@ object PostRepo {
             doc["userId"].toString(),
             doc["title"].toString(),
             doc["desc"].toString(),
-            doc["category"].toString(),
+            doc["category"] as ArrayList<String>,
             doc["experience"].toString().toInt(),
             doc["salary"].toString().toInt(),
             doc["location"].toString(),

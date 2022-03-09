@@ -45,7 +45,9 @@ class ClientAppliedFragment : Fragment(), AppliedClickedHandle {
     }
 
     override fun onAppliedClicked(clientPostDataModel: ClientPostDataModel) {
-    val intent=Intent(requireContext(), AppliedEmployeeActivity::class.java)
+        val intent = Intent(requireContext(), AppliedEmployeeActivity::class.java).also {
+            it.putExtra("docId", clientPostDataModel.docId)
+        }
         startActivity(intent)
 
     }

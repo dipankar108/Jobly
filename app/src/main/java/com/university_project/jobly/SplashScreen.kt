@@ -11,6 +11,7 @@ import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.accountlog.AccountLog
 import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.databinding.ActivitySplashScreenBinding
+import com.university_project.jobly.employee.EmployeeActivity
 import com.university_project.jobly.utils.GetTheme
 import com.university_project.jobly.utils.screensize.GetScreen
 import com.university_project.jobly.utils.screensize.SplashScreenSize

@@ -128,7 +128,7 @@ class CreateJobPost : AppCompatActivity() {
                                 auth.uid.toString(),
                                 postTitle,
                                 postDesc,
-                                "$postCategory,$postSubCategory",
+                                arrayListOf(postCategory,postSubCategory),
                                 postExperience,
                                 postSalary,
                                 postLocation,
