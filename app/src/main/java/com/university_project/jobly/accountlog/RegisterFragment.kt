@@ -19,8 +19,11 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.MainActivity
 import com.university_project.jobly.R
+import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.databinding.FragmentRegisterBinding
 import com.university_project.jobly.datamodel.ClientProfileModel
+import com.university_project.jobly.datamodel.EmployeeProfileModel
+import com.university_project.jobly.employee.EmployeeActivity
 import com.university_project.jobly.utils.GetTheme
 import com.university_project.jobly.utils.screensize.GetScreen
 import com.university_project.jobly.utils.screensize.RegisterFragmentSize
@@ -111,16 +114,29 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                     db.document(auth.uid.toString()).set(user)
                         .addOnSuccessListener {
                             binding.pbRegId.visibility = GONE
-                            startActivity(Intent(requireContext(), MainActivity::class.java))
+                            startActivity(Intent(requireContext(), ClientActivity::class.java))
                         }
                 } else {
-//                    val user =
-//                        EmployeeProfileModel(auth.uid.toString(), fName, lName, userPass, userEmail, userType)
-//                    db.add(user)
-//                        .addOnSuccessListener {
-//                            binding.pbRegId.visibility = GONE
-//                            startActivity(Intent(requireContext(), MainActivity::class.java))
-//                        }
+                    val user =
+                        EmployeeProfileModel(
+                            auth.uid.toString(),
+                            fName,
+                            lName,
+                            userPass,
+                            userEmail,
+                            userType,
+                            arrayListOf(),
+                            "",
+                            "",
+                            "",
+                            verify = false,
+                            banned = false
+                        )
+                    db.document(auth.uid.toString()).set(user)
+                        .addOnSuccessListener {
+                            binding.pbRegId.visibility = GONE
+                            startActivity(Intent(requireContext(), EmployeeActivity::class.java))
+                        }
                 }
 
 
