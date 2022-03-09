@@ -11,6 +11,8 @@ import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.R
 import com.university_project.jobly.datamodel.PostDataModel
 import com.university_project.jobly.employee.ClickHandle
+import com.university_project.jobly.utils.TimeStampConverter
+import com.university_project.jobly.utils.UtilClass
 
 class EmpJobPostAdapter(private val likeClick: ClickHandle) :
     RecyclerView.Adapter<EmpJobPostAdapter.EmpJobPostViewHolder>() {
@@ -35,6 +37,8 @@ class EmpJobPostAdapter(private val likeClick: ClickHandle) :
         holder.title.text = res.title
         holder.desc.text = res.desc
         holder.likeNum.text = res.isLike.size.toString()
+        holder.position.text=res.category[0]
+        holder.timeStamp.text=TimeStampConverter.getTimeAgo(res.timeStamp)
             //setting up onClick listener on on like button
         holder.like.setOnClickListener {
             if (res.isLike.contains(Firebase.auth.uid)) {
