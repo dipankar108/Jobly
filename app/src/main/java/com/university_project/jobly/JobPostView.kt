@@ -37,7 +37,7 @@ class JobPostView : AppCompatActivity() {
             binding.tvSinglePostViewCompanyNameId.text = singlePostView.companyName
             binding.tvSinglePostViewSalaryId.text = singlePostView.Salary.toString()
             binding.tvSinglePostViewExperienceId.text = singlePostView.experience.toString()
-            binding.tvSinglePostViewJobPositionId.text = singlePostView.category[0]
+            binding.tvSinglePostViewJobPositionId.text = singlePostView.skill[0]
             binding.tvSinglePostViewLocationId.text = singlePostView.location
         })
         val sh = getSharedPreferences("userType", MODE_PRIVATE)

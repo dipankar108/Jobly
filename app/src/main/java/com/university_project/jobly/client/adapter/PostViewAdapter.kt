@@ -37,7 +37,7 @@ class PostViewAdapter(private val listener: ClickHandle) : RecyclerView.Adapter<
         val res = myArrayList[position]
         holder.postTitle.text = res.title
         holder.postDesc.text = res.desc
-        holder.position.text = res.category[0]
+        holder.position.text = res.skill[0]
         holder.timeStamp.text = TimeStampConverter.getTimeAgo(res.timeStamp)
         holder.location.text = res.location
         holder.delete.setImageResource(R.drawable.ic_delete)

@@ -36,7 +36,7 @@ class PostAdapter(private val listener: ClickHandle) :
         holder.title.text = res.title
         holder.desc.text = res.desc
         holder.likeNum.text = res.isLike.size.toString()
-        holder.position.text=res.category[0]
+        holder.position.text=res.skill[0]
         holder.timeStamp.text=TimeStampConverter.getTimeAgo(res.timeStamp)
         holder.desc.setOnClickListener {
             listener.onDescClick(res.docId)
