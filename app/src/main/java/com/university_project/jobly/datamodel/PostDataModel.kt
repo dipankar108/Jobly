@@ -17,5 +17,5 @@ data class PostDataModel(
     val genderName: String = "",
     val docId: String = "",
     val call_for_interview: ArrayList<CallForInterViewDataModel> = arrayListOf(),
-    val isLike:ArrayList<String> = arrayListOf()
+    val isLike: ArrayList<String> = arrayListOf()
 )

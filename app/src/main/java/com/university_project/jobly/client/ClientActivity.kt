@@ -16,7 +16,7 @@ import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.CreateJobPost
 import com.university_project.jobly.R
 import com.university_project.jobly.accountlog.AccountLog
-import com.university_project.jobly.baseviewmodel.UserViewModel
+import com.university_project.jobly.baseviewmodel.profile.UserViewModel
 import com.university_project.jobly.client.fragment.ClientAppliedFragment
 import com.university_project.jobly.client.fragment.ClientCallForInterViewFragment
 import com.university_project.jobly.client.fragment.ClientJobPostFragment

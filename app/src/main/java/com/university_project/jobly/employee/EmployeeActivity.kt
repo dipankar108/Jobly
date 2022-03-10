@@ -6,13 +6,10 @@ import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.R
 import com.university_project.jobly.databinding.ActivityEmployeeBinding
-import com.university_project.jobly.employee.viewmodel.EmpViewModel
-import com.university_project.jobly.employee.viewmodel.Repository
 import com.university_project.jobly.utils.UtilClass
 
 class EmployeeActivity : AppCompatActivity() {

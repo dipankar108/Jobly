@@ -1,4 +1,4 @@
-package com.university_project.jobly.baseviewmodel
+package com.university_project.jobly.baseviewmodel.profile
 
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.ktx.auth
