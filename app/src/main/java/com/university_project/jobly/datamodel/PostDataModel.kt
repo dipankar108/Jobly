@@ -1,7 +1,5 @@
 package com.university_project.jobly.datamodel
 
-import com.university_project.jobly.datamodel.CallForInterViewDataModel
-
 data class PostDataModel(
     val userId: String = "",
     val title: String = "",

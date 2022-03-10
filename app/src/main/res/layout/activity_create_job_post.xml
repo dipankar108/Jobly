@@ -45,16 +45,16 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_title_createPost_id" />
-    <AutoCompleteTextView
-        android:id="@+id/sp_position_createPost_id"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:layout_marginTop="16dp"
-        android:singleLine="true"
-        android:hint="@string/position"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_desc_cratePost_id" />
+<!--    <AutoCompleteTextView-->
+<!--        android:id="@+id/sp_position_createPost_id"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_margin="10dp"-->
+<!--        android:layout_marginTop="16dp"-->
+<!--        android:singleLine="true"-->
+<!--        android:hint="@string/position"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/et_desc_cratePost_id" />-->
 
     <AutoCompleteTextView
         android:id="@+id/am_et_skill_createPost_id"

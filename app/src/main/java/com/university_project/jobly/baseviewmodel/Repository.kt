@@ -11,6 +11,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.client.datamodel.AppliedEmployeeDataModel
 import com.university_project.jobly.datamodel.CallForInterViewDataModel
+import com.university_project.jobly.datamodel.CreatePostModel
 import com.university_project.jobly.datamodel.PostDataModel
 
 object Repository {
@@ -18,6 +19,11 @@ object Repository {
     private val dbPost = Firebase.firestore.collection("JobPost")
     private val myJobPost = mutableSetOf<PostDataModel>()
     private val fabEmpPost = mutableSetOf<PostDataModel>()
+
+    /** Creating Post **/
+    fun createJobPost(createPostModel: CreatePostModel) {
+        dbPost.document().set(createPostModel)
+    }
 
     /** getting fab post **/
 
@@ -179,7 +185,7 @@ object Repository {
             doc["userId"].toString(),
             doc["title"].toString(),
             doc["desc"].toString(),
-            doc["category"] as ArrayList<String>,
+            doc["skill"] as ArrayList<String>,
             doc["experience"].toString().toInt(),
             doc["salary"].toString().toInt(),
             doc["location"].toString(),

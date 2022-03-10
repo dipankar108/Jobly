@@ -1,6 +1,6 @@
 package com.university_project.jobly
 
-import android.content.Intent
+import android.content.Context
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -9,11 +9,9 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.adapter.SkillAdapter
 import com.university_project.jobly.baseviewmodel.BaseViewModel
-import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.databinding.ActivityCreateJobPostBinding
 import com.university_project.jobly.datamodel.CallForInterViewDataModel
 import com.university_project.jobly.datamodel.CreatePostModel
@@ -22,6 +20,7 @@ import com.university_project.jobly.interfaces.SkillClick
 class CreateJobPost : AppCompatActivity(), SkillClick {
     lateinit var auth: FirebaseAuth
     val TAG = "TAG"
+    private val genderList= listOf("Any","Male","Female")
     private lateinit var liveData: BaseViewModel
     private var skills = listOf<String>()
     private var selectedSkills = mutableListOf<String>()
@@ -33,12 +32,10 @@ class CreateJobPost : AppCompatActivity(), SkillClick {
         binding = ActivityCreateJobPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
         auth = Firebase.auth
-
         binding.rvSkillViewId.layoutManager = LinearLayoutManager(this).also {
             it.orientation = LinearLayoutManager.HORIZONTAL
         }
         binding.rvSkillViewId.adapter = rvskillAdapter
-
         liveData = ViewModelProvider(this)[BaseViewModel::class.java]
         liveData.getSkill().observe(this, { skill ->
             skills = skill
@@ -46,62 +43,99 @@ class CreateJobPost : AppCompatActivity(), SkillClick {
                 ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, skills)
             binding.amEtSkillCreatePostId.setAdapter(skillAdapter)
         })
-        binding.amEtSkillCreatePostId.setOnItemClickListener { adapterView, view, i, l ->
+        binding.amEtSkillCreatePostId.setOnItemClickListener { _, _, i, _ ->
             val skillName = skillAdapter.getItem(i).toString().lowercase()
             if (selectedSkills.contains(skillName)) {
-                Toast.makeText(this, "Already Added", Toast.LENGTH_LONG).show()
+                showToast("Already Added", this)
             } else selectedSkills.add(skillName)
             binding.amEtSkillCreatePostId.text.clear()
             if (selectedSkills.size == 5) {
                 binding.amEtSkillCreatePostId.isEnabled = false
                 binding.amEtSkillCreatePostId.hint = "Remove one skill to enable"
-                Toast.makeText(this, "Max 5 allowed", Toast.LENGTH_LONG).show()
+                showToast("Max 5 allowed", this)
             }
             rvskillAdapter.setList(selectedSkills)
             rvskillAdapter.notifyDataSetChanged()
         }
+        val spinnerGenderAdapter=ArrayAdapter(
+            this,android.R.layout.simple_spinner_dropdown_item,genderList
+        )
+        binding.spGenderCreatePostId.adapter=spinnerGenderAdapter
         binding.btnCreatePostId.setOnClickListener {
             val postTitle = binding.etTitleCreatePostId.text.toString()
             val postDesc = binding.etDescCratePostId.text.toString()
-            val postExperience = binding.etRegSalaryId.text.toString().toInt()
+            val postExperience = Integer.parseInt(binding.etRegExperienceId.text.toString())
+            val postSkills = selectedSkills
             val postSalary = binding.etRegSalaryId.text.toString().toInt()
             val postLocation = binding.etRegLocationId.text.toString()
             val postGender = binding.spGenderCreatePostId.selectedItem.toString()
             val attachmentLink = ""
+            val postCompany = ""
             val timeStamp = System.currentTimeMillis()
             val callforinterview: ArrayList<CallForInterViewDataModel> = ArrayList()
             val isLike: ArrayList<String> = ArrayList()
-            Firebase.firestore.collection("User").document(auth.uid.toString()).get()
-                .addOnSuccessListener {
-                    val userInfo = it.data?.get("companyName") as String
-                    Firebase.firestore.collection("JobPost")
-                        .add(
-                            CreatePostModel(
-                                auth.uid.toString(),
-                                postTitle,
-                                postDesc,
-                                listOf(selectedSkills) as List<String>,
-                                postExperience,
-                                postSalary,
-                                postLocation,
-                                emptyMap(),
-                                attachmentLink,
-                                timeStamp,
-                                userInfo,
-                                postGender,
-                                callforinterview,
-                                isLike
-                            )
-                        ).addOnSuccessListener {
-                            Toast.makeText(this, "Post created", Toast.LENGTH_SHORT).show()
-                            val intent = Intent(this, ClientActivity::class.java)
-                            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                            startActivity(intent)
-                            finish()
-                        }
-                }
+            liveData.makePost(
+                CreatePostModel(
+                    Firebase.auth.uid.toString(),
+                    postTitle,
+                    postDesc,
+                    postSkills,
+                    postExperience,
+                    postSalary,
+                    postLocation,
+                    emptyMap(),
+                    attachmentLink,
+                    timeStamp,
+                    postCompany,
+                    postGender,
+                    callforinterview,
+                    isLike
+                )
+            )
+        }
+        /**
+        binding.btnCreatePostId.setOnClickListener {
+        val postTitle = binding.etTitleCreatePostId.text.toString()
+        val postDesc = binding.etDescCratePostId.text.toString()
+        val postExperience = binding.etRegSalaryId.text.toString().toInt()
+        val postSalary = binding.etRegSalaryId.text.toString().toInt()
+        val postLocation = binding.etRegLocationId.text.toString()
+        val postGender = binding.spGenderCreatePostId.selectedItem.toString()
+        val attachmentLink = ""
+        val timeStamp = System.currentTimeMillis()
+        val callforinterview: ArrayList<CallForInterViewDataModel> = ArrayList()
+        val isLike: ArrayList<String> = ArrayList()
+        Firebase.firestore.collection("User").document(auth.uid.toString()).get()
+        .addOnSuccessListener {
+        val userInfo = it.data?.get("companyName") as String
+        Firebase.firestore.collection("JobPost")
+        .add(
+        CreatePostModel(
+        auth.uid.toString(),
+        postTitle,
+        postDesc,
+        listOf(selectedSkills) as List<String>,
+        postExperience,
+        postSalary,
+        postLocation,
+        emptyMap(),
+        attachmentLink,
+        timeStamp,
+        userInfo,
+        postGender,
+        callforinterview,
+        isLike
+        )
+        ).addOnSuccessListener {
+        Toast.makeText(this, "Post created", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this, ClientActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(intent)
+        finish()
+        }
+        }
 
-            /**
+
         db.get().addOnSuccessListener { results ->
         for (doc in results) {
         arrayListCategory.add(doc.id)
@@ -220,9 +254,14 @@ class CreateJobPost : AppCompatActivity(), SkillClick {
         }
 
         }
+
+        }
          **/
     }
-}
+
+    private fun showToast(s: String, context: Context) {
+        Toast.makeText(context, s, Toast.LENGTH_SHORT).show()
+    }
 
     override fun onSkillDeleteClick(skill: String) {
         selectedSkills.remove(skill)
