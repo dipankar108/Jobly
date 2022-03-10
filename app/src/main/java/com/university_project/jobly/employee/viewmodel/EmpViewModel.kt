@@ -12,4 +12,7 @@ class EmpViewModel : ViewModel() {
     fun updateLike(docId: String, userId: String, b: Boolean) {
         Repository.updateLike(docId, userId,b)
     }
+    fun getAllFabPost():LiveData<List<PostDataModel>>{
+      return Repository.getFabPost()
+    }
 }

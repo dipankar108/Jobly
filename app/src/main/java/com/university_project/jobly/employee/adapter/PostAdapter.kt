@@ -12,10 +12,9 @@ import com.university_project.jobly.R
 import com.university_project.jobly.datamodel.PostDataModel
 import com.university_project.jobly.employee.ClickHandle
 import com.university_project.jobly.utils.TimeStampConverter
-import com.university_project.jobly.utils.UtilClass
 
-class EmpJobPostAdapter(private val likeClick: ClickHandle) :
-    RecyclerView.Adapter<EmpJobPostAdapter.EmpJobPostViewHolder>() {
+class PostAdapter(private val likeClick: ClickHandle) :
+    RecyclerView.Adapter<PostAdapter.EmpJobPostViewHolder>() {
     private var jobPostList = listOf<PostDataModel>()
 
     class EmpJobPostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

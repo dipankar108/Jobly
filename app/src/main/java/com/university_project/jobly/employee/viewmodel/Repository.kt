@@ -15,6 +15,19 @@ import com.university_project.jobly.datamodel.PostDataModel
 object Repository {
     val dbPost = Firebase.firestore.collection("JobPost")
     private val myJobPost = mutableSetOf<PostDataModel>()
+    private val fabEmpPost = mutableSetOf<PostDataModel>()
+
+    //getting fab post
+    fun getFabPost(): MutableLiveData<List<PostDataModel>> {
+        val query = dbPost.whereArrayContains("like", Firebase.auth.uid.toString())
+        val mutableLiveData = MutableLiveData<List<PostDataModel>>()
+
+        query.addSnapshotListener { document, _ ->
+            documentChangesFun(document, "getEmpFabPost")
+            mutableLiveData.value = fabEmpPost.toTypedArray().asList()
+        }
+        return mutableLiveData
+    }
 
     //updating like when user Clicked on the like button
     fun updateLike(docId: String, userId: String, b: Boolean) {
@@ -30,7 +43,7 @@ object Repository {
         val query = dbPost.whereArrayContainsAny("category", categoryList)
         val mutableLiveData = MutableLiveData<List<PostDataModel>>()
         query.addSnapshotListener { document, _ ->
-            documentChangesFun(document, "gpfdb")
+            documentChangesFun(document, "getEmpAllPost")
             mutableLiveData.value = myJobPost.toTypedArray().asList()
         }
         return mutableLiveData
@@ -39,31 +52,50 @@ object Repository {
     private fun documentChangesFun(document: QuerySnapshot?, s: String) {
         for (dc in document!!.documentChanges) {
             when (dc.type) {
-                DocumentChange.Type.ADDED -> addingPost(dc,s)
-                DocumentChange.Type.REMOVED -> removeFromArray(addData(dc))
-                DocumentChange.Type.MODIFIED -> modifiedFromArray(addData(dc))
+                DocumentChange.Type.ADDED -> addingPostToArray(dc, s)
+                DocumentChange.Type.REMOVED -> removeFromArray(addData(dc), s)
+                DocumentChange.Type.MODIFIED -> modifiedFromArray(addData(dc), s)
             }
         }
     }
 
-    private fun addingPost(dc: DocumentChange?, s: String) {
+    private fun addingPostToArray(dc: DocumentChange?, s: String) {
         dc?.let {
-          if (s=="gpfdb"){
-              myJobPost.add(addData(dc))
-          }
+            when (s) {
+                "getEmpAllPost" -> myJobPost.add(addData(dc))
+                "getEmpFabPost" -> fabEmpPost.add(addData(dc))
+                else -> {
+                }
+            }
         }
     }
 
-    private fun modifiedFromArray(addData: PostDataModel) {
+    private fun modifiedFromArray(singlePost: PostDataModel, s: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            myJobPost.removeIf { it.docId == addData.docId }
-            myJobPost.add(addData)
+            when (s) {
+                "getEmpAllPost" -> {
+                    myJobPost.removeIf { it.docId == singlePost.docId }
+                    myJobPost.add(singlePost)
+                }
+                "getEmpFabPost" -> {
+                    fabEmpPost.removeIf { it.docId == singlePost.docId }
+                    fabEmpPost.add(singlePost)
+                }
+            }
         }
     }
 
-    private fun removeFromArray(addData: PostDataModel) {
+    private fun removeFromArray(singlePost: PostDataModel, s: String) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            myJobPost.removeIf { it.docId == addData.docId }
+            when (s) {
+                "getEmpAllPost" -> {
+                    myJobPost.removeIf { it.docId == singlePost.docId }
+                }
+                "getEmpFabPost" -> {
+                    fabEmpPost.removeIf { it.docId == singlePost.docId }
+                }
+            }
+
         }
     }
 

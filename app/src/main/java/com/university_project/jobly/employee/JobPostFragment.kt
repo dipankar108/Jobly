@@ -12,7 +12,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.databinding.FragmentJobPostBinding
 import com.university_project.jobly.datamodel.PostDataModel
-import com.university_project.jobly.employee.adapter.EmpJobPostAdapter
+import com.university_project.jobly.employee.adapter.PostAdapter
 import com.university_project.jobly.employee.viewmodel.EmpViewModel
 
 class JobPostFragment : Fragment(),ClickHandle {
@@ -30,7 +30,7 @@ class JobPostFragment : Fragment(),ClickHandle {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val myAdapter = EmpJobPostAdapter(this)
+        val myAdapter = PostAdapter(this)
         binding.rvEmpJobPostViewId.layoutManager = LinearLayoutManager(requireContext())
         binding.rvEmpJobPostViewId.adapter = myAdapter
         liveData = ViewModelProvider(this)[EmpViewModel::class.java]
