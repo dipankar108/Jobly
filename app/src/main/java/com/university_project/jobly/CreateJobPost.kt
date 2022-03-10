@@ -1,7 +1,6 @@
 package com.university_project.jobly
 
 import android.os.Bundle
-import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -13,15 +12,17 @@ import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.adapter.SkillAdapter
 import com.university_project.jobly.baseviewmodel.BaseViewModel
 import com.university_project.jobly.databinding.ActivityCreateJobPostBinding
+import com.university_project.jobly.interfaces.SkillClick
 
-class CreateJobPost : AppCompatActivity() {
+class CreateJobPost : AppCompatActivity(), SkillClick {
     lateinit var auth: FirebaseAuth
     val TAG = "TAG"
     private lateinit var liveData: BaseViewModel
     private var skills = listOf<String>()
-    private var selectedSkills = listOf<String>()
+    private var selectedSkills = mutableListOf<String>()
     private lateinit var skillAdapter: ArrayAdapter<String>
     private lateinit var binding: ActivityCreateJobPostBinding
+    val rvskillAdapter = SkillAdapter(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateJobPostBinding.inflate(layoutInflater)
@@ -31,7 +32,7 @@ class CreateJobPost : AppCompatActivity() {
         binding.etRegSalaryId.isEnabled = false
         binding.etRegLocationId.isEnabled = false
         binding.btnCreatePostId.isEnabled = false
-        val rvskillAdapter = SkillAdapter()
+
         binding.rvSkillViewId.layoutManager = LinearLayoutManager(this).also {
             it.orientation = LinearLayoutManager.HORIZONTAL
         }
@@ -46,11 +47,15 @@ class CreateJobPost : AppCompatActivity() {
             // binding.amEtSkillCreatePostId.setTokenizer(MultiAutoCompleteTextView.CommaTokenizer())
         })
         binding.amEtSkillCreatePostId.setOnItemClickListener { adapterView, view, i, l ->
-            selectedSkills += skillAdapter.getItem(i) as String
+            val skillName = skillAdapter.getItem(i).toString().lowercase()
+            if (selectedSkills.contains(skillName)) {
+                Toast.makeText(this, "Already Added", Toast.LENGTH_LONG).show()
+            } else selectedSkills.add(skillName)
             binding.amEtSkillCreatePostId.text.clear()
-            if (selectedSkills.size==4){
-                binding.amEtSkillCreatePostId.isEnabled=false
-                Toast.makeText(this,"Max 5 allowed",Toast.LENGTH_LONG).show()
+            if (selectedSkills.size == 5) {
+                binding.amEtSkillCreatePostId.isEnabled = false
+                binding.amEtSkillCreatePostId.hint = "Remove one skill to enable"
+                Toast.makeText(this, "Max 5 allowed", Toast.LENGTH_LONG).show()
             }
             rvskillAdapter.setList(selectedSkills)
             rvskillAdapter.notifyDataSetChanged()
@@ -175,5 +180,12 @@ class CreateJobPost : AppCompatActivity() {
 
         }
          **/
+    }
+
+    override fun onSkillDeleteClick(skill: String) {
+        selectedSkills.remove(skill)
+        rvskillAdapter.notifyDataSetChanged()
+        binding.amEtSkillCreatePostId.isEnabled = true
+        binding.amEtSkillCreatePostId.hint = "Add Skill"
     }
 }
