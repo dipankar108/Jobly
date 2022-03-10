@@ -43,7 +43,6 @@ class JobPostFragment : Fragment(),ClickHandle {
     }
 
     override fun onLikeClick(postDataModel: PostDataModel, b: Boolean) {
-        Log.d(TAG, "onLikeClick: ${postDataModel}")
        liveData.updateLike(postDataModel.docId,Firebase.auth.uid.toString(),b)
     }
 }
