@@ -1,7 +1,6 @@
-package com.university_project.jobly.baseviewmodel.post_repository
+package com.university_project.jobly.baseviewmodel
 
 import android.os.Build
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.ktx.auth
@@ -96,20 +95,41 @@ object Repository {
         }
         return mutableLiveData
     }
-/** Getting single post **/
-fun singlePost(docId: String):LiveData<PostDataModel>{
-    var post=MutableLiveData<PostDataModel>()
-    dbPost.document(docId).addSnapshotListener { document, _ ->
-        post.value= addData(document?.data!!,docId)
+
+    /** Getting single post **/
+    fun singlePost(docId: String): LiveData<PostDataModel> {
+        var post = MutableLiveData<PostDataModel>()
+        dbPost.document(docId).addSnapshotListener { document, _ ->
+            post.value = addData(document?.data!!, docId)
+        }
+        return post
     }
-    return post
-}
+
+    /** Getting Category **/
+    fun getSkill(): LiveData<List<String>> {
+        val skills = MutableLiveData<List<String>>()
+        Firebase.firestore.collection("Category").document("Skill").get().addOnSuccessListener {
+            skills.value = it.data?.get("skill") as List<String>
+        }
+        return skills
+    }
+
     private fun documentChangesFun(document: QuerySnapshot?, s: String) {
         for (dc in document!!.documentChanges) {
             when (dc.type) {
                 DocumentChange.Type.ADDED -> addingPostToArray(dc, s)
-                DocumentChange.Type.REMOVED -> removeFromArray(addData(dc.document.data,dc.document.id), s)
-                DocumentChange.Type.MODIFIED -> modifiedFromArray(addData(dc.document.data,dc.document.id), s)
+                DocumentChange.Type.REMOVED -> removeFromArray(
+                    addData(
+                        dc.document.data,
+                        dc.document.id
+                    ), s
+                )
+                DocumentChange.Type.MODIFIED -> modifiedFromArray(
+                    addData(
+                        dc.document.data,
+                        dc.document.id
+                    ), s
+                )
             }
         }
     }
@@ -117,8 +137,8 @@ fun singlePost(docId: String):LiveData<PostDataModel>{
     private fun addingPostToArray(dc: DocumentChange?, s: String) {
         dc?.let {
             when (s) {
-                "getAllPost" -> myJobPost.add(addData(dc.document.data,dc.document.id))
-                "getEmpFabPost" -> fabEmpPost.add(addData(dc.document.data,dc.document.id))
+                "getAllPost" -> myJobPost.add(addData(dc.document.data, dc.document.id))
+                "getEmpFabPost" -> fabEmpPost.add(addData(dc.document.data, dc.document.id))
                 else -> {
                 }
             }
@@ -154,8 +174,8 @@ fun singlePost(docId: String):LiveData<PostDataModel>{
         }
     }
 
-    private fun addData(doc: MutableMap<String, Any>,docId:String): PostDataModel {
-       return PostDataModel(
+    private fun addData(doc: MutableMap<String, Any>, docId: String): PostDataModel {
+        return PostDataModel(
             doc["userId"].toString(),
             doc["title"].toString(),
             doc["desc"].toString(),

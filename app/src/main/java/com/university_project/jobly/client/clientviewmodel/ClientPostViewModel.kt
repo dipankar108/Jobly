@@ -2,7 +2,7 @@ package com.university_project.jobly.client.clientviewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.university_project.jobly.baseviewmodel.post_repository.Repository
+import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.client.datamodel.AppliedEmployeeDataModel
 import com.university_project.jobly.datamodel.PostDataModel
 
