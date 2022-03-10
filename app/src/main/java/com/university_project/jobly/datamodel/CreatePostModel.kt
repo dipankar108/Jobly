@@ -4,7 +4,7 @@ data class CreatePostModel(
     val userId: String,
     val title: String,
     val desc: String,
-    val category: ArrayList<String>,
+    val category: List<String>,
     val experience: Int,
     val Salary: Int,
     val location: String,

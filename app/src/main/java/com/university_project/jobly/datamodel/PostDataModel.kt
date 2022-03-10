@@ -6,7 +6,7 @@ data class PostDataModel(
     val userId: String = "",
     val title: String = "",
     val desc: String = "",
-    val category: ArrayList<String> = arrayListOf(),
+    val category: List<String> = listOf(),
     val experience: Int = 0,
     val Salary: Int = 0,
     val location: String = "",
