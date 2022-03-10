@@ -93,7 +93,7 @@ object Repository {
     //getting post for employee
     fun getEmpPost(categoryList: List<String>): MutableLiveData<List<PostDataModel>> {
         Firebase.auth.uid!!
-        val query = dbPost.whereArrayContainsAny("category", categoryList)
+        val query = dbPost.whereArrayContainsAny("skill", categoryList)
         val mutableLiveData = MutableLiveData<List<PostDataModel>>()
         query.addSnapshotListener { document, _ ->
             documentChangesFun(document, "getAllPost")

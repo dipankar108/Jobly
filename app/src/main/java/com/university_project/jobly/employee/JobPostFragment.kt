@@ -36,7 +36,7 @@ class JobPostFragment : Fragment(), ClickHandle {
         binding.rvEmpJobPostViewId.layoutManager = LinearLayoutManager(requireContext())
         binding.rvEmpJobPostViewId.adapter = myAdapter
         liveData = ViewModelProvider(this)[EmpViewModel::class.java]
-        liveData.getJobPost(listOf("Medical")).observe(viewLifecycleOwner, {
+        liveData.getJobPost(listOf("web developer")).observe(viewLifecycleOwner, {
             myAdapter.setDataToList(it)
             myAdapter.notifyDataSetChanged()
 
