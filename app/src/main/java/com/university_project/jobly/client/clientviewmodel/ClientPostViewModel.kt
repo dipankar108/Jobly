@@ -15,11 +15,17 @@ class ClientPostViewModel : ViewModel() {
         }
         return false
     }
-fun deletePost(docId: String){
-    Repository.deletePost(docId)
-}
+
+    fun deletePost(docId: String) {
+        Repository.deletePost(docId)
+    }
+
     fun getAppliedEmployee(docId: String): LiveData<List<AppliedEmployeeDataModel>> {
         return Repository.getAppliedEmployeeList(docId)
+    }
+
+    fun getSinglePost(docId: String): LiveData<PostDataModel> {
+        return Repository.singlePost(docId)
     }
 }
 

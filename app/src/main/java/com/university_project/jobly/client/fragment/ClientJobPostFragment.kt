@@ -71,7 +71,7 @@ class ClientJobPostFragment : Fragment(), ClickHandle {
     override fun onDescClick(docId: String) {
         val intent = Intent(context, JobPostView::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
-        intent.putExtra("docId", id)
+        intent.putExtra("docId", docId)
         startActivity(intent)
     }
 

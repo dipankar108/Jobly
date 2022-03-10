@@ -2,6 +2,7 @@ package com.university_project.jobly.baseviewmodel.post_repository
 
 import android.os.Build
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
@@ -95,13 +96,20 @@ object Repository {
         }
         return mutableLiveData
     }
-
+/** Getting single post **/
+fun singlePost(docId: String):LiveData<PostDataModel>{
+    var post=MutableLiveData<PostDataModel>()
+    dbPost.document(docId).addSnapshotListener { document, _ ->
+        post.value= addData(document?.data!!,docId)
+    }
+    return post
+}
     private fun documentChangesFun(document: QuerySnapshot?, s: String) {
         for (dc in document!!.documentChanges) {
             when (dc.type) {
                 DocumentChange.Type.ADDED -> addingPostToArray(dc, s)
-                DocumentChange.Type.REMOVED -> removeFromArray(addData(dc), s)
-                DocumentChange.Type.MODIFIED -> modifiedFromArray(addData(dc), s)
+                DocumentChange.Type.REMOVED -> removeFromArray(addData(dc.document.data,dc.document.id), s)
+                DocumentChange.Type.MODIFIED -> modifiedFromArray(addData(dc.document.data,dc.document.id), s)
             }
         }
     }
@@ -109,8 +117,8 @@ object Repository {
     private fun addingPostToArray(dc: DocumentChange?, s: String) {
         dc?.let {
             when (s) {
-                "getAllPost" -> myJobPost.add(addData(dc))
-                "getEmpFabPost" -> fabEmpPost.add(addData(dc))
+                "getAllPost" -> myJobPost.add(addData(dc.document.data,dc.document.id))
+                "getEmpFabPost" -> fabEmpPost.add(addData(dc.document.data,dc.document.id))
                 else -> {
                 }
             }
@@ -146,9 +154,8 @@ object Repository {
         }
     }
 
-    private fun addData(m_doc: DocumentChange): PostDataModel {
-        val doc = m_doc.document.data
-        return PostDataModel(
+    private fun addData(doc: MutableMap<String, Any>,docId:String): PostDataModel {
+       return PostDataModel(
             doc["userId"].toString(),
             doc["title"].toString(),
             doc["desc"].toString(),
@@ -161,7 +168,7 @@ object Repository {
             doc["timeStamp"].toString().toLong(),
             doc["companyName"].toString(),
             doc["genderName"].toString(),
-            m_doc.document.id,
+            docId,
             doc["call_for_interview"] as ArrayList<CallForInterViewDataModel>,
             isValueNull(doc["like"]) as ArrayList<String>
         )
