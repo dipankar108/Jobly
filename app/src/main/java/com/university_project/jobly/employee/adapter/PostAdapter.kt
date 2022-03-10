@@ -1,18 +1,16 @@
 package com.university_project.jobly.employee.adapter
 
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.R
 import com.university_project.jobly.datamodel.PostDataModel
-import com.university_project.jobly.employee.ClickHandle
+import com.university_project.jobly.interfaces.ClickHandle
 import com.university_project.jobly.utils.TimeStampConverter
 
 class PostAdapter(private val listener: ClickHandle) :

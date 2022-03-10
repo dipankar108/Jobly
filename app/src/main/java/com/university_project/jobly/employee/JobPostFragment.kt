@@ -2,7 +2,6 @@ package com.university_project.jobly.employee
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,8 +15,9 @@ import com.university_project.jobly.databinding.FragmentJobPostBinding
 import com.university_project.jobly.datamodel.PostDataModel
 import com.university_project.jobly.employee.adapter.PostAdapter
 import com.university_project.jobly.employee.viewmodel.EmpViewModel
+import com.university_project.jobly.interfaces.ClickHandle
 
-class JobPostFragment : Fragment(),ClickHandle {
+class JobPostFragment : Fragment(), ClickHandle {
     private val TAG = "JobPostFragmentP"
     private lateinit var liveData: EmpViewModel
     private lateinit var _binding: FragmentJobPostBinding
@@ -53,6 +53,9 @@ class JobPostFragment : Fragment(),ClickHandle {
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         intent.putExtra("docId", docId)
         startActivity(intent)
+    }
+
+    override fun onDeleteClick(docId: String) {
     }
 
 }

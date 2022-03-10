@@ -15,9 +15,9 @@ import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.JobPostView
 import com.university_project.jobly.client.adapter.PostViewAdapter
 import com.university_project.jobly.client.clientviewmodel.ClientPostViewModel
-import com.university_project.jobly.datamodel.PostDataModel
-import com.university_project.jobly.client.interfaces.ClickHandle
 import com.university_project.jobly.databinding.FragmentClientJobPostBinding
+import com.university_project.jobly.datamodel.PostDataModel
+import com.university_project.jobly.interfaces.ClickHandle
 
 class ClientJobPostFragment : Fragment(), ClickHandle {
     private  val TAG = "ClientJobPostFragment"
@@ -64,12 +64,21 @@ class ClientJobPostFragment : Fragment(), ClickHandle {
         })
     }
 
-    override fun itemClicked(id: String, postDataModel: PostDataModel) {
+    override fun onLikeClick(postDataModel: PostDataModel, b: Boolean) {
+
+    }
+
+    override fun onDescClick(docId: String) {
         val intent = Intent(context, JobPostView::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         intent.putExtra("docId", id)
         startActivity(intent)
     }
+
+    override fun onDeleteClick(docId: String) {
+       liveDataModel.deletePost(docId)
+    }
+
 
 //    private suspend fun myUpdateOperation() {
 //        liveDataModel.getLiveData()

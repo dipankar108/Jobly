@@ -8,13 +8,17 @@ import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.client.datamodel.AppliedEmployeeDataModel
-import com.university_project.jobly.datamodel.PostDataModel
 import com.university_project.jobly.datamodel.CallForInterViewDataModel
+import com.university_project.jobly.datamodel.PostDataModel
 
 object PostRepo {
     private val auth = Firebase.auth
     val dbPost = Firebase.firestore.collection("JobPost")
     private val myPost = mutableSetOf<PostDataModel>()
+    fun deletePost(docId: String) {
+        dbPost.document(docId).delete()
+    }
+
     fun getResponseUsingLiveData(): MutableLiveData<List<PostDataModel>> {
         val mutableLiveData = MutableLiveData<List<PostDataModel>>()
         val query = dbPost.whereEqualTo("userId", auth.uid.toString())
