@@ -1,6 +1,8 @@
 package com.university_project.jobly.employee
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.university_project.jobly.JobPostView
 import com.university_project.jobly.databinding.FragmentFabPostBinding
 import com.university_project.jobly.datamodel.PostDataModel
 import com.university_project.jobly.employee.adapter.PostAdapter
@@ -42,4 +45,12 @@ class FabPostFragment : Fragment(), ClickHandle {
         //Updating like or fab post
         liveData.updateLike(postDataModel.docId, Firebase.auth.uid.toString(), b)
     }
+
+    override fun onDescClick(docId: String) {
+        val intent = Intent(context, JobPostView::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        intent.putExtra("docId", docId)
+        startActivity(intent)
+    }
+
 }

@@ -76,6 +76,7 @@ class CreateJobPost : AppCompatActivity() {
 
                 }
             }
+        //Getting gender from the database
         Firebase.firestore.collection("Gender").document(
             "0OF5b8M1XnLYTOJS6TDE"
         ).get().addOnSuccessListener {
@@ -119,7 +120,6 @@ class CreateJobPost : AppCompatActivity() {
             val timeStamp = System.currentTimeMillis()
             val callforinterview : ArrayList<CallForInterViewDataModel> = ArrayList()
             val isLike:ArrayList<String> =ArrayList()
-            callforinterview.add(CallForInterViewDataModel("",""))
             Firebase.firestore.collection("User").document(auth.uid.toString()).get()
                 .addOnSuccessListener {
                     val userInfo = it.data?.get("companyName") as String

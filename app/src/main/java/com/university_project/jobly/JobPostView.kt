@@ -1,7 +1,9 @@
 package com.university_project.jobly
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
@@ -11,6 +13,7 @@ import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.datamodel.PostDataModel
 import com.university_project.jobly.databinding.ActivityJobPostViewBinding
+import com.university_project.jobly.employee.EmployeeActivity
 
 class JobPostView : AppCompatActivity() {
     private lateinit var binding: ActivityJobPostViewBinding
@@ -43,9 +46,9 @@ class JobPostView : AppCompatActivity() {
         setBtnText(userInfo!!)
         binding.btnSinglePostViewSubmitId.setOnClickListener {
             if (userInfo == "Client") {
-
+                Log.d(TAG, "onCreate: Go to edit page")
             } else {
-
+                Log.d(TAG, "onCreate: Go to apply page")
             }
         }
     }
@@ -58,7 +61,13 @@ class JobPostView : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        val intent = Intent(applicationContext, ClientActivity::class.java)
+       if (getSharedPreferences("userType", MODE_PRIVATE).getString("m_userType",null)=="Client"){
+           changeActivity(ClientActivity())
+       }else changeActivity(EmployeeActivity())
+    }
+
+    private fun changeActivity(activity:Activity) {
+        val intent = Intent(applicationContext, activity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         startActivity(intent)
         finish()

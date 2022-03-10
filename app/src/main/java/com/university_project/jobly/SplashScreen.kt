@@ -40,7 +40,6 @@ class SplashScreen : AppCompatActivity() {
         if (auth.uid != null) {
 
             if (sh.getString("m_userType", null) == null) {
-                Log.d(TAG, "onCreate: Im on siginsplash")
                 Firebase.firestore.collection("User").document(auth.uid.toString()).get()
                     .addOnSuccessListener {
                         if (it.data != null) {
