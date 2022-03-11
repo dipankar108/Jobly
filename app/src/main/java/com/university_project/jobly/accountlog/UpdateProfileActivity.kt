@@ -26,6 +26,10 @@ class UpdateProfileActivity : AppCompatActivity() {
         binding = ActivityUpdateProfileBinding.inflate(layoutInflater)
         isVerifiedView = findViewById(R.id.tv_up_verifyInfo_id)
         fname = findViewById(R.id.et_up_fname_id)
+        lname=findViewById(R.id.et_up_lname_id)
+        yourself=findViewById(R.id.et_up_aboutYourself_id)
+        email=findViewById(R.id.et_up_email_id)
+        hobby=findViewById(R.id.et_up_yourHobby_id)
         val userInfo = sh.getString("m_userType", null)
         if (userInfo == "Client") {
 
@@ -40,6 +44,7 @@ class UpdateProfileActivity : AppCompatActivity() {
                 lname.setText(user.lname)
                 yourself.setText(user.aboutYourself)
                 email.setText(user.userPass)
+                email.isEnabled=false
                 hobby.setText(user.hobbyEmp)
             })
         }
