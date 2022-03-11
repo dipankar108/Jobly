@@ -17,4 +17,8 @@ class BaseViewModel : ViewModel() {
     fun getEmployeeProfile(): LiveData<EmployeeProfileModel> {
         return Repository.getEmpProfile()
     }
+
+    fun updateEmpProfile(employeeProfileModel: EmployeeProfileModel) {
+Repository.updateEmployeeProfile(employeeProfileModel)
+    }
 }

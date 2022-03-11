@@ -1,6 +1,7 @@
 package com.university_project.jobly.baseviewmodel
 
 import android.os.Build
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.ktx.auth
@@ -216,6 +217,12 @@ object Repository {
             return arrayListOf(any)
         }
         return any
+    }
+
+    fun updateEmployeeProfile(employeeProfileModel: EmployeeProfileModel) {
+        dbProfile.document(auth.uid.toString()).set(employeeProfileModel).addOnSuccessListener {
+            Log.d("TAG", "updateEmployeeProfile: Updated")
+        }
     }
 }
 
