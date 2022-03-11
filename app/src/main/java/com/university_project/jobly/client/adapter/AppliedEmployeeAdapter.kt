@@ -3,16 +3,16 @@ package com.university_project.jobly.client.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.university_project.jobly.R
 import com.university_project.jobly.client.datamodel.AppliedEmployeeDataModel
+import com.university_project.jobly.datamodel.AppliedDataModel
 
 class AppliedEmployeeAdapter() :
     RecyclerView.Adapter<AppliedEmployeeAdapter.AppliedEmployeeViewHolder>() {
-    private var mlist = listOf<AppliedEmployeeDataModel>()
+    private var mlist = listOf<AppliedDataModel>()
 
     class AppliedEmployeeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val title: TextView = itemView.findViewById(R.id.tv_appliedEmployeeTitle_id)
@@ -31,7 +31,7 @@ class AppliedEmployeeAdapter() :
 
     }
 
-    fun setData(mlist: List<AppliedEmployeeDataModel>) {
+    fun setData(mlist: List<AppliedDataModel>) {
         this.mlist = mlist
     }
 

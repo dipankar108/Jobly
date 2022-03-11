@@ -8,10 +8,8 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.university_project.jobly.client.datamodel.AppliedEmployeeDataModel
 import com.university_project.jobly.datamodel.*
 
 object Repository {
@@ -65,26 +63,15 @@ object Repository {
     }
 
     /**  Getting Applied employee **/
-    fun getAppliedEmployeeList(docId: String): MutableLiveData<List<AppliedEmployeeDataModel>> {
-        val appliedEmployeeList = MutableLiveData<List<AppliedEmployeeDataModel>>()
-        dbPost.document(docId).addSnapshotListener { mdoc, _ ->
-            if (mdoc != null) {
-                mdoc.data?.let { doc ->
-                    val myMap = doc["appliedEmployee"] as Map<String, String>
-                    if (myMap.isNotEmpty()) {
-                        appliedEmployeeList.value = listOf(
-                            AppliedEmployeeDataModel(
-                                doc["userId"].toString(),
-                                myMap,
-                                docId,
-                                doc["call_for_interview"] as ArrayList<CallForInterViewDataModel>
-                            )
-                        )
-                    }
-                }
-
+    fun getAppliedEmployeeList(docId: String): MutableLiveData<List<AppliedDataModel>> {
+        val appliedEmployeeList = MutableLiveData<List<AppliedDataModel>>()
+        var appliedDataModel = mutableListOf<AppliedDataModel>()
+        dbPost.document(docId).addSnapshotListener { doc, _ ->
+            doc?.data?.let {
+                appliedDataModel =
+                    doc.data!!["appliedEmployee"] as MutableList<AppliedDataModel>
             }
-
+            appliedEmployeeList.value = appliedDataModel
         }
         return appliedEmployeeList
     }
@@ -223,7 +210,7 @@ object Repository {
         }
     }
 
-    fun applyForPost(docId: String,appliedDataModel: AppliedDataModel) {
+    fun applyForPost(docId: String, appliedDataModel: AppliedDataModel) {
         dbPost.document(docId).update("appliedEmployee", FieldValue.arrayUnion(appliedDataModel))
     }
 }

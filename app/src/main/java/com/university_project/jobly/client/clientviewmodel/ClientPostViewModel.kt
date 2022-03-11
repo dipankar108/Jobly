@@ -21,7 +21,7 @@ class ClientPostViewModel : ViewModel() {
         Repository.deletePost(docId)
     }
 
-    fun getAppliedEmployee(docId: String): LiveData<List<AppliedEmployeeDataModel>> {
+    fun getAppliedEmployee(docId: String): LiveData<List<AppliedDataModel>> {
         return Repository.getAppliedEmployeeList(docId)
     }
 
