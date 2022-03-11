@@ -16,6 +16,7 @@
     <string name="dipankar_debnath">Dipankar Debnath</string>
     <string name="skill">Add Skill</string>
     <string name="position">Enter Job Position</string>
+    <string name="UpdateProfile">Update</string>
     <string-array name="userTypeArray">
         <item>Select</item>
         <item>Client</item>

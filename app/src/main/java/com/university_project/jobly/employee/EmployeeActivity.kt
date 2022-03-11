@@ -1,5 +1,6 @@
 package com.university_project.jobly.employee
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.R
+import com.university_project.jobly.accountlog.UpdateProfileActivity
 import com.university_project.jobly.databinding.ActivityEmployeeBinding
 import com.university_project.jobly.utils.UtilClass
 
@@ -48,8 +50,13 @@ class EmployeeActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.menu_settings_id -> Log.d(TAG, "onOptionsItemSelected: Settings menu clicked")
             R.id.menu_sign_out_id -> snout()
+            R.id.menu_updateProfile_id->updateProfile()
         }
         return true
+    }
+
+    private fun updateProfile() {
+        startActivity(Intent(this,UpdateProfileActivity::class.java))
     }
 
     private fun snout() {

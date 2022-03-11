@@ -2,8 +2,8 @@ package com.university_project.jobly.accountlog
 
 import android.R
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -15,6 +15,7 @@ import com.university_project.jobly.adapter.SkillAdapter
 import com.university_project.jobly.baseviewmodel.BaseViewModel
 import com.university_project.jobly.databinding.ActivityUpdateProfileBinding
 import com.university_project.jobly.datamodel.EmployeeProfileModel
+import com.university_project.jobly.employee.EmployeeActivity
 import com.university_project.jobly.interfaces.SkillClick
 
 class UpdateProfileActivity : AppCompatActivity(), SkillClick {
@@ -22,8 +23,8 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
     private lateinit var binding: ActivityUpdateProfileBinding
     private var selectedSkills = mutableListOf<String>()
     private var skills = listOf<String>()
-    private var userPass=""
-    private var verified=false
+    private var userPass = ""
+    private var verified = false
     private lateinit var skillTextAdapter: ArrayAdapter<String>
     val skillAdapter = SkillAdapter(this)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,12 +52,12 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
                 binding.etUpAboutYourselfId.setText(user.aboutYourself)
                 binding.etUpEmailId.setText(user.userEmail)
                 binding.etUpEmailId.isEnabled = false
-                verified=user.verify
+                verified = user.verify
                 binding.etUpYourHobbyId.setText(user.hobbyEmp)
-                selectedSkills=user.skill
+                selectedSkills = user.skill
                 skillAdapter.setList(selectedSkills)
                 skillAdapter.notifyDataSetChanged()
-                userPass=user.userPass
+                userPass = user.userPass
             })
             liveData.getSkill().observe(this, { skill ->
                 skills = skill
@@ -80,20 +81,23 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
             }
         }
         binding.btnUpSubmitId.setOnClickListener {
-            val fname=binding.etUpFnameId.text.toString()
-            val lname=binding.etUpLnameId.text.toString()
-            val userId=Firebase!!.auth.uid.toString()
-            val userEmail=binding.etUpEmailId.text.toString()
-            val userType="Employee"
-            val skill=selectedSkills
-            val currentCompany=""
-            val hobby=binding.etUpYourHobbyId.text.toString()
-            val yourself=binding.etUpAboutYourselfId.text.toString()
-            val banned=false
-            val verify=verified
-            val employeeProfileModel=EmployeeProfileModel(userId,fname,lname,userEmail,userPass,userType,
-                skill as ArrayList<String>,currentCompany,hobby,yourself,verify,banned)
-           liveData.updateEmpProfile(employeeProfileModel)
+            val fname = binding.etUpFnameId.text.toString()
+            val lname = binding.etUpLnameId.text.toString()
+            val userId = Firebase!!.auth.uid.toString()
+            val userEmail = binding.etUpEmailId.text.toString()
+            val userType = "Employee"
+            val skill = selectedSkills
+            val currentCompany = ""
+            val hobby = binding.etUpYourHobbyId.text.toString()
+            val yourself = binding.etUpAboutYourselfId.text.toString()
+            val banned = false
+            val verify = verified
+            val employeeProfileModel = EmployeeProfileModel(
+                userId, fname, lname, userEmail, userPass, userType,
+                skill as ArrayList<String>, currentCompany, hobby, yourself, verify, banned
+            )
+            liveData.updateEmpProfile(employeeProfileModel)
+            backToHome()
         }
     }
 
@@ -106,5 +110,16 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
         skillAdapter.notifyDataSetChanged()
         binding.etUpSkillId.isEnabled = true
         binding.etUpSkillId.hint = "Add Skill"
+    }
+
+    override fun onBackPressed() {
+        backToHome()
+    }
+
+    fun backToHome() {
+        val intent = Intent(this, EmployeeActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+        startActivity(intent)
+        finish()
     }
 }
