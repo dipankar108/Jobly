@@ -1,14 +1,13 @@
 package com.university_project.jobly.accountlog
 
+import android.R
+import android.content.Context
 import android.os.Bundle
-import android.util.Log
-import android.widget.EditText
-import android.widget.TextView
+import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.university_project.jobly.R
 import com.university_project.jobly.adapter.SkillAdapter
 import com.university_project.jobly.baseviewmodel.BaseViewModel
 import com.university_project.jobly.databinding.ActivityUpdateProfileBinding
@@ -17,22 +16,25 @@ import com.university_project.jobly.interfaces.SkillClick
 class UpdateProfileActivity : AppCompatActivity(), SkillClick {
     private lateinit var liveData: BaseViewModel
     private lateinit var binding: ActivityUpdateProfileBinding
+    private var selectedSkills = mutableListOf<String>()
+    private var skills = listOf<String>()
+    private lateinit var skillTextAdapter: ArrayAdapter<String>
+    val skillAdapter = SkillAdapter(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityUpdateProfileBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
         liveData = ViewModelProvider(this)[BaseViewModel::class.java]
         val sh = getSharedPreferences("userType", MODE_PRIVATE)
-        val skillAdapter = SkillAdapter(this)
+
         binding.rvUpSkillId.layoutManager = LinearLayoutManager(this).also {
             it.orientation = LinearLayoutManager.HORIZONTAL
         }
-       binding.rvUpSkillId.adapter = skillAdapter
+        binding.rvUpSkillId.adapter = skillAdapter
         val userInfo = sh.getString("m_userType", null)
         if (userInfo == "Client") {
         } else {
             liveData.getEmployeeProfile().observe(this, { user ->
-
                 if (user.verify) {
                     binding.tvUpVerifyInfoId.text = "You are Verified"
                 } else {
@@ -44,14 +46,41 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
                 binding.etUpEmailId.setText(user.userPass)
                 binding.etUpEmailId.isEnabled = false
                 binding.etUpYourHobbyId.setText(user.hobbyEmp)
-                Log.d("TAG", "onCreate: ${user.skill}")
-                skillAdapter.setList(user.skill)
+                selectedSkills=user.skill
+                skillAdapter.setList(selectedSkills)
                 skillAdapter.notifyDataSetChanged()
             })
+            liveData.getSkill().observe(this, { skill ->
+                skills = skill
+                skillTextAdapter =
+                    ArrayAdapter(this, R.layout.simple_dropdown_item_1line, skills)
+                binding.etUpSkillId.setAdapter(skillTextAdapter)
+            })
+            binding.etUpSkillId.setOnItemClickListener { adapterView, view, i, l ->
+
+                val skillName = skillTextAdapter.getItem(i).toString().lowercase()
+                if (selectedSkills.contains(skillName)) {
+                    showToast("Already Added", this)
+                } else selectedSkills.add(skillName)
+                binding.etUpSkillId.text.clear()
+                if (selectedSkills.size == 5) {
+                    binding.etUpSkillId.isEnabled = false
+                    binding.etUpSkillId.hint = "Remove one skill to enable"
+                    showToast("Max 5 allowed", this)
+                }
+                skillAdapter.notifyDataSetChanged()
+            }
         }
     }
 
+    private fun showToast(s: String, context: Context) {
+        Toast.makeText(context, s, Toast.LENGTH_SHORT).show()
+    }
+
     override fun onSkillDeleteClick(skill: String) {
-        Log.d("TAG", "onSkillDeleteClick: $skill")
+        selectedSkills.remove(skill)
+        skillAdapter.notifyDataSetChanged()
+        binding.etUpSkillId.isEnabled = true
+        binding.etUpSkillId.hint = "Add Skill"
     }
 }
