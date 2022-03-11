@@ -8,13 +8,11 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.client.datamodel.AppliedEmployeeDataModel
-import com.university_project.jobly.datamodel.CallForInterViewDataModel
-import com.university_project.jobly.datamodel.CreatePostModel
-import com.university_project.jobly.datamodel.EmployeeProfileModel
-import com.university_project.jobly.datamodel.PostDataModel
+import com.university_project.jobly.datamodel.*
 
 object Repository {
     private val auth = Firebase.auth
@@ -201,7 +199,7 @@ object Repository {
             doc["experience"].toString().toInt(),
             doc["salary"].toString().toInt(),
             doc["location"].toString(),
-            doc["appliedEmployee"] as Map<String, String>,
+            doc["appliedEmployee"] as ArrayList<AppliedDataModel>,
             doc["attachment"].toString(),
             doc["timeStamp"].toString().toLong(),
             doc["companyName"].toString(),
@@ -223,6 +221,10 @@ object Repository {
         dbProfile.document(auth.uid.toString()).set(employeeProfileModel).addOnSuccessListener {
             Log.d("TAG", "updateEmployeeProfile: Updated")
         }
+    }
+
+    fun applyForPost(docId: String,appliedDataModel: AppliedDataModel) {
+        dbPost.document(docId).update("appliedEmployee", FieldValue.arrayUnion(appliedDataModel))
     }
 }
 

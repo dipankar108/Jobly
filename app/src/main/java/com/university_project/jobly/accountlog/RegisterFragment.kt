@@ -14,8 +14,6 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
@@ -34,7 +32,7 @@ import com.university_project.jobly.utils.screensize.RegisterFragmentSize
 
 class RegisterFragment : Fragment(R.layout.fragment_register) {
     private lateinit var auth: FirebaseAuth
-private lateinit var liveData:BaseViewModel
+    private lateinit var liveData: BaseViewModel
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
     override fun onCreateView(
@@ -137,15 +135,16 @@ private lateinit var liveData:BaseViewModel
                             auth.uid.toString(),
                             fName,
                             lName,
-                            userPass,
                             userEmail,
+                            userPass,
                             userType,
                             arrayListOf(),
                             "",
                             "",
                             "",
                             verify = false,
-                            banned = false
+                            banned = false,
+                            ""
                         )
                     db.document(auth.uid.toString()).set(user)
                         .addOnSuccessListener {

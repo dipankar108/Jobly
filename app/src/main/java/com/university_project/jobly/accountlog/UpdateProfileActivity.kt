@@ -24,6 +24,7 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
     private var selectedSkills = mutableListOf<String>()
     private var skills = listOf<String>()
     private var userPass = ""
+    private var cvEmp=""
     private var verified = false
     private lateinit var skillTextAdapter: ArrayAdapter<String>
     val skillAdapter = SkillAdapter(this)
@@ -58,6 +59,7 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
                 skillAdapter.setList(selectedSkills)
                 skillAdapter.notifyDataSetChanged()
                 userPass = user.userPass
+                cvEmp=user.cvEmp
             })
             liveData.getSkill().observe(this, { skill ->
                 skills = skill
@@ -94,7 +96,7 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
             val verify = verified
             val employeeProfileModel = EmployeeProfileModel(
                 userId, fname, lname, userEmail, userPass, userType,
-                skill as ArrayList<String>, currentCompany, hobby, yourself, verify, banned
+                skill as ArrayList<String>, currentCompany, hobby, yourself, verify, banned,cvEmp
             )
             liveData.updateEmpProfile(employeeProfileModel)
             backToHome()

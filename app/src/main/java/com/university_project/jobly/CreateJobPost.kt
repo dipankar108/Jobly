@@ -13,6 +13,7 @@ import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.adapter.SkillAdapter
 import com.university_project.jobly.baseviewmodel.BaseViewModel
 import com.university_project.jobly.databinding.ActivityCreateJobPostBinding
+import com.university_project.jobly.datamodel.AppliedDataModel
 import com.university_project.jobly.datamodel.CallForInterViewDataModel
 import com.university_project.jobly.datamodel.CreatePostModel
 import com.university_project.jobly.interfaces.SkillClick
@@ -73,7 +74,8 @@ class CreateJobPost : AppCompatActivity(), SkillClick {
             val postCompany = ""
             val timeStamp = System.currentTimeMillis()
             val callforinterview: ArrayList<CallForInterViewDataModel> = ArrayList()
-            val isLike: ArrayList<String> = ArrayList()
+            val isLike= ArrayList<String>()
+            val appliedEmployee=ArrayList<AppliedDataModel>()
             liveData.makePost(
                 CreatePostModel(
                     Firebase.auth.uid.toString(),
@@ -83,7 +85,7 @@ class CreateJobPost : AppCompatActivity(), SkillClick {
                     postExperience,
                     postSalary,
                     postLocation,
-                    emptyMap(),
+                    appliedEmployee,
                     attachmentLink,
                     timeStamp,
                     postCompany,

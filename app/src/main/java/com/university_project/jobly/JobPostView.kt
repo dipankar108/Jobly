@@ -12,6 +12,7 @@ import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.client.clientviewmodel.ClientPostViewModel
 import com.university_project.jobly.databinding.ActivityJobPostViewBinding
+import com.university_project.jobly.datamodel.AppliedDataModel
 import com.university_project.jobly.datamodel.PostDataModel
 import com.university_project.jobly.employee.EmployeeActivity
 
@@ -47,7 +48,13 @@ class JobPostView : AppCompatActivity() {
             if (userInfo == "Client") {
                 Log.d(TAG, "onCreate: Go to edit page")
             } else {
-                Log.d(TAG, "onCreate: Go to apply page")
+                liveData.appliedForPost(
+                    docID, AppliedDataModel(
+                        docID,
+                        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
+                        Firebase.auth.uid.toString()
+                    )
+                )
             }
         }
     }
