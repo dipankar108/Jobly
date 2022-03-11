@@ -36,7 +36,7 @@
             android:id="@+id/et_up_aboutYourself_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:gravity="start"
             android:maxLines="10"
             android:minLines="5"
             android:text="About Your Self" />
@@ -50,8 +50,10 @@
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_up_skill_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/skillitemview"
+            />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_up_email_id"
