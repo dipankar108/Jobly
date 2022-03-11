@@ -39,7 +39,6 @@ class JobPostFragment : Fragment(), ClickHandle {
         liveData.getJobPost(listOf("web developer")).observe(viewLifecycleOwner, {
             myAdapter.setDataToList(it)
             myAdapter.notifyDataSetChanged()
-
         })
 
     }
