@@ -39,7 +39,6 @@ class SplashScreen : AppCompatActivity() {
         sh = getSharedPreferences("userType", MODE_PRIVATE)
         val editor = sh.edit()
         if (auth.uid != null) {
-
             if (sh.getString("m_userType", null) == null) {
                 Firebase.firestore.collection("User").document(auth.uid.toString()).get()
                     .addOnSuccessListener {
@@ -51,7 +50,7 @@ class SplashScreen : AppCompatActivity() {
                         } else {
                             auth.signOut()
                             editor.clear()
-                            startActivity(Intent(this@SplashScreen, UpdateProfileActivity::class.java))
+                            startActivity(Intent(this@SplashScreen, AccountLog::class.java))
                         }
 
                     }
@@ -67,7 +66,7 @@ class SplashScreen : AppCompatActivity() {
                 }
             }
         } else {
-            startActivity(Intent(this@SplashScreen, UpdateProfileActivity::class.java))
+            startActivity(Intent(this@SplashScreen, AccountLog::class.java))
             finish()
         }
 
@@ -75,12 +74,12 @@ class SplashScreen : AppCompatActivity() {
 
     private fun changeActivity(userInfo: String) {
         if (userInfo == "Client") {
-            val intent = Intent(context, UpdateProfileActivity::class.java)
+            val intent = Intent(context, ClientActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
             finish()
         } else {
-            val intent = Intent(context, UpdateProfileActivity::class.java)
+            val intent = Intent(context, EmployeeActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
             finish()
