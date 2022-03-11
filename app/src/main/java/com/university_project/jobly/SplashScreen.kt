@@ -9,6 +9,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.accountlog.AccountLog
+import com.university_project.jobly.accountlog.UpdateProfileActivity
 import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.databinding.ActivitySplashScreenBinding
 import com.university_project.jobly.employee.EmployeeActivity
@@ -50,7 +51,7 @@ class SplashScreen : AppCompatActivity() {
                         } else {
                             auth.signOut()
                             editor.clear()
-                            startActivity(Intent(this@SplashScreen, AccountLog::class.java))
+                            startActivity(Intent(this@SplashScreen, UpdateProfileActivity::class.java))
                         }
 
                     }
@@ -66,7 +67,7 @@ class SplashScreen : AppCompatActivity() {
                 }
             }
         } else {
-            startActivity(Intent(this@SplashScreen, AccountLog::class.java))
+            startActivity(Intent(this@SplashScreen, UpdateProfileActivity::class.java))
             finish()
         }
 
@@ -74,12 +75,12 @@ class SplashScreen : AppCompatActivity() {
 
     private fun changeActivity(userInfo: String) {
         if (userInfo == "Client") {
-            val intent = Intent(context, AccountLog::class.java)
+            val intent = Intent(context, UpdateProfileActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
             finish()
         } else {
-            val intent = Intent(context, AccountLog::class.java)
+            val intent = Intent(context, UpdateProfileActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
             finish()

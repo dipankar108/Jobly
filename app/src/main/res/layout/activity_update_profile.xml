@@ -9,21 +9,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/tv_up_verifyInfo_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_up_fname_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="First Name" />
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_up_lname_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Last Name" />
 
         <EditText
+            android:id="@+id/et_up_aboutYourself_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -32,27 +42,31 @@
             android:text="About Your Self" />
 
         <AutoCompleteTextView
+            android:id="@+id/et_up_skill_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Skill" />
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_up_skill_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_up_email_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="Email" />
 
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_up_yourHobby_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:minLines="2"
             android:maxLines="3"
+            android:minLines="2"
             android:text="Your Hobby" />
 
         <com.google.android.material.button.MaterialButton

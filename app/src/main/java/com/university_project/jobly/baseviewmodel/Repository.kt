@@ -12,13 +12,16 @@ import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.client.datamodel.AppliedEmployeeDataModel
 import com.university_project.jobly.datamodel.CallForInterViewDataModel
 import com.university_project.jobly.datamodel.CreatePostModel
+import com.university_project.jobly.datamodel.EmployeeProfileModel
 import com.university_project.jobly.datamodel.PostDataModel
 
 object Repository {
     private val auth = Firebase.auth
     private val dbPost = Firebase.firestore.collection("JobPost")
+    private val dbProfile = Firebase.firestore.collection("User")
     private val myJobPost = mutableSetOf<PostDataModel>()
     private val fabEmpPost = mutableSetOf<PostDataModel>()
+    private val empProfilePost = mutableSetOf<EmployeeProfileModel>()
 
     /** Creating Post **/
     fun createJobPost(createPostModel: CreatePostModel) {
@@ -36,6 +39,14 @@ object Repository {
             mutableLiveData.value = fabEmpPost.toTypedArray().asList()
         }
         return mutableLiveData
+    }
+
+    fun getEmpProfile(): LiveData<EmployeeProfileModel> {
+        val liveData = MutableLiveData<EmployeeProfileModel>()
+        dbProfile.document(Firebase.auth.uid.toString()).get().addOnSuccessListener {
+            liveData.value = it.toObject(EmployeeProfileModel::class.java)
+        }
+        return liveData
     }
 
     /** updating like when user Clicked on the like button **/
