@@ -1,14 +1,15 @@
 package com.university_project.jobly.client
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.client.adapter.SPAppliedEmpAdapter
 import com.university_project.jobly.client.clientviewmodel.ClientPostViewModel
 import com.university_project.jobly.client.interfaces.SPAppliedEmpClick
 import com.university_project.jobly.databinding.ActivityAppliedEmployeeBinding
+import com.university_project.jobly.datamodel.AppliedDataModel
 
 class AppliedEmployeeActivity : AppCompatActivity(),SPAppliedEmpClick {
     private val TAG = "AppliedEmployeeActivityP"
@@ -47,7 +48,7 @@ class AppliedEmployeeActivity : AppCompatActivity(),SPAppliedEmpClick {
          **/
     }
 
-    override fun onAcceptEmp(postID: String) {
-        Log.d(TAG, "onAcceptEmp: $postID")
+    override fun onAcceptEmp(appliedDataModel: AppliedDataModel) {
+        Repository.createChatDoc(appliedDataModel)
     }
 }

@@ -43,7 +43,7 @@ class JobPostView : AppCompatActivity() {
         })
         val sh = getSharedPreferences("userType", MODE_PRIVATE)
         val userInfo = sh.getString("m_userType", null)
-        setBtnText(userInfo!!)
+//        setBtnText(userInfo!!)
         binding.btnSinglePostViewSubmitId.setOnClickListener {
             if (userInfo == "Client") {
                 Log.d(TAG, "onCreate: Go to edit page")

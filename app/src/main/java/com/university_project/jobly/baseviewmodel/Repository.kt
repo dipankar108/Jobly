@@ -10,16 +10,30 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.university_project.jobly.chatserver.ChatDataModel
+import com.university_project.jobly.chatserver.MessageModel
 import com.university_project.jobly.datamodel.*
 
 object Repository {
     private val auth = Firebase.auth
     private val dbPost = Firebase.firestore.collection("JobPost")
+    private val chatServer = Firebase.firestore.collection("ChatServer")
     private val dbProfile = Firebase.firestore.collection("User")
     private val myJobPost = mutableSetOf<PostDataModel>()
     private val fabEmpPost = mutableSetOf<PostDataModel>()
     private val empProfilePost = mutableSetOf<EmployeeProfileModel>()
     private val myApplication = mutableSetOf<PostDataModel>()
+    private val chatList = mutableSetOf<ChatDataModel>()
+
+    /** Getting chat List For user **/
+    fun getChatList(userID: String, userType: String): LiveData<List<ChatDataModel>> {
+        val liveChatList = MutableLiveData<List<ChatDataModel>>()
+        chatServer.whereEqualTo(userType, userID).addSnapshotListener { value, _ ->
+            liveChatList.value = value?.toObjects(ChatDataModel::class.java)
+            Log.d("TAG", "getChatList: $liveChatList")
+        }
+        return liveChatList
+    }
 
     /** Getting applied post for the Employee**/
     fun getEmpAppliedPost(): LiveData<List<PostDataModel>> {
@@ -229,6 +243,22 @@ object Repository {
     fun applyForPost(docId: String, appliedDataModel: AppliedDataModel) {
         dbPost.document(docId).update("appliedEmployee", FieldValue.arrayUnion(appliedDataModel))
         dbPost.document(docId).update("employeeId", FieldValue.arrayUnion(auth.uid.toString()))
+    }
+
+    fun createChatDoc(chatDataModel: AppliedDataModel) {
+        dbProfile.document(Firebase.auth.uid.toString()).get().addOnSuccessListener {
+            val clientName = "${it["fname"]} ${it["lname"]}"
+            val empName=chatDataModel.fullName
+            val CltId= auth.uid.toString()
+            val EmpId=chatDataModel.employeeId
+            Log.d("TAG", "createChatDoc: $EmpId")
+            val postId=chatDataModel.docId
+            val postTitle="This is post"
+            val messages=ArrayList<MessageModel>()
+            val myChatDataModel=ChatDataModel(empName,clientName,CltId,EmpId,postId,postTitle,messages)
+            chatServer.document(postId).set(myChatDataModel)
+        }
+
     }
 }
 
