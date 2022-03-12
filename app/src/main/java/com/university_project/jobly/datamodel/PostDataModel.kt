@@ -9,6 +9,7 @@ data class PostDataModel(
     val Salary: Int = 0,
     val location: String = "",
     val appliedEmployee: ArrayList<AppliedDataModel> = ArrayList(),
+    val employeeId: ArrayList<String> = ArrayList(),
     val attachment: String = "",
     val timeStamp: Long = 0,
     val companyName: String = "",

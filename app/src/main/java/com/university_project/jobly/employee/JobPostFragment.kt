@@ -36,15 +36,15 @@ class JobPostFragment : Fragment(), ClickHandle {
         binding.rvEmpJobPostViewId.layoutManager = LinearLayoutManager(requireContext())
         binding.rvEmpJobPostViewId.adapter = myAdapter
         liveData = ViewModelProvider(this)[EmpViewModel::class.java]
-        liveData.getJobPost(listOf("web developer")).observe(viewLifecycleOwner, {
-            myAdapter.setDataToList(it)
+        liveData.getJobPost(listOf("web developer")).observe(viewLifecycleOwner, { list ->
+            myAdapter.setDataToList(list.sortedBy { it.timeStamp })
             myAdapter.notifyDataSetChanged()
         })
 
     }
 
     override fun onLikeClick(postDataModel: PostDataModel, b: Boolean) {
-       liveData.updateLike(postDataModel.docId,Firebase.auth.uid.toString(),b)
+        liveData.updateLike(postDataModel.docId, Firebase.auth.uid.toString(), b)
     }
 
     override fun onDescClick(docId: String) {

@@ -86,6 +86,7 @@ class CreateJobPost : AppCompatActivity(), SkillClick {
                     postSalary,
                     postLocation,
                     appliedEmployee,
+                    ArrayList(),
                     attachmentLink,
                     timeStamp,
                     postCompany,

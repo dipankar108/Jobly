@@ -2,6 +2,7 @@ package com.university_project.jobly.employee
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.JobPostView
+import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.databinding.FragmentFabPostBinding
 import com.university_project.jobly.datamodel.PostDataModel
 import com.university_project.jobly.employee.adapter.PostAdapter
@@ -36,6 +38,7 @@ class FabPostFragment : Fragment(), ClickHandle {
         binding.rvEmpFabPostId.layoutManager = LinearLayoutManager(requireContext())
         binding.rvEmpFabPostId.adapter = postAdapter
         liveData.getAllFabPost().observe(viewLifecycleOwner, {
+            Log.d("TAG", "onViewCreated: $it")
             postAdapter.setDataToList(it)
             postAdapter.notifyDataSetChanged()
         })

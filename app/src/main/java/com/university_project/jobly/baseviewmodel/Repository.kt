@@ -7,9 +7,11 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firestore.v1.StructuredQuery
 import com.university_project.jobly.datamodel.*
 
 object Repository {
@@ -19,6 +21,18 @@ object Repository {
     private val myJobPost = mutableSetOf<PostDataModel>()
     private val fabEmpPost = mutableSetOf<PostDataModel>()
     private val empProfilePost = mutableSetOf<EmployeeProfileModel>()
+    private val myApplication = mutableSetOf<PostDataModel>()
+
+    /** Getting applied post for the Employee**/
+    fun getEmpAppliedPost(): LiveData<List<PostDataModel>> {
+        val getMYApplication = MutableLiveData<List<PostDataModel>>()
+        dbPost.whereArrayContains("employeeId", auth.uid.toString())
+            .addSnapshotListener { value, _ ->
+                documentChangesFun(value, "myapplication")
+                getMYApplication.value = myApplication.toList()
+            }
+        return getMYApplication
+    }
 
     /** Creating Post **/
     fun createJobPost(createPostModel: CreatePostModel) {
@@ -93,7 +107,9 @@ object Repository {
         val query = dbPost.whereArrayContainsAny("skill", categoryList)
         val mutableLiveData = MutableLiveData<List<PostDataModel>>()
         query.addSnapshotListener { document, _ ->
-            documentChangesFun(document, "getAllPost")
+            document?.let {
+                documentChangesFun(document, "getAllPost")
+            }
             mutableLiveData.value = myJobPost.toTypedArray().asList()
         }
         return mutableLiveData
@@ -142,6 +158,7 @@ object Repository {
             when (s) {
                 "getAllPost" -> myJobPost.add(addData(dc.document.data, dc.document.id))
                 "getEmpFabPost" -> fabEmpPost.add(addData(dc.document.data, dc.document.id))
+                "myapplication" -> myApplication.add(addData(dc.document.data, dc.document.id))
                 else -> {
                 }
             }
@@ -187,6 +204,7 @@ object Repository {
             doc["salary"].toString().toInt(),
             doc["location"].toString(),
             doc["appliedEmployee"] as ArrayList<AppliedDataModel>,
+            isValueNull(doc["employeeId"]) as ArrayList<String>,
             doc["attachment"].toString(),
             doc["timeStamp"].toString().toLong(),
             doc["companyName"].toString(),
