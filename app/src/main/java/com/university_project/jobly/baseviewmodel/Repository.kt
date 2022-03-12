@@ -7,11 +7,9 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.google.firestore.v1.StructuredQuery
 import com.university_project.jobly.datamodel.*
 
 object Repository {
@@ -81,9 +79,9 @@ object Repository {
         val appliedEmployeeList = MutableLiveData<List<AppliedDataModel>>()
         var appliedDataModel = mutableListOf<AppliedDataModel>()
         dbPost.document(docId).addSnapshotListener { doc, _ ->
-            doc?.data?.let {
-                appliedDataModel =
-                    doc.data!!["appliedEmployee"] as MutableList<AppliedDataModel>
+            val obj=doc?.toObject(PostDataModel::class.java)
+            if (obj != null) {
+                appliedDataModel=obj.appliedEmployee
             }
             appliedEmployeeList.value = appliedDataModel
         }

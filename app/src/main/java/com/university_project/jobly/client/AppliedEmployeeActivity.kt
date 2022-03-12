@@ -5,11 +5,12 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.university_project.jobly.client.adapter.AppliedEmployeeAdapter
+import com.university_project.jobly.client.adapter.SPAppliedEmpAdapter
 import com.university_project.jobly.client.clientviewmodel.ClientPostViewModel
+import com.university_project.jobly.client.interfaces.SPAppliedEmpClick
 import com.university_project.jobly.databinding.ActivityAppliedEmployeeBinding
 
-class AppliedEmployeeActivity : AppCompatActivity() {
+class AppliedEmployeeActivity : AppCompatActivity(),SPAppliedEmpClick {
     private val TAG = "AppliedEmployeeActivityP"
     private lateinit var binding: ActivityAppliedEmployeeBinding
     private lateinit var liveData: ClientPostViewModel
@@ -17,14 +18,13 @@ class AppliedEmployeeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAppliedEmployeeBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        val myAdapter = AppliedEmployeeAdapter()
+        val myAdapter = SPAppliedEmpAdapter(this)
         val docId = intent.getStringExtra("docId")
         Log.d(TAG, "onCreate: $docId")
         binding.rvAppliedEmployeeId.layoutManager = LinearLayoutManager(this)
         binding.rvAppliedEmployeeId.adapter = myAdapter
         liveData = ViewModelProvider(this)[ClientPostViewModel::class.java]
         liveData.getAppliedEmployee(docId!!).observe(this, {
-            Log.d(TAG, "onCreate: $it")
             myAdapter.setData(it)
             myAdapter.notifyDataSetChanged()
         })
@@ -46,5 +46,9 @@ class AppliedEmployeeActivity : AppCompatActivity() {
 
         })
          **/
+    }
+
+    override fun onAcceptEmp(postID: String) {
+        Log.d(TAG, "onAcceptEmp: $postID")
     }
 }

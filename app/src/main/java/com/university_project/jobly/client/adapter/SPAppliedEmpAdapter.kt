@@ -1,5 +1,6 @@
 package com.university_project.jobly.client.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -7,11 +8,11 @@ import android.widget.ImageButton
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.university_project.jobly.R
-import com.university_project.jobly.client.datamodel.AppliedEmployeeDataModel
+import com.university_project.jobly.client.interfaces.SPAppliedEmpClick
 import com.university_project.jobly.datamodel.AppliedDataModel
 
-class AppliedEmployeeAdapter() :
-    RecyclerView.Adapter<AppliedEmployeeAdapter.AppliedEmployeeViewHolder>() {
+class SPAppliedEmpAdapter(private val listner: SPAppliedEmpClick) :
+    RecyclerView.Adapter<SPAppliedEmpAdapter.AppliedEmployeeViewHolder>() {
     private var mlist = listOf<AppliedDataModel>()
 
     class AppliedEmployeeViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -28,11 +29,15 @@ class AppliedEmployeeAdapter() :
     }
 
     override fun onBindViewHolder(holder: AppliedEmployeeViewHolder, position: Int) {
-
+      //  Log.d("TAG", "onBindViewHolder: ${mlist[position].docId}")
+//        val res = mlist[position]
+//        holder.btnAccept.setOnClickListener {
+//            listner.onAcceptEmp(res.docId)
+//        }
     }
 
-    fun setData(mlist: List<AppliedDataModel>) {
-        this.mlist = mlist
+    fun setData(list: List<AppliedDataModel>) {
+        this.mlist = list
     }
 
     override fun getItemCount(): Int {
