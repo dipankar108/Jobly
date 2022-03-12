@@ -79,9 +79,9 @@ object Repository {
         val appliedEmployeeList = MutableLiveData<List<AppliedDataModel>>()
         var appliedDataModel = mutableListOf<AppliedDataModel>()
         dbPost.document(docId).addSnapshotListener { doc, _ ->
-            val obj=doc?.toObject(PostDataModel::class.java)
+            val obj = doc?.toObject(PostDataModel::class.java)
             if (obj != null) {
-                appliedDataModel=obj.appliedEmployee
+                appliedDataModel = obj.appliedEmployee
             }
             appliedEmployeeList.value = appliedDataModel
         }
@@ -228,6 +228,7 @@ object Repository {
 
     fun applyForPost(docId: String, appliedDataModel: AppliedDataModel) {
         dbPost.document(docId).update("appliedEmployee", FieldValue.arrayUnion(appliedDataModel))
+        dbPost.document(docId).update("employeeId", FieldValue.arrayUnion(auth.uid.toString()))
     }
 }
 

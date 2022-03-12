@@ -29,15 +29,16 @@ class SPAppliedEmpAdapter(private val listner: SPAppliedEmpClick) :
     }
 
     override fun onBindViewHolder(holder: AppliedEmployeeViewHolder, position: Int) {
-      //  Log.d("TAG", "onBindViewHolder: ${mlist[position].docId}")
-//        val res = mlist[position]
-//        holder.btnAccept.setOnClickListener {
-//            listner.onAcceptEmp(res.docId)
-//        }
+
+        val res = mlist[position]
+        holder.title.text=res.fullName
+        holder.btnAccept.setOnClickListener {
+            listner.onAcceptEmp(res.docId)
+        }
     }
 
-    fun setData(list: List<AppliedDataModel>) {
-        this.mlist = list
+    fun setData(post: List<AppliedDataModel>) {
+        this.mlist = post
     }
 
     override fun getItemCount(): Int {

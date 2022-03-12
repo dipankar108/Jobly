@@ -20,7 +20,6 @@ class AppliedEmployeeActivity : AppCompatActivity(),SPAppliedEmpClick {
         setContentView(binding.root)
         val myAdapter = SPAppliedEmpAdapter(this)
         val docId = intent.getStringExtra("docId")
-        Log.d(TAG, "onCreate: $docId")
         binding.rvAppliedEmployeeId.layoutManager = LinearLayoutManager(this)
         binding.rvAppliedEmployeeId.adapter = myAdapter
         liveData = ViewModelProvider(this)[ClientPostViewModel::class.java]
