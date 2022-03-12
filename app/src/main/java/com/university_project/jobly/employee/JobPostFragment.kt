@@ -37,10 +37,9 @@ class JobPostFragment : Fragment(), ClickHandle {
         binding.rvEmpJobPostViewId.adapter = myAdapter
         liveData = ViewModelProvider(this)[EmpViewModel::class.java]
         liveData.getJobPost(listOf("web developer")).observe(viewLifecycleOwner, { list ->
-            myAdapter.setDataToList(list.sortedBy { it.timeStamp })
+            myAdapter.setDataToList(list.sortedByDescending { it.timeStamp })
             myAdapter.notifyDataSetChanged()
         })
-
     }
 
     override fun onLikeClick(postDataModel: PostDataModel, b: Boolean) {
