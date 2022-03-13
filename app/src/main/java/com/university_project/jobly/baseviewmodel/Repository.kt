@@ -30,7 +30,7 @@ object Repository {
         val liveChatList = MutableLiveData<List<ChatDataModel>>()
         chatServer.whereEqualTo(userType, userID).addSnapshotListener { value, _ ->
             liveChatList.value = value?.toObjects(ChatDataModel::class.java)
-            Log.d("TAG", "getChatList: $liveChatList")
+
         }
         return liveChatList
     }
@@ -248,14 +248,25 @@ object Repository {
     fun createChatDoc(chatDataModel: AppliedDataModel) {
         dbProfile.document(Firebase.auth.uid.toString()).get().addOnSuccessListener {
             val clientName = "${it["fname"]} ${it["lname"]}"
-            val empName=chatDataModel.fullName
-            val CltId= auth.uid.toString()
-            val EmpId=chatDataModel.employeeId
+            val empName = chatDataModel.fullName
+            val CltId = auth.uid.toString()
+            val EmpId = chatDataModel.employeeId
             Log.d("TAG", "createChatDoc: $EmpId")
-            val postId=chatDataModel.docId
-            val postTitle="This is post"
-            val messages=ArrayList<MessageModel>()
-            val myChatDataModel=ChatDataModel(empName,clientName,CltId,EmpId,postId,postTitle,messages)
+            val postId = chatDataModel.docId
+            val postTitle = "This is post"
+            val messages = ArrayList<MessageModel>()
+            val myChatDataModel = ChatDataModel(
+                empName,
+                clientName,
+                CltId,
+                EmpId,
+                postId,
+                postTitle,
+                clientSeen = false,
+                empSeen = false,
+                timeStamp = System.currentTimeMillis(),
+                messages = messages
+            )
             chatServer.document(postId).set(myChatDataModel)
         }
 

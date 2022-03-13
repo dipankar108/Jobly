@@ -12,12 +12,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Jobly">
-        <activity android:name=".ChatActivity"></activity>
+        <activity android:name=".chatserver.ChatActivity"></activity>
         <activity android:name=".accountlog.UpdateProfileActivity" />
         <activity android:name=".client.AppliedEmployeeActivity" />
         <activity android:name=".client.EditPostActivity" />
         <activity android:name=".employee.EmployeeActivity" />
-        <activity android:name=".Emploee" />
+
         <activity android:name=".JobPostView" />
         <activity android:name=".client.ClientActivity" />
         <activity android:name=".CreateJobPost" />
