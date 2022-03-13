@@ -17,6 +17,7 @@
     <string name="skill">Add Skill</string>
     <string name="position">Enter Job Position</string>
     <string name="UpdateProfile">Update</string>
+    <string name="desc">I need a android developer for my personal project</string>
     <string-array name="userTypeArray">
         <item>Select</item>
         <item>Client</item>
