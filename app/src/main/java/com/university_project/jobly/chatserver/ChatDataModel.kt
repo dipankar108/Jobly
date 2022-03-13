@@ -7,5 +7,8 @@ data class ChatDataModel(
     val EmpId: String = "",
     val postId: String = "",
     val postTitle: String = "",
+    val clientSeen:Boolean=false,
+    val empSeen:Boolean=false,
+    val timeStamp:Long,
     val messages: ArrayList<MessageModel> = ArrayList()
 )
