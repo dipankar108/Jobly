@@ -11,5 +11,7 @@ data class ChatDataModel(
     val empSeen:Boolean=false,
     val timeStamp:Long=0,
     val docId:String="",
+    val clientProfileImg: String = "",
+    val empProfileImg:String ="",
     val messages: ArrayList<MessageModel> = ArrayList()
 )

@@ -18,7 +18,7 @@ import com.university_project.jobly.R
 import com.university_project.jobly.accountlog.AccountLog
 import com.university_project.jobly.baseviewmodel.profile.UserViewModel
 import com.university_project.jobly.client.fragment.ClientAppliedFragment
-import com.university_project.jobly.client.fragment.ClientCallForInterViewFragment
+import com.university_project.jobly.chatserver.InterViewFragment
 import com.university_project.jobly.client.fragment.ClientJobPostFragment
 import com.university_project.jobly.databinding.ActivityClientBinding
 import com.university_project.jobly.utils.UtilClass
@@ -54,7 +54,7 @@ class ClientActivity : AppCompatActivity() {
                 R.id.client_myPost_menu_id -> changeFragment(ClientJobPostFragment())
                 R.id.client_applied_menu_id -> changeFragment(ClientAppliedFragment())
                 R.id.client_callForInterview_menu_id -> changeFragment(
-                    ClientCallForInterViewFragment()
+                    InterViewFragment()
                 )
             }
             return@setOnItemSelectedListener true

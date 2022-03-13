@@ -8,4 +8,6 @@ data class ChatListViewDataModel(
     val empSeen: Boolean = false,
     val timeStamp: Long = 0,
     val docId: String = "",
+    val clientProfileImg: String = "",
+    val empProfileImg: String = "",
 )

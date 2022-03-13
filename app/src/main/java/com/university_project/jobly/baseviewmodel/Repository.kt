@@ -42,6 +42,8 @@ object Repository {
                 val empSeen = res["empSeen"] as Boolean
                 val timeStamp = res["timeStamp"] as Long
                 val docId = doc.document.id
+                val clientProfileImg = res["cilentProfileImg"].toString()
+                val empProfileImg = res["empProfileImg"].toString()
                 chatList.add(
                     ChatListViewDataModel(
                         empName,
@@ -50,7 +52,9 @@ object Repository {
                         clientSeen,
                         empSeen,
                         timeStamp,
-                        docId
+                        docId,
+                        clientProfileImg,
+                        empProfileImg
                     )
                 )
             }

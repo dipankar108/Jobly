@@ -7,13 +7,14 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.R
+import com.university_project.jobly.adapter.MessageViewAdapter
 import com.university_project.jobly.databinding.ActivityChatBinding
 import com.university_project.jobly.utils.GetTheme
 
 class ChatActivity : AppCompatActivity() {
     private lateinit var liveData: ChatViewModel
     private lateinit var binding: ActivityChatBinding
-    private val myAdapter = ChatAdapter()
+    private val myAdapter = MessageViewAdapter()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)

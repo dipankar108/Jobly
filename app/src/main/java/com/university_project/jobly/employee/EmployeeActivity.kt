@@ -11,6 +11,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.R
 import com.university_project.jobly.accountlog.UpdateProfileActivity
+import com.university_project.jobly.chatserver.InterViewFragment
 import com.university_project.jobly.databinding.ActivityEmployeeBinding
 import com.university_project.jobly.utils.UtilClass
 
@@ -30,7 +31,7 @@ class EmployeeActivity : AppCompatActivity() {
                 R.id.e_allPost_menu_id -> changedFragment(JobPostFragment())
                 R.id.e_fabPost_menu_id -> changedFragment(FabPostFragment())
                 R.id.e_appliedJob_menu_id -> changedFragment(AppliedPostFragment())
-                R.id.e_callForInterview_menu_id -> changedFragment(EInterViewFragment())
+                R.id.e_callForInterview_menu_id -> changedFragment(InterViewFragment())
             }
             return@setOnItemSelectedListener true
         }

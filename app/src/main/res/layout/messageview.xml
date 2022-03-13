@@ -13,7 +13,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/img_chatListProfile_id"
+            android:id="@+id/img_messageProfileImg_id"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_margin="5dp"
@@ -26,19 +26,27 @@
             android:padding="5dp">
 
             <com.google.android.material.textview.MaterialTextView
-                android:id="@+id/tv_chatListName_id"
+                android:id="@+id/tv_messageName_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:text="Dipankar Debnath" />
+                android:text="Dipankr Debnath" />
 
             <TextView
-                android:id="@+id/tv_chatListDesc_id"
+                android:id="@+id/tv_messageDesc_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
                 android:text="@string/desc" />
 
+            <ImageView
+                android:id="@+id/img_messageImg_id"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:maxHeight="200dp"
+                android:layout_gravity="center"
+                android:layout_margin="15dp"
+                android:src="@drawable/testimage" />
         </LinearLayout>
 
     </LinearLayout>

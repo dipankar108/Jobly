@@ -1,4 +1,4 @@
-package com.university_project.jobly.chatserver
+package com.university_project.jobly.adapter
 
 import android.view.LayoutInflater
 import android.view.View
@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.R
+import com.university_project.jobly.chatserver.ChatDataModel
+import com.university_project.jobly.chatserver.MessageModel
 
-class ChatAdapter() : RecyclerView.Adapter<ChatAdapter.ChatadapterViewModel>() {
+class MessageViewAdapter() : RecyclerView.Adapter<MessageViewAdapter.ChatadapterViewModel>() {
     private var messageProperty = listOf<ChatDataModel>()
     private var messageList = listOf<MessageModel>()
 
