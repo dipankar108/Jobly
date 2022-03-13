@@ -7,6 +7,7 @@
     tools:context=".chatserver.ChatActivity">
 
     <androidx.recyclerview.widget.RecyclerView
+       android:id="@+id/rv_viewMessageList_id"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         tools:listitem="@layout/chatitemview"
@@ -31,6 +32,7 @@
             android:hint="Enter message here" />
 
         <ImageView
+            android:id="@+id/img_messageSend_id"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"

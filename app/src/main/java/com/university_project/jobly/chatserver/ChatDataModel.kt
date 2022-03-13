@@ -1,14 +1,14 @@
 package com.university_project.jobly.chatserver
 
 data class ChatDataModel(
-    val EmpName: String = "",
-    val CltName: String = "",
-    val CltId: String = "",
-    val EmpId: String = "",
+    val empName: String = "",
+    val cltName: String = "",
+    val cltId: String = "",
+    val empId: String = "",
     val postId: String = "",
     val postTitle: String = "",
     val clientSeen:Boolean=false,
     val empSeen:Boolean=false,
-    val timeStamp:Long,
+    val timeStamp:Long=0,
     val messages: ArrayList<MessageModel> = ArrayList()
 )

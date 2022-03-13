@@ -26,21 +26,20 @@ object Repository {
     private val chatList = mutableSetOf<ChatDataModel>()
 
     /** Getting chat List For user **/
-    fun getChatList(userID: String, userType: String): LiveData<List<ChatDataModel>> {
+    fun getChatList(userType: String, userId: String): LiveData<List<ChatDataModel>> {
         val liveChatList = MutableLiveData<List<ChatDataModel>>()
-        chatServer.whereEqualTo(userType, userID).addSnapshotListener { value, _ ->
+        chatServer.whereEqualTo(userType, userId).addSnapshotListener { value, _ ->
             liveChatList.value = value?.toObjects(ChatDataModel::class.java)
-
-        }
+            }
         return liveChatList
     }
 
     /** Getting applied post for the Employee**/
     fun getEmpAppliedPost(): LiveData<List<PostDataModel>> {
         val getMYApplication = MutableLiveData<List<PostDataModel>>()
+
         dbPost.whereArrayContains("employeeId", auth.uid.toString())
             .addSnapshotListener { value, _ ->
-                documentChangesFun(value, "myapplication")
                 getMYApplication.value = myApplication.toList()
             }
         return getMYApplication
@@ -56,7 +55,6 @@ object Repository {
     fun getFabPost(): MutableLiveData<List<PostDataModel>> {
         val query = dbPost.whereArrayContains("like", Firebase.auth.uid.toString())
         val mutableLiveData = MutableLiveData<List<PostDataModel>>()
-
         query.addSnapshotListener { document, _ ->
             documentChangesFun(document, "getEmpFabPost")
             mutableLiveData.value = fabEmpPost.toTypedArray().asList()
