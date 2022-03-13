@@ -24,7 +24,7 @@ class ChatActivity : AppCompatActivity() {
         binding.rvViewMessageListId.adapter = myAdapter
         liveData = ViewModelProvider(this)[ChatViewModel::class.java]
         liveData.getChatList("cltId", Firebase.auth.uid.toString()).observe(this, {
-            myAdapter.setMessage(it)
+            //myAdapter.setMessage(it)
             myAdapter.notifyDataSetChanged()
         })
         binding.imgMessageSendId.setOnClickListener {

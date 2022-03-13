@@ -11,6 +11,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.chatserver.ChatDataModel
+import com.university_project.jobly.chatserver.ChatListViewDataModel
 import com.university_project.jobly.chatserver.MessageModel
 import com.university_project.jobly.datamodel.*
 
@@ -23,14 +24,38 @@ object Repository {
     private val fabEmpPost = mutableSetOf<PostDataModel>()
     private val empProfilePost = mutableSetOf<EmployeeProfileModel>()
     private val myApplication = mutableSetOf<PostDataModel>()
-    private val chatList = mutableSetOf<ChatDataModel>()
+    private val chatList = mutableSetOf<ChatListViewDataModel>()
 
     /** Getting chat List For user **/
-    fun getChatList(userType: String, userId: String): LiveData<List<ChatDataModel>> {
-        val liveChatList = MutableLiveData<List<ChatDataModel>>()
+    fun getChatList(userType: String, userId: String): LiveData<List<ChatListViewDataModel>> {
+        val liveChatList = MutableLiveData<List<ChatListViewDataModel>>()
         chatServer.whereEqualTo(userType, userId).addSnapshotListener { value, _ ->
-            liveChatList.value = value?.toObjects(ChatDataModel::class.java)
+            for (doc in value!!.documentChanges) {
+                val res = doc.document.data
+                val empName = res["empName"].toString()
+                val cltName = res["cltName"].toString()
+                val cltId = res["cltId"].toString()
+                val empId = res["empId"].toString()
+                val postId = res["postId"].toString()
+                val postTitle = res["postTitle"].toString()
+                val clientSeen = res["clientSeen"] as Boolean
+                val empSeen = res["empSeen"] as Boolean
+                val timeStamp = res["timeStamp"] as Long
+                val docId = doc.document.id
+                chatList.add(
+                    ChatListViewDataModel(
+                        empName,
+                        cltName,
+                        postTitle,
+                        clientSeen,
+                        empSeen,
+                        timeStamp,
+                        docId
+                    )
+                )
             }
+            liveChatList.value = chatList.toTypedArray().toList()
+        }
         return liveChatList
     }
 

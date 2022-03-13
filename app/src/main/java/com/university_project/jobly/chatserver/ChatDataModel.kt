@@ -10,5 +10,6 @@ data class ChatDataModel(
     val clientSeen:Boolean=false,
     val empSeen:Boolean=false,
     val timeStamp:Long=0,
+    val docId:String="",
     val messages: ArrayList<MessageModel> = ArrayList()
 )

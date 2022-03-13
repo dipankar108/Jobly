@@ -9,7 +9,7 @@ class ChatViewModel():ViewModel() {
     fun createChatDoc(chatDataModel: AppliedDataModel){
         Repository.createChatDoc(chatDataModel)
     }
-fun getChatList(userType:String,userId:String):LiveData<List<ChatDataModel>>{
+fun getChatList(userType:String,userId:String):LiveData<List<ChatListViewDataModel>>{
     return Repository.getChatList(userType,userId)
 }
 }
