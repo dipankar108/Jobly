@@ -1,16 +1,19 @@
 package com.university_project.jobly.adapter
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.university_project.jobly.R
 import com.university_project.jobly.chatserver.ChatDataModel
 import com.university_project.jobly.chatserver.MessageModel
 
-class MessageViewAdapter() : RecyclerView.Adapter<MessageViewAdapter.ChatadapterViewModel>() {
+class MessageViewAdapter(private val context: Context) :
+    RecyclerView.Adapter<MessageViewAdapter.ChatadapterViewModel>() {
     private var messageProperty = ChatDataModel()
     private var messageList = listOf<MessageModel>()
     private var userType = ""
@@ -32,6 +35,7 @@ class MessageViewAdapter() : RecyclerView.Adapter<MessageViewAdapter.Chatadapter
         if (res.link == "No Image") {
             holder.normalImg.visibility = View.GONE
         } else {
+            Glide.with(context).load(res.link).into(holder.normalImg)
         }
         when {
             userType == res.userType -> {

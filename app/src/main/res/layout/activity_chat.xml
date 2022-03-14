@@ -7,6 +7,27 @@
     android:forceDarkAllowed="true"
     tools:context=".chatserver.ChatActivity">
 
+    <TextView
+        android:id="@+id/tv_messageProgress_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="100%"
+        app:layout_constraintBottom_toBottomOf="@+id/pb_messageImagePer_id"
+        app:layout_constraintEnd_toEndOf="@+id/pb_messageImagePer_id"
+        app:layout_constraintStart_toStartOf="@+id/pb_messageImagePer_id"
+        app:layout_constraintTop_toTopOf="@+id/pb_messageImagePer_id" />
+    <ProgressBar
+        android:id="@+id/pb_messageImagePer_id"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:indeterminateOnly="false"
+        android:progress="0"
+       android:progressDrawable="@drawable/circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/rv_viewMessageList_id" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_viewMessageList_id"
         android:layout_width="match_parent"
@@ -31,15 +52,13 @@
             android:id="@+id/img_sendImg_id"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:scaleType="fitXY"
-            />
+            android:scaleType="fitXY" />
 
         <ImageButton
             android:id="@+id/imdBtn_deleteImg_id"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_delete"
-            />
+            android:src="@drawable/ic_delete" />
     </LinearLayout>
 
     <LinearLayout
