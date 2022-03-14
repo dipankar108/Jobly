@@ -79,6 +79,7 @@ object Repository {
 
         dbPost.whereArrayContains("employeeId", auth.uid.toString())
             .addSnapshotListener { value, _ ->
+                documentChangesFun(value,"myapplication")
                 getMYApplication.value = myApplication.toList()
             }
         return getMYApplication

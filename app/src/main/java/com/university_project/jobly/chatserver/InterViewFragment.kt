@@ -1,5 +1,6 @@
 package com.university_project.jobly.chatserver
 
+import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,13 +13,14 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.adapter.ChatListViewAdapter
 import com.university_project.jobly.databinding.FragmentInterViewBinding
+import com.university_project.jobly.utils.SharedInfo
 
 class InterViewFragment : Fragment(), ChatClickService {
     private val binding get() = _binding
     private lateinit var _binding: FragmentInterViewBinding
     private lateinit var liveData: ChatViewModel
     private val myAdapter = ChatListViewAdapter(this)
-
+    private var userType = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -33,7 +35,11 @@ class InterViewFragment : Fragment(), ChatClickService {
         liveData = ViewModelProvider(requireActivity())[ChatViewModel::class.java]
         binding.rvChatListViewId.layoutManager = LinearLayoutManager(requireContext())
         binding.rvChatListViewId.adapter = myAdapter
-        liveData.getChatList("cltId", Firebase.auth.uid.toString()).observe(viewLifecycleOwner, {
+        val sh = activity?.getSharedPreferences(SharedInfo.USER.user, MODE_PRIVATE)
+        userType = if (sh?.getString(SharedInfo.USER_TYPE.user, null) == "Client") {
+            "cltId"
+        } else "empId"
+        liveData.getChatList(userType, Firebase.auth.uid.toString()).observe(viewLifecycleOwner, {
             myAdapter.setChatList(it)
             myAdapter.notifyDataSetChanged()
         })
@@ -41,7 +47,7 @@ class InterViewFragment : Fragment(), ChatClickService {
 
     override fun onClickChat(docId: String) {
         val intent = Intent(requireContext(), ChatActivity::class.java)
-        intent.putExtra("docId",docId)
+        intent.putExtra("docId", docId)
         intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
     }
