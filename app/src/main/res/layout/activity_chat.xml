@@ -12,17 +12,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="100%"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/pb_messageImagePer_id"
         app:layout_constraintEnd_toEndOf="@+id/pb_messageImagePer_id"
         app:layout_constraintStart_toStartOf="@+id/pb_messageImagePer_id"
         app:layout_constraintTop_toTopOf="@+id/pb_messageImagePer_id" />
+
     <ProgressBar
         android:id="@+id/pb_messageImagePer_id"
         android:layout_width="80dp"
         android:layout_height="80dp"
         android:indeterminateOnly="false"
         android:progress="0"
-       android:progressDrawable="@drawable/circle"
+        android:progressDrawable="@drawable/circle"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

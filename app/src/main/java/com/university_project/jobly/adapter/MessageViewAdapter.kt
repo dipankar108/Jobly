@@ -35,7 +35,11 @@ class MessageViewAdapter(private val context: Context) :
         if (res.link == "No Image") {
             holder.normalImg.visibility = View.GONE
         } else {
-            Glide.with(context).load(res.link).into(holder.normalImg)
+            Glide.with(context)
+                .load(res.link)
+                .placeholder(R.drawable.image_loding_anim)
+                .error(R.drawable.try_later)
+                .into(holder.normalImg)
         }
         when {
             userType == res.userType -> {

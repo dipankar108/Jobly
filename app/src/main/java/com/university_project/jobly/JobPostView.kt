@@ -15,6 +15,7 @@ import com.university_project.jobly.databinding.ActivityJobPostViewBinding
 import com.university_project.jobly.datamodel.AppliedDataModel
 import com.university_project.jobly.datamodel.PostDataModel
 import com.university_project.jobly.employee.EmployeeActivity
+import com.university_project.jobly.utils.SharedInfo
 
 class JobPostView : AppCompatActivity() {
     private lateinit var binding: ActivityJobPostViewBinding
@@ -41,10 +42,11 @@ class JobPostView : AppCompatActivity() {
             binding.tvSinglePostViewJobPositionId.text = singlePostView.skill[0]
             binding.tvSinglePostViewLocationId.text = singlePostView.location
         })
-        val sh = getSharedPreferences("userType", MODE_PRIVATE)
-        val userInfo = sh.getString("m_userType", null)
+        val sh = getSharedPreferences(SharedInfo.USER.user, MODE_PRIVATE)
+        val userInfo = sh.getString(SharedInfo.USER_TYPE.user, null)
 //        setBtnText(userInfo!!)
         binding.btnSinglePostViewSubmitId.setOnClickListener {
+            Log.d(TAG, "onCreate: $userInfo")
             if (userInfo == "Client") {
                 Log.d(TAG, "onCreate: Go to edit page")
             } else {
@@ -69,10 +71,10 @@ class JobPostView : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
-        if (getSharedPreferences("userType", MODE_PRIVATE).getString(
-                "m_userType",
-                null
-            ) == "Client"
+        if (getSharedPreferences(
+                SharedInfo.USER.user,
+                MODE_PRIVATE
+            ).getString(SharedInfo.USER_TYPE.user, null) == "Client"
         ) {
             changeActivity(ClientActivity())
         } else changeActivity(EmployeeActivity())

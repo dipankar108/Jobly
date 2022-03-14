@@ -7,14 +7,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.university_project.jobly.employee.EmployeeActivity
 import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.databinding.FragmentLogInBinding
+import com.university_project.jobly.employee.EmployeeActivity
+import com.university_project.jobly.utils.SharedInfo
 
 class LogInFragment : Fragment() {
     private lateinit var _binding: FragmentLogInBinding
@@ -47,6 +49,12 @@ class LogInFragment : Fragment() {
                     Firebase.firestore.collection("User").document(Firebase.auth.uid.toString())
                         .get().addOnSuccessListener {
                             val userType = it.data!!["userType"]
+                            val sh = activity?.getSharedPreferences(
+                                SharedInfo.USER.user,
+                                AppCompatActivity.MODE_PRIVATE
+                            )
+                            val editor = sh?.edit()
+                            editor?.putString(SharedInfo.USER_TYPE.user, userType.toString())?.apply()
                             changeActivity(userType)
                         }.addOnFailureListener {
                             Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
@@ -60,14 +68,15 @@ class LogInFragment : Fragment() {
     }
 
     private fun changeActivity(userType: Any?) {
+
         if (userType == "Client") {
-            val intent=Intent(requireContext(),ClientActivity::class.java)
-            intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP
+            val intent = Intent(requireContext(), ClientActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             startActivity(intent)
             activity?.finish()
         } else {
-            val intent=Intent(requireContext(), EmployeeActivity::class.java)
-            intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TOP
+            val intent = Intent(requireContext(), EmployeeActivity::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             startActivity(intent)
             activity?.finish()
         }
