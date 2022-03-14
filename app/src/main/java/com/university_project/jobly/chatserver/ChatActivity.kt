@@ -10,6 +10,7 @@ import com.university_project.jobly.R
 import com.university_project.jobly.adapter.MessageViewAdapter
 import com.university_project.jobly.databinding.ActivityChatBinding
 import com.university_project.jobly.utils.GetTheme
+import com.university_project.jobly.utils.SharedInfo
 
 class ChatActivity : AppCompatActivity() {
     private lateinit var liveData: ChatViewModel
@@ -24,14 +25,17 @@ class ChatActivity : AppCompatActivity() {
         val docId = intent.getStringExtra("docId")
         binding.rvViewMessageListId.layoutManager = LinearLayoutManager(this)
         binding.rvViewMessageListId.adapter = myAdapter
-
         liveData = ViewModelProvider(this)[ChatViewModel::class.java]
+        val userType = getSharedPreferences(
+            SharedInfo.USER.user,
+            MODE_PRIVATE
+        ).getString(SharedInfo.USER_TYPE.user, null)!!
         liveData.getMessage(docId!!).observe(this, {
-            myAdapter.setMessage(it)
+            myAdapter.setMessage(it, userType)
             myAdapter.notifyDataSetChanged()
-           if (it.messages.size>0){
-               binding.rvViewMessageListId.smoothScrollToPosition(it.messages.size-1)
-           }
+            if (it.messages.size > 0) {
+                binding.rvViewMessageListId.smoothScrollToPosition(it.messages.size - 1)
+            }
         })
         binding.imgMessageSendId.setOnClickListener {
             liveData.sendMessage(
@@ -40,7 +44,8 @@ class ChatActivity : AppCompatActivity() {
                     "this is link",
                     System.currentTimeMillis(),
                     Firebase.auth.uid.toString(),
-                    "HI man,How are you"
+                    "HI man,How are you",
+                    userType
                 )
             )
         }

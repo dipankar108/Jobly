@@ -1,13 +1,12 @@
 package com.university_project.jobly.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.auth.ktx.auth
-import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.R
 import com.university_project.jobly.chatserver.ChatDataModel
 import com.university_project.jobly.chatserver.MessageModel
@@ -15,6 +14,7 @@ import com.university_project.jobly.chatserver.MessageModel
 class MessageViewAdapter() : RecyclerView.Adapter<MessageViewAdapter.ChatadapterViewModel>() {
     private var messageProperty = ChatDataModel()
     private var messageList = listOf<MessageModel>()
+    private var userType = ""
 
     class ChatadapterViewModel(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val profileImg: ImageView = itemView.findViewById(R.id.img_messageProfileImg_id)
@@ -30,9 +30,23 @@ class MessageViewAdapter() : RecyclerView.Adapter<MessageViewAdapter.Chatadapter
 
     override fun onBindViewHolder(holder: ChatadapterViewModel, position: Int) {
         val res = messageList[position]
-        if (res.userId == Firebase.auth.uid.toString()) {
-            holder.profileName.text = messageProperty.empName
-        } else holder.profileName.text = "Me"
+        Log.d("TAG", "onBindViewHolder: empName ${messageProperty.empName}")
+        Log.d("TAG", "onBindViewHolder: ClientName ${messageProperty.cltName}")
+        if (userType == res.userType) {
+            holder.profileName.text = "Me"
+        }
+
+        when {
+            userType == res.userType -> {
+                holder.profileName.text = "Me"
+            }
+            res.userType == "Client" -> {
+                holder.profileName.text = messageProperty.cltName
+            }
+            else -> {
+                holder.profileName.text = messageProperty.empName
+            }
+        }
         holder.message.text = res.message
     }
 
@@ -40,8 +54,9 @@ class MessageViewAdapter() : RecyclerView.Adapter<MessageViewAdapter.Chatadapter
         return messageList.size
     }
 
-    fun setMessage(myMessage: ChatDataModel) {
+    fun setMessage(myMessage: ChatDataModel, userType: String?) {
         messageProperty = myMessage
         messageList = myMessage.messages
+        this.userType = userType!!
     }
 }

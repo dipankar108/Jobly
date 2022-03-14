@@ -11,8 +11,9 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+
         android:theme="@style/Theme.Jobly">
-        <activity android:name=".chatserver.ChatActivity"></activity>
+        <activity android:name=".chatserver.ChatActivity" ></activity>
         <activity android:name=".accountlog.UpdateProfileActivity" />
         <activity android:name=".client.AppliedEmployeeActivity" />
         <activity android:name=".client.EditPostActivity" />

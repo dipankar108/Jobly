@@ -5,4 +5,5 @@ data class MessageModel(
     val timeStamp: Long = 0,
     val userId: String = "",
     val message: String = "",
+    val userType: String = ""
 )
