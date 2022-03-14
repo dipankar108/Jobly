@@ -18,9 +18,11 @@
         tools:listitem="@layout/chatitemview" />
 
     <LinearLayout
+        android:id="@+id/ll_uploadImage_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@+id/rv_viewMessageList_id"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -28,13 +30,16 @@
         <ImageView
             android:id="@+id/img_sendImg_id"
             android:layout_width="100dp"
-            android:layout_height="100dp" />
+            android:layout_height="100dp"
+            android:scaleType="fitXY"
+            />
 
         <ImageButton
-            android:id="@+id/imdBtn_sendImg_id"
+            android:id="@+id/imdBtn_deleteImg_id"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:src="@drawable/ic_delete" />
+            android:src="@drawable/ic_delete"
+            />
     </LinearLayout>
 
     <LinearLayout
@@ -61,6 +66,7 @@
             android:src="@drawable/ic_send" />
 
         <ImageView
+            android:id="@+id/img_selectImage_id"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
