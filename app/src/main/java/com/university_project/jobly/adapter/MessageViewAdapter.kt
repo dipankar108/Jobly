@@ -13,7 +13,7 @@ import com.university_project.jobly.chatserver.ChatDataModel
 import com.university_project.jobly.chatserver.MessageModel
 
 class MessageViewAdapter() : RecyclerView.Adapter<MessageViewAdapter.ChatadapterViewModel>() {
-    private var messageProperty = listOf<ChatDataModel>()
+    private var messageProperty = ChatDataModel()
     private var messageList = listOf<MessageModel>()
 
     class ChatadapterViewModel(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -24,14 +24,14 @@ class MessageViewAdapter() : RecyclerView.Adapter<MessageViewAdapter.Chatadapter
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatadapterViewModel {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.chatitemview, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.messageview, parent, false)
         return ChatadapterViewModel(view)
     }
 
     override fun onBindViewHolder(holder: ChatadapterViewModel, position: Int) {
         val res = messageList[position]
         if (res.userId == Firebase.auth.uid.toString()) {
-            holder.profileName.text = messageProperty[0].empName
+            holder.profileName.text = messageProperty.empName
         } else holder.profileName.text = "Me"
         holder.message.text = res.message
     }
@@ -40,8 +40,8 @@ class MessageViewAdapter() : RecyclerView.Adapter<MessageViewAdapter.Chatadapter
         return messageList.size
     }
 
-    fun setMessage(myMessage: List<ChatDataModel>) {
+    fun setMessage(myMessage: ChatDataModel) {
         messageProperty = myMessage
-        messageList = myMessage[0].messages
+        messageList = myMessage.messages
     }
 }

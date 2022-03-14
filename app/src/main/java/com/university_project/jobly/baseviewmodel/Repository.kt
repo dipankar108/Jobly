@@ -25,6 +25,16 @@ object Repository {
     private val empProfilePost = mutableSetOf<EmployeeProfileModel>()
     private val myApplication = mutableSetOf<PostDataModel>()
     private val chatList = mutableSetOf<ChatListViewDataModel>()
+    fun getMessage(docId: String): LiveData<ChatDataModel> {
+        val liveChat = MutableLiveData<ChatDataModel>()
+        chatServer.document(docId).addSnapshotListener { chatValue, _ ->
+            val chatDataModel = chatValue?.toObject(ChatDataModel::class.java)
+            chatDataModel?.let {
+                liveChat.value = it
+            }
+        }
+        return liveChat
+    }
 
     /** Getting chat List For user **/
     fun getChatList(userType: String, userId: String): LiveData<List<ChatListViewDataModel>> {
@@ -282,21 +292,17 @@ object Repository {
             val postId = chatDataModel.docId
             val postTitle = "This is post"
             val messages = ArrayList<MessageModel>()
-            val myChatDataModel = ChatDataModel(
-                empName,
-                clientName,
-                CltId,
-                EmpId,
-                postId,
-                postTitle,
-                clientSeen = false,
-                empSeen = false,
-                timeStamp = System.currentTimeMillis(),
-                messages = messages
-            )
+            val myChatDataModel = ChatDataModel()
             chatServer.document(postId).set(myChatDataModel)
         }
 
+    }
+
+    fun sendMessage(docId: String, messageModel: MessageModel) {
+        chatServer.document(docId).update("messages", FieldValue.arrayUnion(messageModel))
+            .addOnSuccessListener {
+                Log.d("TAG", "sendMessage: Message Send")
+            }
     }
 }
 

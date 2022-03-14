@@ -13,6 +13,7 @@ import com.university_project.jobly.chatserver.ChatActivity
 import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.databinding.ActivitySplashScreenBinding
 import com.university_project.jobly.utils.GetTheme
+import com.university_project.jobly.utils.SharedInfo
 import com.university_project.jobly.utils.screensize.GetScreen
 import com.university_project.jobly.utils.screensize.SplashScreenSize
 import kotlinx.coroutines.*
@@ -35,15 +36,15 @@ class SplashScreen : AppCompatActivity() {
         binding.progressBar.layoutParams.width =
             SplashScreenSize.getProgressbarSize(getScreen.getGeneralDp()).toInt()
         binding.progressBar.requestLayout()
-        sh = getSharedPreferences("userType", MODE_PRIVATE)
+        sh = getSharedPreferences(SharedInfo.USER.user, MODE_PRIVATE)
         val editor = sh.edit()
         if (auth.uid != null) {
-            if (sh.getString("m_userType", null) == null) {
+            if (sh.getString(SharedInfo.USER_TYPE.user, null) == null) {
                 Firebase.firestore.collection("User").document(auth.uid.toString()).get()
                     .addOnSuccessListener {
                         if (it.data != null) {
                             val userinfo = it.data!!["userType"].toString()
-                            editor.putString("m_userType", userinfo)
+                            editor.putString(SharedInfo.USER_TYPE.user, userinfo)
                             editor.apply()
                             changeActivity(userinfo)
                         } else {
@@ -57,9 +58,8 @@ class SplashScreen : AppCompatActivity() {
 
             } else {
                 GlobalScope.launch {
-                    Log.d(TAG, "onCreate: Coroutinescope")
                     delay(500)
-                    sh.getString("m_userType", null)?.let {
+                    sh.getString(SharedInfo.USER_TYPE.user, null)?.let {
                         Log.d(TAG, "onCreate: $it")
                         changeActivity(it)
                     }

@@ -21,6 +21,7 @@ import com.university_project.jobly.client.fragment.ClientAppliedFragment
 import com.university_project.jobly.chatserver.InterViewFragment
 import com.university_project.jobly.client.fragment.ClientJobPostFragment
 import com.university_project.jobly.databinding.ActivityClientBinding
+import com.university_project.jobly.utils.SharedInfo
 import com.university_project.jobly.utils.UtilClass
 import kotlin.system.exitProcess
 
@@ -94,7 +95,7 @@ class ClientActivity : AppCompatActivity() {
             R.id.menu_sign_out_id -> UtilClass.signOutNow(
                 this,
                 this,
-                getSharedPreferences("userType", MODE_PRIVATE).edit()
+                getSharedPreferences(SharedInfo.USER.user, MODE_PRIVATE).edit()
             )
 
         }

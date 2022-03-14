@@ -12,5 +12,7 @@ data class ClientProfileModel(
     val hobbyClient: String,
     val aboutYourself: String,
     val verify: Boolean,
-    val banned: Boolean
+    val banned: Boolean,
+    val isActive: Boolean,
+    val profileImg: String
 )

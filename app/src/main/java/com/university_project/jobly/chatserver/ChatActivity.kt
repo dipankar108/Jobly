@@ -21,15 +21,30 @@ class ChatActivity : AppCompatActivity() {
         if (GetTheme.getDarkTheme(resources)) setTheme(R.style.Theme_SplashJoblyDarkNoActionBar)
         else setTheme(R.style.Theme_SplashJoblyLightNoActoinBar)
         setContentView(binding.root)
+        val docId = intent.getStringExtra("docId")
         binding.rvViewMessageListId.layoutManager = LinearLayoutManager(this)
         binding.rvViewMessageListId.adapter = myAdapter
+
         liveData = ViewModelProvider(this)[ChatViewModel::class.java]
-        liveData.getChatList("cltId", Firebase.auth.uid.toString()).observe(this, {
-            //myAdapter.setMessage(it)
+//        liveData.getChatList("cltId", Firebase.auth.uid.toString()).observe(this, {
+//            //myAdapter.setMessage(it)
+//            myAdapter.notifyDataSetChanged()
+//        })
+        liveData.getMessage(docId!!).observe(this, {
+            myAdapter.setMessage(it)
             myAdapter.notifyDataSetChanged()
+            binding.rvViewMessageListId.smoothScrollToPosition(it.messages.size-1)
         })
         binding.imgMessageSendId.setOnClickListener {
-
+            liveData.sendMessage(
+                docId,
+                MessageModel(
+                    "this is link",
+                    System.currentTimeMillis(),
+                    Firebase.auth.uid.toString(),
+                    "HI man,How are you"
+                )
+            )
         }
     }
 }

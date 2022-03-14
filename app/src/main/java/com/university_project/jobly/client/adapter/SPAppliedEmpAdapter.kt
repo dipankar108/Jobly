@@ -1,5 +1,6 @@
 package com.university_project.jobly.client.adapter
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +33,7 @@ class SPAppliedEmpAdapter(private val listner: SPAppliedEmpClick) :
         val res = mlist[position]
         holder.title.text=res.fullName
         holder.btnAccept.setOnClickListener {
+            Log.d("TAG", "onBindViewHolder: $res")
             listner.onAcceptEmp(res)
         }
     }

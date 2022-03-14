@@ -122,7 +122,9 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
                             auth.uid.toString(), fName, lName, userPass, userEmail, userType, "",
                             ArrayList(), "", "",
                             verify = false,
-                            banned = false
+                            banned = false,
+                            false,
+                            "clientprofileurl"
                         )
                     db.document(auth.uid.toString()).set(user)
                         .addOnSuccessListener {
