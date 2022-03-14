@@ -76,10 +76,9 @@ object Repository {
     /** Getting applied post for the Employee**/
     fun getEmpAppliedPost(): LiveData<List<PostDataModel>> {
         val getMYApplication = MutableLiveData<List<PostDataModel>>()
-
         dbPost.whereArrayContains("employeeId", auth.uid.toString())
             .addSnapshotListener { value, _ ->
-                documentChangesFun(value,"myapplication")
+                documentChangesFun(value, "myapplication")
                 getMYApplication.value = myApplication.toList()
             }
         return getMYApplication
@@ -284,17 +283,38 @@ object Repository {
     }
 
     fun createChatDoc(chatDataModel: AppliedDataModel) {
-        dbProfile.document(Firebase.auth.uid.toString()).get().addOnSuccessListener {
+        dbProfile.document(Firebase.auth.uid.toString()).get().addOnSuccessListener { it ->
             val clientName = "${it["fname"]} ${it["lname"]}"
             val empName = chatDataModel.fullName
             val CltId = auth.uid.toString()
             val EmpId = chatDataModel.employeeId
-            Log.d("TAG", "createChatDoc: $EmpId")
             val postId = chatDataModel.docId
             val postTitle = "This is post"
             val messages = ArrayList<MessageModel>()
-            val myChatDataModel = ChatDataModel()
-            chatServer.document(postId).set(myChatDataModel)
+            var myChatDataModel = ChatDataModel()
+            dbProfile.document(CltId).get().addOnSuccessListener { clientVal ->
+                val clientProfileImg = clientVal.data!!["profileImg"].toString()
+                dbProfile.document(EmpId).get().addOnSuccessListener { empVal ->
+                    val empProfileImg = empVal.data!!["profileImg"].toString()
+                    myChatDataModel = ChatDataModel(
+                        empName,
+                        clientName,
+                        CltId,
+                        EmpId,
+                        postId,
+                        postTitle,
+                        false,
+                        false,
+                        System.currentTimeMillis(),
+                        "",
+                        clientProfileImg,
+                        empProfileImg,
+                        messages
+                    )
+                    Log.d("TAG", "createChatDoc: $chatDataModel")
+                    chatServer.add(myChatDataModel)
+                }
+            }
         }
 
     }

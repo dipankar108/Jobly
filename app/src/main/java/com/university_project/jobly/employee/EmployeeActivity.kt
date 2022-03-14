@@ -13,6 +13,7 @@ import com.university_project.jobly.R
 import com.university_project.jobly.accountlog.UpdateProfileActivity
 import com.university_project.jobly.chatserver.InterViewFragment
 import com.university_project.jobly.databinding.ActivityEmployeeBinding
+import com.university_project.jobly.utils.SharedInfo
 import com.university_project.jobly.utils.UtilClass
 
 class EmployeeActivity : AppCompatActivity() {
@@ -51,16 +52,20 @@ class EmployeeActivity : AppCompatActivity() {
         when (item.itemId) {
             R.id.menu_settings_id -> Log.d(TAG, "onOptionsItemSelected: Settings menu clicked")
             R.id.menu_sign_out_id -> snout()
-            R.id.menu_updateProfile_id->updateProfile()
+            R.id.menu_updateProfile_id -> updateProfile()
         }
         return true
     }
 
     private fun updateProfile() {
-        startActivity(Intent(this,UpdateProfileActivity::class.java))
+        startActivity(Intent(this, UpdateProfileActivity::class.java))
     }
 
     private fun snout() {
-        UtilClass.signOutNow(this, this, getSharedPreferences("userType", MODE_PRIVATE).edit())
+        UtilClass.signOutNow(
+            this,
+            this,
+            getSharedPreferences(SharedInfo.USER.user, MODE_PRIVATE).edit()
+        )
     }
 }

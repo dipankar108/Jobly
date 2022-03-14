@@ -1,6 +1,7 @@
 package com.university_project.jobly.employee
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -32,6 +33,7 @@ class AppliedPostFragment : Fragment(), ClickHandle {
         binding.rvEmpAppliedPostId.layoutManager = LinearLayoutManager(requireContext())
          binding.rvEmpAppliedPostId.adapter = postAdapter
         liveData.getMyApplication().observe(viewLifecycleOwner, { application ->
+            Log.d("TAG", "onViewCreated: $application")
             postAdapter.setDataToList(application)
            postAdapter.notifyDataSetChanged()
         })

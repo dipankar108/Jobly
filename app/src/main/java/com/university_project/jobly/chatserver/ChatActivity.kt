@@ -26,14 +26,12 @@ class ChatActivity : AppCompatActivity() {
         binding.rvViewMessageListId.adapter = myAdapter
 
         liveData = ViewModelProvider(this)[ChatViewModel::class.java]
-//        liveData.getChatList("cltId", Firebase.auth.uid.toString()).observe(this, {
-//            //myAdapter.setMessage(it)
-//            myAdapter.notifyDataSetChanged()
-//        })
         liveData.getMessage(docId!!).observe(this, {
             myAdapter.setMessage(it)
             myAdapter.notifyDataSetChanged()
-            binding.rvViewMessageListId.smoothScrollToPosition(it.messages.size-1)
+           if (it.messages.size>0){
+               binding.rvViewMessageListId.smoothScrollToPosition(it.messages.size-1)
+           }
         })
         binding.imgMessageSendId.setOnClickListener {
             liveData.sendMessage(
