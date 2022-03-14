@@ -1,6 +1,5 @@
 package com.university_project.jobly.adapter
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,12 +29,10 @@ class MessageViewAdapter() : RecyclerView.Adapter<MessageViewAdapter.Chatadapter
 
     override fun onBindViewHolder(holder: ChatadapterViewModel, position: Int) {
         val res = messageList[position]
-        Log.d("TAG", "onBindViewHolder: empName ${messageProperty.empName}")
-        Log.d("TAG", "onBindViewHolder: ClientName ${messageProperty.cltName}")
-        if (userType == res.userType) {
-            holder.profileName.text = "Me"
+        if (res.link == "No Image") {
+            holder.normalImg.visibility = View.GONE
+        } else {
         }
-
         when {
             userType == res.userType -> {
                 holder.profileName.text = "Me"

@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
 import com.university_project.jobly.R
 import com.university_project.jobly.adapter.MessageViewAdapter
 import com.university_project.jobly.databinding.ActivityChatBinding
@@ -16,12 +17,14 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var liveData: ChatViewModel
     private lateinit var binding: ActivityChatBinding
     private val myAdapter = MessageViewAdapter()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
         if (GetTheme.getDarkTheme(resources)) setTheme(R.style.Theme_SplashJoblyDarkNoActionBar)
         else setTheme(R.style.Theme_SplashJoblyLightNoActoinBar)
         setContentView(binding.root)
+        val fireStorage=Firebase
         val docId = intent.getStringExtra("docId")
         binding.rvViewMessageListId.layoutManager = LinearLayoutManager(this)
         binding.rvViewMessageListId.adapter = myAdapter
@@ -38,16 +41,24 @@ class ChatActivity : AppCompatActivity() {
             }
         })
         binding.imgMessageSendId.setOnClickListener {
-            liveData.sendMessage(
-                docId,
-                MessageModel(
-                    "this is link",
-                    System.currentTimeMillis(),
-                    Firebase.auth.uid.toString(),
-                    "HI man,How are you",
-                    userType
+            val link = "No Image"
+            val timeStamp = System.currentTimeMillis()
+            val userId = Firebase.auth.uid.toString()
+            val message = binding.etEnterMessageId.text.toString()
+            if (message.isNotEmpty()) {
+                binding.etEnterMessageId.text?.clear()
+                liveData.sendMessage(
+                    docId,
+                    MessageModel(
+                        link,
+                        timeStamp,
+                        userId,
+                        message,
+                        userType
+                    )
                 )
-            )
+            }
+
         }
     }
 }
