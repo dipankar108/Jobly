@@ -75,8 +75,17 @@ class RegisterFragment : Fragment(R.layout.fragment_register) {
             it.orientation = LinearLayoutManager.HORIZONTAL
         }
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-
+            override fun onItemSelected(
+                adapterView: AdapterView<*>?,
+                p1: View?,
+                position: Int,
+                p3: Long
+            ) {
+                if (adapterView?.getItemAtPosition(position) == "Client") {
+                    binding.amEtRegSkillCreatePostId.visibility = GONE
+                } else {
+                    binding.amEtRegSkillCreatePostId.visibility = VISIBLE
+                }
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
