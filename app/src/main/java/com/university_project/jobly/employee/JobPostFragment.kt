@@ -38,10 +38,12 @@ class JobPostFragment : Fragment(), ClickHandle {
         binding.rvEmpJobPostViewId.adapter = myAdapter
        // Repository.getChatList(Firebase.auth.uid.toString(),"")
         liveData = ViewModelProvider(this)[EmpViewModel::class.java]
-        liveData.getJobPost(listOf("android developer")).observe(viewLifecycleOwner, { list ->
-            myAdapter.setDataToList(list.sortedByDescending { it.timeStamp })
-            myAdapter.notifyDataSetChanged()
-        })
+      liveData.getMYSkill().observe(viewLifecycleOwner,{
+          liveData.getJobPost(it).observe(viewLifecycleOwner, { list ->
+              myAdapter.setDataToList(list.sortedByDescending { it.timeStamp })
+              myAdapter.notifyDataSetChanged()
+          })
+      })
     }
 
     override fun onLikeClick(postDataModel: PostDataModel, b: Boolean) {

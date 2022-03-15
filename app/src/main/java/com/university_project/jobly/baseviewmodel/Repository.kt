@@ -25,6 +25,17 @@ object Repository {
     private val empProfilePost = mutableSetOf<EmployeeProfileModel>()
     private val myApplication = mutableSetOf<PostDataModel>()
     private val chatList = mutableSetOf<ChatListViewDataModel>()
+
+    /**GETTING EMPLOYEE SKILL LIST**/
+    fun getMySkill(): LiveData<List<String>> {
+        var liveSkill = MutableLiveData<List<String>>()
+        dbProfile.document(auth.uid.toString()).addSnapshotListener { value, error ->
+            liveSkill.value = value?.data?.get("skill") as List<String>
+        }
+        return liveSkill
+    }
+
+    /**  GETTING MESSAGE LIST **/
     fun getMessage(docId: String): LiveData<ChatDataModel> {
         val liveChat = MutableLiveData<ChatDataModel>()
         chatServer.document(docId).addSnapshotListener { chatValue, _ ->
@@ -79,7 +90,7 @@ object Repository {
         dbPost.whereArrayContains("employeeId", auth.uid.toString())
             .addSnapshotListener { value, _ ->
                 documentChangesFun(value, "myapplication")
-                getMYApplication.value = myApplication.toList()
+                getMYApplication.value= myApplication.toList()
             }
         return getMYApplication
     }

@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.baseviewmodel.BaseViewModel
 import com.university_project.jobly.databinding.FragmentAppliedPostBinding
 import com.university_project.jobly.datamodel.PostDataModel
@@ -32,6 +34,7 @@ class AppliedPostFragment : Fragment(), ClickHandle {
         val postAdapter = PostAdapter(this)
         binding.rvEmpAppliedPostId.layoutManager = LinearLayoutManager(requireContext())
          binding.rvEmpAppliedPostId.adapter = postAdapter
+        Log.d("TAG", "onViewCreated: ${Firebase.auth.uid.toString()}")
         liveData.getMyApplication().observe(viewLifecycleOwner, { application ->
             Log.d("TAG", "onViewCreated: $application")
             postAdapter.setDataToList(application)

@@ -16,4 +16,8 @@ class EmpViewModel : ViewModel() {
     fun getAllFabPost():LiveData<List<PostDataModel>>{
       return Repository.getFabPost()
     }
+
+    fun getMYSkill(): LiveData<List<String>> {
+return Repository.getMySkill()
+    }
 }
