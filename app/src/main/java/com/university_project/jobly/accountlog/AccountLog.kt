@@ -26,11 +26,13 @@ class AccountLog : AppCompatActivity() {
         val loginfragment = LogInFragment()
         val createFragment = RegisterFragment()
         insideLogin = if (insideLogin) {
+            binding.btnAccountCId.text="Create Account"
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fr_accountFrameLayout_id, loginfragment)
                 .commit()
             false
         } else {
+            binding.btnAccountCId.text="LogIn"
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fr_accountFrameLayout_id, createFragment).commit()
             true
