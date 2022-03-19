@@ -1,5 +1,6 @@
 package com.university_project.jobly.baseviewmodel
 
+import android.net.Uri
 import android.os.Build
 import android.util.Log
 import androidx.lifecycle.LiveData
@@ -10,6 +11,7 @@ import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.university_project.jobly.chatserver.ChatDataModel
 import com.university_project.jobly.chatserver.ChatListViewDataModel
 import com.university_project.jobly.chatserver.MessageModel
@@ -25,6 +27,7 @@ object Repository {
     private val empProfilePost = mutableSetOf<EmployeeProfileModel>()
     private val myApplication = mutableSetOf<PostDataModel>()
     private val chatList = mutableSetOf<ChatListViewDataModel>()
+    private var storageRef = Firebase.storage
 
     /**GETTING EMPLOYEE SKILL LIST**/
     fun getMySkill(): LiveData<List<String>> {
@@ -90,7 +93,7 @@ object Repository {
         dbPost.whereArrayContains("employeeId", auth.uid.toString())
             .addSnapshotListener { value, _ ->
                 documentChangesFun(value, "myapplication")
-                getMYApplication.value= myApplication.toList()
+                getMYApplication.value = myApplication.toList()
             }
         return getMYApplication
     }
@@ -335,6 +338,22 @@ object Repository {
             .addOnSuccessListener {
                 Log.d("TAG", "sendMessage: Message Send")
             }
+    }
+
+    fun uploadCV(uri: Uri): LiveData<List<String>> {
+        var liveData = MutableLiveData<List<String>>()
+        var liveString= listOf<String>()
+        val mstorageRef =
+            storageRef.reference.child("cvPDF/${System.currentTimeMillis()}${auth.uid}")
+        mstorageRef.putFile(uri)
+            .addOnSuccessListener {
+                mstorageRef.downloadUrl.addOnSuccessListener {
+                    liveString= listOf(it.toString())
+                }
+            }
+        liveData.value=liveString
+        Log.d("TAGA", "uploadCV: ${liveData.value}")
+        return liveData
     }
 }
 

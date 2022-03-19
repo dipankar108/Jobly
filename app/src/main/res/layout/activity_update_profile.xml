@@ -9,14 +9,12 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/tv_up_verifyInfo_id"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            />
+            android:layout_height="wrap_content" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_up_fname_id"
@@ -45,15 +43,13 @@
             android:id="@+id/et_up_skill_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            />
+            android:gravity="center" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_up_skill_id"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/skillitemview"
-            />
+            tools:listitem="@layout/skillitemview" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_up_email_id"
@@ -70,6 +66,14 @@
             android:maxLines="3"
             android:minLines="2"
             android:text="Your Hobby" />
+
+        <Button
+            android:id="@+id/btn_uploadCV_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Upload CV"
+
+            />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_up_submit_id"

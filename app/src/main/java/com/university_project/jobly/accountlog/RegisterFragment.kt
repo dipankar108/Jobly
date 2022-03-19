@@ -146,15 +146,15 @@ class RegisterFragment : Fragment(R.layout.fragment_register), SkillClick {
 
                     dialog.setContentView(R.layout.progressbarlayout)
                     dialog.show()
-                    /**   createAccount(
+                      createAccount(
                     userEmail,
                     userPass,
                     fName,
                     lName,
                     userType,
                     dialog,
-                    selectedSkill
-                    )**/
+                    selectedSkills
+                    )
                 }
             }
         }

@@ -75,12 +75,12 @@ class SplashScreen : AppCompatActivity() {
 
     private fun changeActivity(userInfo: String) {
         if (userInfo == "Client") {
-            val intent = Intent(context, AccountLog::class.java)
+            val intent = Intent(context, ClientActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
             finish()
         } else {
-            val intent = Intent(context, AccountLog::class.java)
+            val intent = Intent(context, EmployeeActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
             finish()
