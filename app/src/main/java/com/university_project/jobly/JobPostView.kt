@@ -50,15 +50,7 @@ class JobPostView : AppCompatActivity() {
             if (userInfo == "Client") {
                 Log.d(TAG, "onCreate: Go to edit page")
             } else {
-                liveData.appliedForPost(
-                    docID, AppliedDataModel(
-                        docID,
-                        "https://cdn.pixabay.com/photo/2015/04/23/22/00/tree-736885__480.jpg",
-                        Firebase.auth.uid.toString(),
-                        "bla bla bla",
-                        "Im employee"
-                    )
-                )
+                liveData.appliedForPost(docID)
             }
         }
     }

@@ -29,8 +29,8 @@ class ClientPostViewModel : ViewModel() {
         return Repository.singlePost(docId)
     }
 
-    fun appliedForPost(docID: String, appliedDataModel: AppliedDataModel) {
-        Repository.applyForPost(docID, appliedDataModel)
+    fun appliedForPost(docID: String) {
+        Repository.applyForPost(docID)
     }
 }
 

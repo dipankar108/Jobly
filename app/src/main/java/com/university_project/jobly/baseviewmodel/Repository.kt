@@ -291,9 +291,25 @@ object Repository {
         }
     }
 
-    fun applyForPost(docId: String, appliedDataModel: AppliedDataModel) {
-        dbPost.document(docId).update("appliedEmployee", FieldValue.arrayUnion(appliedDataModel))
-        dbPost.document(docId).update("employeeId", FieldValue.arrayUnion(auth.uid.toString()))
+    fun applyForPost(docId: String) {
+        dbProfile.document(auth.uid.toString()).addSnapshotListener { value, _ ->
+            val userData = value?.toObject(EmployeeProfileModel::class.java)
+            Log.d("TAGA", "applyForPost: $userData")
+            val appliedDataModel = userData?.let {
+                AppliedDataModel(
+                    docId,
+                    it.cvEmp,
+                    auth.uid.toString(),
+                    userData.profileImg,
+                    "${userData.fname} ${userData.lname}"
+                )
+            }
+            dbPost.document(docId)
+                .update("appliedEmployee", FieldValue.arrayUnion(appliedDataModel))
+            dbPost.document(docId).update("employeeId", FieldValue.arrayUnion(auth.uid.toString()))
+        }
+
+
     }
 
     fun createChatDoc(chatDataModel: AppliedDataModel) {
@@ -342,16 +358,16 @@ object Repository {
 
     fun uploadCV(uri: Uri): LiveData<List<String>> {
         var liveData = MutableLiveData<List<String>>()
-        var liveString= listOf<String>()
+        var liveString = listOf<String>()
         val mstorageRef =
             storageRef.reference.child("cvPDF/${System.currentTimeMillis()}${auth.uid}")
         mstorageRef.putFile(uri)
             .addOnSuccessListener {
                 mstorageRef.downloadUrl.addOnSuccessListener {
-                    liveString= listOf(it.toString())
+                    liveString = listOf(it.toString())
                 }
             }
-        liveData.value=liveString
+        liveData.value = liveString
         Log.d("TAGA", "uploadCV: ${liveData.value}")
         return liveData
     }
