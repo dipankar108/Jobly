@@ -1,9 +1,12 @@
 package com.university_project.jobly
 
 import android.app.Activity
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
@@ -12,7 +15,6 @@ import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.client.clientviewmodel.ClientPostViewModel
 import com.university_project.jobly.databinding.ActivityJobPostViewBinding
-import com.university_project.jobly.datamodel.AppliedDataModel
 import com.university_project.jobly.datamodel.PostDataModel
 import com.university_project.jobly.employee.EmployeeActivity
 import com.university_project.jobly.utils.SharedInfo
@@ -21,6 +23,7 @@ class JobPostView : AppCompatActivity() {
     private lateinit var binding: ActivityJobPostViewBinding
     lateinit var docID: String
     val TAG = "TAG"
+    private lateinit var dialog: Dialog
     private lateinit var auth: FirebaseAuth
     private lateinit var singlePostView: PostDataModel
     private lateinit var liveData: ClientPostViewModel
@@ -29,6 +32,7 @@ class JobPostView : AppCompatActivity() {
         binding = ActivityJobPostViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val bundle = intent.extras
+        dialog = Dialog(this)
         docID = bundle!!.getString("docId").toString()
         auth = Firebase.auth!!
         Log.d(TAG, "onCreate: $docID")
@@ -50,7 +54,37 @@ class JobPostView : AppCompatActivity() {
             if (userInfo == "Client") {
                 Log.d(TAG, "onCreate: Go to edit page")
             } else {
-                liveData.appliedForPost(docID)
+                liveData.appliedForPost(docID).observe(this, {
+                    when (it) {
+                        "start" -> {
+                            dialog.setContentView(R.layout.progressbarlayout)
+                            dialog.show()
+                        }
+                        "uploaded" -> {
+                            dialog.dismiss()
+                        }
+                        "failed" -> {
+                            Toast.makeText(this, "Upload Failed", Toast.LENGTH_SHORT).show()
+                            dialog.dismiss()
+                        }
+                        "nocv" -> {
+                            dialog.dismiss()
+                            val alertDialog = AlertDialog.Builder(this)
+                                .setCancelable(false)
+                                .setTitle("No CV Found")
+                                .setPositiveButton(
+                                    "Upload Now"
+                                ) { dialogInterface, _ ->
+                                    dialogInterface.dismiss()
+                                }
+                                .setNegativeButton("Later") { dialogInterface, _ ->
+                                    dialogInterface.dismiss()
+                                }.create()
+                            alertDialog.show()
+
+                        }
+                    }
+                })
             }
         }
     }

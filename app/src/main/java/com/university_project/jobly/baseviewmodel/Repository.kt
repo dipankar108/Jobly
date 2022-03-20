@@ -102,10 +102,10 @@ object Repository {
     }
 
     /** Creating Post **/
-    fun createJobPost(createPostModel: CreatePostModel):LiveData<Boolean> {
-        val isDone=MutableLiveData(false)
+    fun createJobPost(createPostModel: CreatePostModel): LiveData<Boolean> {
+        val isDone = MutableLiveData(false)
         dbPost.document().set(createPostModel).addOnSuccessListener {
-            isDone.value=true
+            isDone.value = true
         }
         return isDone
     }
@@ -298,24 +298,37 @@ object Repository {
         }
     }
 
-    fun applyForPost(docId: String) {
+    fun applyForPost(docId: String): LiveData<String> {
+        val mutableString = MutableLiveData("start")
         dbProfile.document(auth.uid.toString()).addSnapshotListener { value, _ ->
             val userData = value?.toObject(EmployeeProfileModel::class.java)
-            Log.d("TAGA", "applyForPost: $userData")
-            val appliedDataModel = userData?.let {
-                AppliedDataModel(
-                    docId,
-                    it.cvEmp,
-                    auth.uid.toString(),
-                    userData.profileImg,
-                    "${userData.fname} ${userData.lname}"
-                )
+            Log.d("TAG", "applyForPost: ${userData?.cvEmp}")
+            userData?.let {
+                if (userData.cvEmp.isNotEmpty()) {
+                    val appliedDataModel = userData?.let {
+                        AppliedDataModel(
+                            docId,
+                            it.cvEmp,
+                            auth.uid.toString(),
+                            userData.profileImg,
+                            "${userData.fname} ${userData.lname}"
+                        )
+                    }
+                    dbPost.document(docId)
+                        .update("appliedEmployee", FieldValue.arrayUnion(appliedDataModel))
+                    dbPost.document(docId)
+                        .update("employeeId", FieldValue.arrayUnion(auth.uid.toString()))
+                        .addOnSuccessListener {
+                            mutableString.value = "uploaded"
+                        }.addOnFailureListener {
+                            mutableString.value = "failed"
+                        }
+                } else {
+                    mutableString.value = "nocv"
+                }
             }
-            dbPost.document(docId)
-                .update("appliedEmployee", FieldValue.arrayUnion(appliedDataModel))
-            dbPost.document(docId).update("employeeId", FieldValue.arrayUnion(auth.uid.toString()))
         }
-
+        return mutableString
 
     }
 
