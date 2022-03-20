@@ -371,6 +371,10 @@ object Repository {
         Log.d("TAGA", "uploadCV: ${liveData.value}")
         return liveData
     }
+
+    fun updateCallforInterView(docId: String, employeeId: String) {
+        dbPost.document(docId).update("call_for_interview", FieldValue.arrayUnion(employeeId))
+    }
 }
 
 

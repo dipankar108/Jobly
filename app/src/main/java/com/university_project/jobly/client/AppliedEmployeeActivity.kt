@@ -1,6 +1,7 @@
 package com.university_project.jobly.client
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,27 +29,11 @@ class AppliedEmployeeActivity : AppCompatActivity(),SPAppliedEmpClick {
             myAdapter.setData(it)
             myAdapter.notifyDataSetChanged()
         })
-        /**      liveData.postList.observe(this, { list ->
-        var myList = listOf<AppliedEmployeeDataModel>()
-        list.forEach {
-        myList += listOf(
-        AppliedEmployeeDataModel(
-        it.userId,
-        it.appliedEmployee,
-        it.docId,
-        it.call_for_interview
-        )
-        )
-        }
-        Log.d(TAG, "onCreate: $myList")
-        myAdapter.setData(myList)
-        myAdapter.notifyDataSetChanged()
-
-        })
-         **/
     }
 
     override fun onAcceptEmp(appliedDataModel: AppliedDataModel) {
+        Log.d(TAG, "onAcceptEmp: $appliedDataModel")
+        Repository.updateCallforInterView(appliedDataModel.docId,appliedDataModel.employeeId)
         Repository.createChatDoc(appliedDataModel)
     }
 }
