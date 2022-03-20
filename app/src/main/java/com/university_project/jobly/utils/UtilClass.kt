@@ -13,6 +13,7 @@ object UtilClass {
         Firebase.auth.signOut()
         sh.clear().apply()
         val intent = Intent(context, AccountLog::class.java)
+        intent.flags=Intent.FLAG_ACTIVITY_CLEAR_TASK
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         context.startActivity(intent)
         activity.finish()
