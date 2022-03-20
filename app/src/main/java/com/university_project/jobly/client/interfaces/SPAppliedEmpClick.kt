@@ -4,4 +4,5 @@ import com.university_project.jobly.datamodel.AppliedDataModel
 
 interface SPAppliedEmpClick {
     fun onAcceptEmp(postID: AppliedDataModel)
+    fun onDownloadEmp(downloadLink:String)
 }

@@ -5,5 +5,6 @@ data class AppliedDataModel(
     val cvAttachment: String = "",
     val employeeId: String = "",
     val profileImage: String = "",
-    val fullName: String = ""
+    val fullName: String = "",
+    val alreadyAdded: Boolean = false
 )

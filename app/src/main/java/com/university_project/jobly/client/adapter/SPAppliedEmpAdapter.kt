@@ -31,10 +31,16 @@ class SPAppliedEmpAdapter(private val listner: SPAppliedEmpClick) :
     override fun onBindViewHolder(holder: AppliedEmployeeViewHolder, position: Int) {
 
         val res = mlist[position]
-        holder.title.text=res.fullName
+        holder.title.text = res.fullName
+        if (res.alreadyAdded) {
+            holder.btnAccept.isEnabled = false
+        }
         holder.btnAccept.setOnClickListener {
             Log.d("TAG", "onBindViewHolder: $res")
             listner.onAcceptEmp(res)
+        }
+        holder.btnDown.setOnClickListener {
+            listner.onDownloadEmp(res.cvAttachment)
         }
     }
 

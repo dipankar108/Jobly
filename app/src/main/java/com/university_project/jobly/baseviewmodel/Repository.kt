@@ -9,13 +9,17 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.QuerySnapshot
+import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.university_project.jobly.chatserver.ChatDataModel
 import com.university_project.jobly.chatserver.ChatListViewDataModel
 import com.university_project.jobly.chatserver.MessageModel
-import com.university_project.jobly.datamodel.*
+import com.university_project.jobly.datamodel.AppliedDataModel
+import com.university_project.jobly.datamodel.CreatePostModel
+import com.university_project.jobly.datamodel.EmployeeProfileModel
+import com.university_project.jobly.datamodel.PostDataModel
 
 object Repository {
     private val auth = Firebase.auth
@@ -273,7 +277,7 @@ object Repository {
             doc["companyName"].toString(),
             doc["genderName"].toString(),
             docId,
-            doc["call_for_interview"] as ArrayList<CallForInterViewDataModel>,
+            doc["call_for_interview"] as ArrayList<String>,
             isValueNull(doc["like"]) as ArrayList<String>
         )
     }
@@ -374,6 +378,18 @@ object Repository {
 
     fun updateCallforInterView(docId: String, employeeId: String) {
         dbPost.document(docId).update("call_for_interview", FieldValue.arrayUnion(employeeId))
+    }
+
+    fun updateAppliedEmployye(appliedDataModel: AppliedDataModel) {
+        val appliedEmp = AppliedDataModel(
+            appliedDataModel.docId,
+            appliedDataModel.cvAttachment,
+            appliedDataModel.employeeId,
+            appliedDataModel.profileImage,
+            appliedDataModel.fullName,
+            true
+        )
+       // dbPost.document(appliedDataModel.docId).set(false, SetOptions.mergeFieldPaths("appliedEmployee" ))
     }
 }
 
