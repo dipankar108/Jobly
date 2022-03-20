@@ -9,7 +9,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.DocumentChange
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.QuerySnapshot
-import com.google.firebase.firestore.SetOptions
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -103,8 +102,12 @@ object Repository {
     }
 
     /** Creating Post **/
-    fun createJobPost(createPostModel: CreatePostModel) {
-        dbPost.document().set(createPostModel)
+    fun createJobPost(createPostModel: CreatePostModel):LiveData<Boolean> {
+        val isDone=MutableLiveData(false)
+        dbPost.document().set(createPostModel).addOnSuccessListener {
+            isDone.value=true
+        }
+        return isDone
     }
 
     /** getting fab post **/
@@ -389,7 +392,7 @@ object Repository {
             appliedDataModel.fullName,
             true
         )
-       // dbPost.document(appliedDataModel.docId).set(false, SetOptions.mergeFieldPaths("appliedEmployee" ))
+        // dbPost.document(appliedDataModel.docId).set(false, SetOptions.mergeFieldPaths("appliedEmployee" ))
     }
 }
 

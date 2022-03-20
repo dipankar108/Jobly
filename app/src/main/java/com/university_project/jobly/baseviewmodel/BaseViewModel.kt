@@ -12,8 +12,8 @@ class BaseViewModel : ViewModel() {
         return Repository.getSkill()
     }
 
-    fun makePost(createPostModel: CreatePostModel) {
-        Repository.createJobPost(createPostModel)
+    fun makePost(createPostModel: CreatePostModel): LiveData<Boolean> {
+        return Repository.createJobPost(createPostModel)
     }
 
     fun getEmployeeProfile(): LiveData<EmployeeProfileModel> {

@@ -20,7 +20,6 @@
             <ProgressBar
                 android:id="@+id/pb_reg_id"
                 android:layout_width="wrap_content"
-
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"

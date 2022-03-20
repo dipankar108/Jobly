@@ -1,6 +1,8 @@
 package com.university_project.jobly
 
+import android.app.Dialog
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.ArrayAdapter
 import android.widget.Toast
@@ -12,6 +14,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.adapter.SkillAdapter
 import com.university_project.jobly.baseviewmodel.BaseViewModel
+import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.databinding.ActivityCreateJobPostBinding
 import com.university_project.jobly.datamodel.AppliedDataModel
 import com.university_project.jobly.datamodel.CallForInterViewDataModel
@@ -21,18 +24,20 @@ import com.university_project.jobly.interfaces.SkillClick
 class CreateJobPost : AppCompatActivity(), SkillClick {
     lateinit var auth: FirebaseAuth
     val TAG = "TAG"
-    private val genderList= listOf("Any","Male","Female")
+    private val genderList = listOf("Any", "Male", "Female")
     private lateinit var liveData: BaseViewModel
     private var skills = listOf<String>()
     private var selectedSkills = mutableListOf<String>()
     private lateinit var skillAdapter: ArrayAdapter<String>
     private lateinit var binding: ActivityCreateJobPostBinding
     val rvskillAdapter = SkillAdapter(this)
+    private lateinit var dialog: Dialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateJobPostBinding.inflate(layoutInflater)
         setContentView(binding.root)
         auth = Firebase.auth
+        dialog = Dialog(this)
         binding.rvSkillViewId.layoutManager = LinearLayoutManager(this).also {
             it.orientation = LinearLayoutManager.HORIZONTAL
         }
@@ -58,11 +63,13 @@ class CreateJobPost : AppCompatActivity(), SkillClick {
             rvskillAdapter.setList(selectedSkills)
             rvskillAdapter.notifyDataSetChanged()
         }
-        val spinnerGenderAdapter=ArrayAdapter(
-            this,android.R.layout.simple_spinner_dropdown_item,genderList
+        val spinnerGenderAdapter = ArrayAdapter(
+            this, android.R.layout.simple_spinner_dropdown_item, genderList
         )
-        binding.spGenderCreatePostId.adapter=spinnerGenderAdapter
+        binding.spGenderCreatePostId.adapter = spinnerGenderAdapter
         binding.btnCreatePostId.setOnClickListener {
+            dialog.setContentView(R.layout.progressbarlayout)
+            dialog.show()
             val postTitle = binding.etTitleCreatePostId.text.toString()
             val postDesc = binding.etDescCratePostId.text.toString()
             val postExperience = Integer.parseInt(binding.etRegExperienceId.text.toString())
@@ -74,8 +81,8 @@ class CreateJobPost : AppCompatActivity(), SkillClick {
             val postCompany = ""
             val timeStamp = System.currentTimeMillis()
             val callforinterview: ArrayList<CallForInterViewDataModel> = ArrayList()
-            val isLike= ArrayList<String>()
-            val appliedEmployee=ArrayList<AppliedDataModel>()
+            val isLike = ArrayList<String>()
+            val appliedEmployee = ArrayList<AppliedDataModel>()
             liveData.makePost(
                 CreatePostModel(
                     Firebase.auth.uid.toString(),
@@ -94,7 +101,14 @@ class CreateJobPost : AppCompatActivity(), SkillClick {
                     callforinterview,
                     isLike
                 )
-            )
+            ).observe(this, {
+                if (it) {
+                    dialog.dismiss()
+                    val intent = Intent(this, ClientActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
+            })
         }
         /**
         binding.btnCreatePostId.setOnClickListener {
