@@ -17,8 +17,8 @@ import com.university_project.jobly.CreateJobPost
 import com.university_project.jobly.R
 import com.university_project.jobly.accountlog.AccountLog
 import com.university_project.jobly.baseviewmodel.profile.UserViewModel
-import com.university_project.jobly.client.fragment.ClientAppliedFragment
 import com.university_project.jobly.chatserver.InterViewFragment
+import com.university_project.jobly.client.fragment.ClientAppliedFragment
 import com.university_project.jobly.client.fragment.ClientJobPostFragment
 import com.university_project.jobly.databinding.ActivityClientBinding
 import com.university_project.jobly.utils.SharedInfo
@@ -105,4 +105,5 @@ class ClientActivity : AppCompatActivity() {
     private fun requireContext(): Context {
         return this@ClientActivity
     }
+
 }

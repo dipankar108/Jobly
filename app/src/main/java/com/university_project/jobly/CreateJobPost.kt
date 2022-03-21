@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -285,5 +286,10 @@ class CreateJobPost : AppCompatActivity(), SkillClick {
         rvskillAdapter.notifyDataSetChanged()
         binding.amEtSkillCreatePostId.isEnabled = true
         binding.amEtSkillCreatePostId.hint = "Add Skill"
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy: Destroyed")
     }
 }

@@ -36,7 +36,9 @@ object Repository {
     fun getMySkill(): LiveData<List<String>> {
         var liveSkill = MutableLiveData<List<String>>()
         dbProfile.document(auth.uid.toString()).addSnapshotListener { value, error ->
-            liveSkill.value = value?.data?.get("skill") as List<String>
+            value?.data?.get("skill")?.let {
+                liveSkill.value=it as List<String>
+            }
         }
         return liveSkill
     }
@@ -57,34 +59,36 @@ object Repository {
     fun getChatList(userType: String, userId: String): LiveData<List<ChatListViewDataModel>> {
         val liveChatList = MutableLiveData<List<ChatListViewDataModel>>()
         chatServer.whereEqualTo(userType, userId).addSnapshotListener { value, _ ->
-            for (doc in value!!.documentChanges) {
-                val res = doc.document.data
-                val empName = res["empName"].toString()
-                val cltName = res["cltName"].toString()
-                val cltId = res["cltId"].toString()
-                val empId = res["empId"].toString()
-                val postId = res["postId"].toString()
-                val postTitle = res["postTitle"].toString()
-                val clientSeen = res["clientSeen"] as Boolean
-                val empSeen = res["empSeen"] as Boolean
-                val timeStamp = res["timeStamp"] as Long
-                val docId = doc.document.id
-                val clientProfileImg = res["cilentProfileImg"].toString()
-                val empProfileImg = res["empProfileImg"].toString()
-                chatList.add(
-                    ChatListViewDataModel(
-                        empName,
-                        cltName,
-                        postTitle,
-                        clientSeen,
-                        empSeen,
-                        timeStamp,
-                        docId,
-                        clientProfileImg,
-                        empProfileImg
-                    )
+    value?.let {
+        for (doc in value!!.documentChanges) {
+            val res = doc.document.data
+            val empName = res["empName"].toString()
+            val cltName = res["cltName"].toString()
+            val cltId = res["cltId"].toString()
+            val empId = res["empId"].toString()
+            val postId = res["postId"].toString()
+            val postTitle = res["postTitle"].toString()
+            val clientSeen = res["clientSeen"] as Boolean
+            val empSeen = res["empSeen"] as Boolean
+            val timeStamp = res["timeStamp"] as Long
+            val docId = doc.document.id
+            val clientProfileImg = res["cilentProfileImg"].toString()
+            val empProfileImg = res["empProfileImg"].toString()
+            chatList.add(
+                ChatListViewDataModel(
+                    empName,
+                    cltName,
+                    postTitle,
+                    clientSeen,
+                    empSeen,
+                    timeStamp,
+                    docId,
+                    clientProfileImg,
+                    empProfileImg
                 )
-            }
+            )
+        }
+    }
             liveChatList.value = chatList.toTypedArray().toList()
         }
         return liveChatList
@@ -95,7 +99,9 @@ object Repository {
         val getMYApplication = MutableLiveData<List<PostDataModel>>()
         dbPost.whereArrayContains("employeeId", auth.uid.toString())
             .addSnapshotListener { value, _ ->
-                documentChangesFun(value, "myapplication")
+                value?.let {
+                    documentChangesFun(value, "myapplication")
+                }
                 getMYApplication.value = myApplication.toList()
             }
         return getMYApplication
@@ -116,7 +122,9 @@ object Repository {
         val query = dbPost.whereArrayContains("like", Firebase.auth.uid.toString())
         val mutableLiveData = MutableLiveData<List<PostDataModel>>()
         query.addSnapshotListener { document, _ ->
-            documentChangesFun(document, "getEmpFabPost")
+            document?.let {
+                documentChangesFun(document, "getEmpFabPost")
+            }
             mutableLiveData.value = fabEmpPost.toTypedArray().asList()
         }
         return mutableLiveData

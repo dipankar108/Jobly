@@ -68,4 +68,19 @@ class EmployeeActivity : AppCompatActivity() {
             getSharedPreferences(SharedInfo.USER.user, MODE_PRIVATE).edit()
         )
     }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d(TAG, "onDestroy: Destroyed Employee Activity")
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d(TAG, "onDestroy: Pause Employee Activity")
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Log.d(TAG, "onRestart: Restarted")
+    }
 }
