@@ -36,6 +36,7 @@ class ClientActivity : AppCompatActivity() {
         setContentView(binding.root)
         changeFragment(ClientJobPostFragment())
         Firebase.auth.uid!!
+        Repository.updateActiveStatus(true)
         userLiveData = ViewModelProvider(this)[UserViewModel::class.java]
         userLiveData.userBanInfo.observe(this, {
             if (it) {

@@ -11,6 +11,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.R
 import com.university_project.jobly.accountlog.UpdateProfileActivity
+import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.chatserver.InterViewFragment
 import com.university_project.jobly.databinding.ActivityEmployeeBinding
 import com.university_project.jobly.utils.SharedInfo
@@ -26,6 +27,7 @@ class EmployeeActivity : AppCompatActivity() {
         setContentView(binding.root)
         binding.bnbEmpId.menu.findItem(R.id.e_allPost_menu_id).isChecked = true
         changedFragment(JobPostFragment())
+        Repository.updateActiveStatus(true)
         Log.d(TAG, "onCreate: ${Firebase.auth.uid.toString()}")
         binding.bnbEmpId.setOnItemSelectedListener { item ->
             when (item.itemId) {

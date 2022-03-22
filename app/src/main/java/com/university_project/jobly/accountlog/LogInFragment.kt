@@ -13,6 +13,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.databinding.FragmentLogInBinding
 import com.university_project.jobly.employee.EmployeeActivity
@@ -54,7 +55,8 @@ class LogInFragment : Fragment() {
                                 AppCompatActivity.MODE_PRIVATE
                             )
                             val editor = sh?.edit()
-                            editor?.putString(SharedInfo.USER_TYPE.user, userType.toString())?.apply()
+                            editor?.putString(SharedInfo.USER_TYPE.user, userType.toString())
+                                ?.apply()
                             changeActivity(userType)
                         }.addOnFailureListener {
                             Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()

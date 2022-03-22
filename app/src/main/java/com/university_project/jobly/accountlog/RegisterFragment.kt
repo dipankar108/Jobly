@@ -24,6 +24,7 @@ import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.R
 import com.university_project.jobly.adapter.SkillAdapter
 import com.university_project.jobly.baseviewmodel.BaseViewModel
+import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.databinding.FragmentRegisterBinding
 import com.university_project.jobly.datamodel.ClientProfileModel
@@ -186,6 +187,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register), SkillClick {
                     db.document(auth.uid.toString()).set(user)
                         .addOnSuccessListener {
                             binding.pbRegId.visibility = GONE
+
                             startActivity(Intent(requireContext(), ClientActivity::class.java))
                         }
                 } else {
