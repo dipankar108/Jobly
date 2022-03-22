@@ -43,6 +43,19 @@ object Repository {
         return liveSkill
     }
 
+    /** Updating active or not  **/
+    fun updateActiveStatus(onStartApp: Boolean) {
+        if (onStartApp) {
+            dbProfile.document(auth.uid.toString()).update("active", true)
+        } else {
+            dbProfile.document(auth.uid.toString()).update("active", false).addOnSuccessListener {
+                Log.d("TAGService", "updateActiveStatus: called")
+            }.addOnFailureListener {
+                Log.d("TAGService", "updateActiveStatus: failed")
+            }
+        }
+    }
+
     /**  GETTING MESSAGE LIST **/
     fun getMessage(docId: String): LiveData<ChatDataModel> {
         val liveChat = MutableLiveData<ChatDataModel>()
@@ -405,17 +418,20 @@ object Repository {
     }
 
     fun updateAppliedEmployye(appliedDataModel: AppliedDataModel) {
-        dbPost.document(appliedDataModel.docId).update("appliedEmployee",FieldValue.arrayRemove(appliedDataModel)).addOnSuccessListener {
-            val appliedEmp = AppliedDataModel(
-                appliedDataModel.docId,
-                appliedDataModel.cvAttachment,
-                appliedDataModel.employeeId,
-                appliedDataModel.profileImage,
-                appliedDataModel.fullName,
-                true
-            )
-            dbPost.document(appliedDataModel.docId).update("appliedEmployee",FieldValue.arrayUnion(appliedEmp))
-        }
+        dbPost.document(appliedDataModel.docId)
+            .update("appliedEmployee", FieldValue.arrayRemove(appliedDataModel))
+            .addOnSuccessListener {
+                val appliedEmp = AppliedDataModel(
+                    appliedDataModel.docId,
+                    appliedDataModel.cvAttachment,
+                    appliedDataModel.employeeId,
+                    appliedDataModel.profileImage,
+                    appliedDataModel.fullName,
+                    true
+                )
+                dbPost.document(appliedDataModel.docId)
+                    .update("appliedEmployee", FieldValue.arrayUnion(appliedEmp))
+            }
 
         // dbPost.document(appliedDataModel.docId).set(false, SetOptions.mergeFieldPaths("appliedEmployee" ))
     }

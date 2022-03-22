@@ -16,6 +16,7 @@ import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.CreateJobPost
 import com.university_project.jobly.R
 import com.university_project.jobly.accountlog.AccountLog
+import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.baseviewmodel.profile.UserViewModel
 import com.university_project.jobly.chatserver.InterViewFragment
 import com.university_project.jobly.client.fragment.ClientAppliedFragment
@@ -88,6 +89,16 @@ class ClientActivity : AppCompatActivity() {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.optionsmenu, menu)
         return true
+    }
+
+    override fun onRestart() {
+        super.onRestart()
+        Repository.updateActiveStatus(true)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Repository.updateActiveStatus(false)
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
