@@ -13,7 +13,11 @@
         android:supportsRtl="true"
 
         android:theme="@style/Theme.Jobly">
-        <activity android:name=".chatserver.ChatActivity" ></activity>
+        <service
+            android:name=".utils.ServiceClass"
+            android:stopWithTask="false"></service>
+
+        <activity android:name=".chatserver.ChatActivity"></activity>
         <activity android:name=".accountlog.UpdateProfileActivity" />
         <activity android:name=".client.AppliedEmployeeActivity" />
         <activity android:name=".client.EditPostActivity" />

@@ -62,8 +62,9 @@ class ClientActivity : AppCompatActivity() {
         }
 
         binding.fabMainId.setOnClickListener {
-            val intent = Intent(this, CreateJobPost::class.java)
-            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
+            val intent = Intent(this, CreateJobPost::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
+            }
             startActivity(intent)
         }
     }
