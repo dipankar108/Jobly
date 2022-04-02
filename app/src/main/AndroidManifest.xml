@@ -24,9 +24,9 @@
         <activity android:name=".JobPostView" />
         <activity android:name=".client.ClientActivity" />
         <activity android:name=".CreateJobPost" />
-        <activity android:name=".accountlog.AccountLog"
-            android:theme="@style/Theme.Design.NoActionBar"
-            />
+        <activity
+            android:name=".accountlog.AccountLog"
+            android:theme="@style/Theme.Design.NoActionBar" />
         <activity
             android:name=".SplashScreen"
             android:exported="true">

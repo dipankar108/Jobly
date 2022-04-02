@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".accountlog.AccountLog">
+    android:background="@drawable/background_image"
+    tools:context=".accountlog.AccountLog"
+    android:fitsSystemWindows="true"
+    >
     
     <FrameLayout
         android:id="@+id/fr_accountFrameLayout_id"
@@ -19,8 +22,10 @@
 
     <Button
         android:id="@+id/btn_accountC_id"
-        android:layout_width="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/btn_black_round"
         android:text="Create Account"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

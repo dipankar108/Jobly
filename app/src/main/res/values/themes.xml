@@ -14,6 +14,7 @@
         <!-- Customize your theme here. -->
         <item name="android:windowTranslucentNavigation">false</item>
     </style>
+
     <style name="Theme.SplashJoblyLightNoActoinBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
@@ -28,4 +29,5 @@
         <!-- Customize your theme here. -->
         <item name="android:windowTranslucentNavigation">false</item>
     </style>
+
 </resources>
