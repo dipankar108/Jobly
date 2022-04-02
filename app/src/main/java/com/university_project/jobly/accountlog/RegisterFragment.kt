@@ -57,15 +57,15 @@ class RegisterFragment : Fragment(R.layout.fragment_register), SkillClick {
         val getScreen = GetScreen(resources)
         val gdp = getScreen.getGeneralDp()
         val dialog = Dialog(requireContext())
-        binding.tvRegNameId.width = RegisterFragmentSize.getRegisterNameWidth(gdp)
-        binding.tvRegNameId.height = RegisterFragmentSize.getRegisterNameHeight(gdp)
-        binding.tvRegNameId.textSize = RegisterFragmentSize.getRegFontSize(gdp)
-        binding.tvRegNameId.setTextColor(
-            ContextCompat.getColor(
-                requireContext(),
-                getTextColor(resources)
-            )
-        )
+//        binding.tvRegNameId.width = RegisterFragmentSize.getRegisterNameWidth(gdp)
+//        binding.tvRegNameId.height = RegisterFragmentSize.getRegisterNameHeight(gdp)
+//        binding.tvRegNameId.textSize = RegisterFragmentSize.getRegFontSize(gdp)
+//        binding.tvRegNameId.setTextColor(
+//            ContextCompat.getColor(
+//                requireContext(),
+//                getTextColor(resources)
+//            )
+//        )
         binding.tvRegNameId.setMargin()
         rvskillAdapter = SkillAdapter(this)
         val height = RegisterFragmentSize.getRegEditHeght(gdp)

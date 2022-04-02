@@ -9,13 +9,16 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:fillViewport="true">
+
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            >
+            android:orientation="vertical">
 
             <ProgressBar
                 android:id="@+id/pb_reg_id"
@@ -27,41 +30,56 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
+            <ImageView
                 android:id="@+id/tv_reg_name_id"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:layout_gravity="start"
+                android:layout_margin="10dp"
+                android:src="@drawable/ic_txtregister"
                 android:text="@string/register_pageName"
-                app:layout_constraintTop_toTopOf="parent"
-
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <EditText
                 android:id="@+id/et_reg_email_id"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/tv_rectangle"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
+                android:padding="5dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black_hint"
                 app:layout_constraintTop_toBottomOf="@+id/tv_reg_name_id"
                 tools:layout_editor_absoluteX="0dp" />
 
             <EditText
                 android:id="@+id/et_reg_pass_id"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/tv_rectangle"
                 android:hint="@string/pass"
                 android:inputType="textPassword"
+                android:padding="5dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black_hint"
                 app:layout_constraintTop_toBottomOf="@+id/et_reg_email_id"
                 tools:layout_editor_absoluteX="0dp" />
 
             <EditText
                 android:id="@+id/et_reg_fname_id"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/tv_rectangle"
                 android:ems="10"
                 android:hint="@string/fName"
                 android:inputType="textPersonName"
+                android:padding="5dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_reg_pass_id" />
@@ -69,12 +87,18 @@
             <EditText
                 android:id="@+id/et_reg_lName_id"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/tv_rectangle"
                 android:ems="10"
                 android:hint="@string/lName"
                 android:inputType="textPersonName"
+                android:padding="5dp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black_hint"
                 app:layout_constraintTop_toBottomOf="@+id/et_reg_fname_id"
                 tools:layout_editor_absoluteX="3dp" />
+
             <Spinner
                 android:id="@+id/spinner"
                 android:layout_width="409dp"
@@ -86,28 +110,35 @@
             <AutoCompleteTextView
                 android:id="@+id/am_et_Reg_skill_createPost_id"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="50dp"
                 android:layout_margin="10dp"
+                android:background="@drawable/tv_rectangle"
                 android:hint="@string/skill"
+                android:padding="5dp"
                 android:singleLine="true"
+                android:textColor="@color/black"
+                android:textColorHint="@color/black_hint"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btn_uploadAttachment_id" />
+
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_reg_skillView_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:listitem="@layout/skillitemview"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/sp_position_createPost_id" />
+                app:layout_constraintTop_toBottomOf="@+id/sp_position_createPost_id"
+                tools:listitem="@layout/skillitemview" />
 
-            <Button
+            <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btn_reg_submit_id"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_margin="10dp"
+                android:background="@drawable/btn_black_round"
                 android:text="@string/submit"
+                android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"

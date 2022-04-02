@@ -16,7 +16,9 @@ import com.university_project.jobly.utils.GetTheme
 import com.university_project.jobly.utils.SharedInfo
 import com.university_project.jobly.utils.screensize.GetScreen
 import com.university_project.jobly.utils.screensize.SplashScreenSize
-import kotlinx.coroutines.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
 class SplashScreen : AppCompatActivity() {
     lateinit var binding: ActivitySplashScreenBinding
@@ -27,15 +29,15 @@ class SplashScreen : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
-        if (GetTheme.getDarkTheme(resources)) setTheme(R.style.Theme_SplashJoblyDarkNoActionBar)
-        else setTheme(R.style.Theme_SplashJoblyLightNoActoinBar)
+//        if (GetTheme.getDarkTheme(resources)) setTheme(R.style.Theme_SplashJoblyDarkNoActionBar)
+//        else setTheme(R.style.Theme_SplashJoblyLightNoActoinBar)
         setContentView(binding.root)
-        val getScreen = GetScreen(resources)
-        binding.progressBar.layoutParams.height =
-            SplashScreenSize.getProgressbarSize(getScreen.getGeneralDp()).toInt()
-        binding.progressBar.layoutParams.width =
-            SplashScreenSize.getProgressbarSize(getScreen.getGeneralDp()).toInt()
-        binding.progressBar.requestLayout()
+//        val getScreen = GetScreen(resources)
+//        binding.progressBar.layoutParams.height =
+//            SplashScreenSize.getProgressbarSize(getScreen.getGeneralDp()).toInt()
+//        binding.progressBar.layoutParams.width =
+//            SplashScreenSize.getProgressbarSize(getScreen.getGeneralDp()).toInt()
+//        binding.progressBar.requestLayout()
         sh = getSharedPreferences(SharedInfo.USER.user, MODE_PRIVATE)
         val editor = sh.edit()
         if (auth.uid != null) {
@@ -55,19 +57,18 @@ class SplashScreen : AppCompatActivity() {
 
                     }
 
-
             } else {
-                GlobalScope.launch {
-                    delay(500)
-                    sh.getString(SharedInfo.USER_TYPE.user, null)?.let {
-                        Log.d(TAG, "onCreate: $it")
-                        changeActivity(it)
-                    }
+                sh.getString(SharedInfo.USER_TYPE.user, null)?.let {
+                    Log.d(TAG, "onCreate: $it")
+                    changeActivity(it)
                 }
             }
         } else {
-            startActivity(Intent(this@SplashScreen, AccountLog::class.java))
-            finish()
+            GlobalScope.launch {
+                delay(500)
+                startActivity(Intent(this@SplashScreen, AccountLog::class.java))
+                finish()
+            }
         }
 
     }

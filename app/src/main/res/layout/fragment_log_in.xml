@@ -10,7 +10,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="60dp">
+        android:layout_marginTop="80dp">
 
         <ImageView
             android:id="@+id/tv_reg_name_id"
@@ -26,10 +26,12 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_margin="10dp"
+            android:padding="5dp"
             android:background="@drawable/tv_rectangle"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
-            android:padding="5dp"
+            android:textColorHint="@color/black_hint"
+            android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@+id/tv_reg_name_id"
             tools:layout_editor_absoluteX="0dp" />
 
@@ -42,6 +44,8 @@
             android:hint="@string/pass"
             android:inputType="textPassword"
             android:padding="5dp"
+            android:textColorHint="@color/black_hint"
+            android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@+id/et_log_email_id"
             tools:layout_editor_absoluteX="0dp" />
 
