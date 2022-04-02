@@ -14,9 +14,6 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Jobly">
 
-        <service
-            android:name=".utils.ServiceClass"
-            android:stopWithTask="false"></service>
 
         <activity android:name=".chatserver.ChatActivity"></activity>
         <activity android:name=".accountlog.UpdateProfileActivity" />
@@ -27,7 +24,9 @@
         <activity android:name=".JobPostView" />
         <activity android:name=".client.ClientActivity" />
         <activity android:name=".CreateJobPost" />
-        <activity android:name=".accountlog.AccountLog" />
+        <activity android:name=".accountlog.AccountLog"
+            android:theme="@style/Theme.Design.NoActionBar"
+            />
         <activity
             android:name=".SplashScreen"
             android:exported="true">
