@@ -75,24 +75,31 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
+            android:background="@drawable/et_entermessage"
             android:id="@+id/et_enterMessage_id"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:padding="5dp"
             android:layout_weight="0.8"
-            android:hint="Enter message here" />
+            android:layout_margin="5dp"
+            android:hint="Enter message here"
+            android:textColorHint="@color/colorBackYellow"
+            />
 
         <ImageView
             android:id="@+id/img_messageSend_id"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
-            android:src="@drawable/ic_send" />
+            android:src="@drawable/ic_send"
+            />
 
         <ImageView
             android:id="@+id/img_selectImage_id"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
-            android:src="@drawable/ic_image" />
+            android:src="@drawable/ic_image"
+            />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
