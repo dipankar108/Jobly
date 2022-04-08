@@ -14,13 +14,14 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/drawable/ic_send.xml" value="0.12" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/drawable/tv_rectangle.xml" value="0.1875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_account_log.xml" value="0.1" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_chat.xml" value="0.5" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_chat.xml" value="0.18" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_splash_screen.xml" value="0.18229166666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/chatitemview.xml" value="0.25" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/fragment_e_inter_view.xml" value="0.18229166666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/fragment_inter_view.xml" value="0.18229166666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/fragment_log_in.xml" value="0.18229166666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/fragment_register.xml" value="0.18229166666666666" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/message_appbar.xml" value="0.25" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/messageview.xml" value="0.38316400580551524" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/messageviewme.xml" value="0.44495412844036697" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/messageviewoposite.xml" value="0.25" />
