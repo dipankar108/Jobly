@@ -89,7 +89,9 @@
             android:background="@drawable/et_entermessage"
             android:hint="Enter message here"
             android:padding="5dp"
-            android:textColorHint="@color/colorBackYellow" />
+            android:textColor="@color/colorBackYellow"
+            android:textColorHint="@color/colorBackYellow200"
+            />
 
         <ImageView
             android:id="@+id/img_messageSend_id"

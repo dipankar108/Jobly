@@ -84,12 +84,17 @@ class MessageViewAdapter(private val context: Context) : Adapter<RecyclerView.Vi
         meHolder.me_messageFull.text = res.message
         meHolder.me_messageTime.text = TimeStampConverter.getTimeAgo(res.timeStamp)
         if (res.link != "No Image") {
+            meHolder.me_messageImageView.visibility = View.VISIBLE
+            meHolder.me_imageCard.visibility = View.VISIBLE
             Glide.with(context)
                 .load(res.link)
                 .placeholder(R.drawable.image_loding_anim)
                 .error(R.drawable.try_later)
                 .into(meHolder.me_messageImageView)
-        } else meHolder.me_imageCard.visibility = View.GONE
+        } else {
+            meHolder.me_messageImageView.visibility = View.GONE
+            meHolder.me_imageCard.visibility = View.GONE
+        }
         if (res.userType == "Client") {
             Glide.with(context)
                 .load(messageProperty.clientProfileImg)
@@ -111,16 +116,21 @@ class MessageViewAdapter(private val context: Context) : Adapter<RecyclerView.Vi
 
         if (!isActive) {
             oppHolder.opp_profileCard.strokeColor = Color.RED
-        }else{
+        } else {
             oppHolder.opp_profileCard.strokeColor = Color.GREEN
         }
         if (res.link != "No Image") {
+            oppHolder.opp_messageImageView.visibility = View.VISIBLE
+            oppHolder.opp_imageCard.visibility = View.VISIBLE
             Glide.with(context)
                 .load(res.link)
                 .placeholder(R.drawable.image_loding_anim)
                 .error(R.drawable.try_later)
                 .into(oppHolder.opp_messageImageView)
-        } else oppHolder.opp_imageCard.visibility = View.GONE
+        } else {
+            oppHolder.opp_messageImageView.visibility = View.GONE
+            oppHolder.opp_imageCard.visibility = View.GONE
+        }
 
         if (res.userType == "Client") {
             Glide.with(context)

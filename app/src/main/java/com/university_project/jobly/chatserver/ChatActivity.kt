@@ -87,7 +87,6 @@ class ChatActivity : AppCompatActivity() {
                     binding.rvViewMessageListId.smoothScrollToPosition(userDetails.messages.size - 1)
                 }
             }
-
         }
         var uploadImage =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { imageRes: ActivityResult ->

@@ -29,27 +29,26 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:orientation="vertical"
             android:gravity="center"
-            >
+            android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
             <ImageView
                 android:id="@+id/img_postViewliked_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:gravity="end"
                 android:layout_margin="1dp"
-                tools:src="@drawable/ic_unlike"
-                 />
+                android:gravity="end"
+                tools:src="@drawable/ic_unlike" />
+
             <TextView
                 android:id="@+id/tv_jobPostLikeNum_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="30"
                 android:layout_gravity="center"
                 android:layout_margin="1dp"
-                />
+                tools:text="30" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -57,42 +56,43 @@
         android:id="@+id/tv_postViewDesc_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLines="2"
-        android:textColor="@color/white"
         android:ellipsize="end"
+        android:maxLines="2"
         android:padding="10dp"
-        android:text="This is  a job that we need an employee who is very good at android app developement with kotlin mobile programming platform" />
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:padding="10dp"
-    >
-    <TextView
-        android:id="@+id/tv_postViewPosition_id"
-        android:layout_width="wrap_content"
+        android:text="This is  a job that we need an employee who is very good at android app developement with kotlin mobile programming platform"
+        android:textColor="@color/white" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Android Developer"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:padding="10dp">
 
-    <TextView
-        android:id="@+id/tv_postViewTimeStamp_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="5days ago"
-        app:layout_constraintEnd_toStartOf="@+id/tv_postViewLocation_id"
-        app:layout_constraintStart_toEndOf="@+id/tv_postViewPosition_id"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/tv_postViewPosition_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Android Developer"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_postViewTimeStamp_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="5days ago"
+            app:layout_constraintEnd_toStartOf="@+id/tv_postViewLocation_id"
+            app:layout_constraintStart_toEndOf="@+id/tv_postViewPosition_id"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-    <TextView
-        android:id="@+id/tv_postViewLocation_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Dhaka"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/tv_postViewLocation_id"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dhaka"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </LinearLayout>
