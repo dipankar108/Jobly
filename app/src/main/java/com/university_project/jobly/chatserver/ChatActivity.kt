@@ -40,13 +40,13 @@ class ChatActivity : AppCompatActivity() {
             SharedInfo.USER.user,
             MODE_PRIVATE
         ).getString(SharedInfo.USER_TYPE.user, null)!!
-        liveData.getMessage(docId!!).observe(this, {
+        liveData.getMessage(docId!!).observe(this) {
             myAdapter.setMessage(it, userType)
             myAdapter.notifyDataSetChanged()
             if (it.messages.size > 0) {
                 binding.rvViewMessageListId.smoothScrollToPosition(it.messages.size - 1)
             }
-        })
+        }
         var uploadImage =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { imageRes: ActivityResult ->
                 if (imageRes.resultCode == Activity.RESULT_OK) {

@@ -10,6 +10,8 @@
     <color name="colorAccent">#3EDDEC</color>
     <color name="colorPrimary">#EC5959</color>
     <color name="black_hint">#3C2C2B</color>
-
+    <color name="colorGreen">#6AFF00</color>
+    <color name="colorBackYellow">#FC9701</color>
+    <color name="colorBackAccent">#3ED0FE</color>
 
 </resources>
