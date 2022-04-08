@@ -36,7 +36,6 @@ class SPAppliedEmpAdapter(private val listner: SPAppliedEmpClick) :
             holder.btnAccept.isEnabled = false
         }
         holder.btnAccept.setOnClickListener {
-            Log.d("TAG", "onBindViewHolder: $res")
             listner.onAcceptEmp(res)
         }
         holder.btnDown.setOnClickListener {

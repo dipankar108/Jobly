@@ -31,4 +31,5 @@ class BaseViewModel : ViewModel() {
     fun uploadCV(uri: Uri): LiveData<List<String>> {
         return Repository.uploadCV(uri)
     }
+    fun isUserActive(userId:String):LiveData<Boolean> =Repository.isUserActive(userId)
 }

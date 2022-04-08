@@ -1,6 +1,7 @@
 package com.university_project.jobly.adapter
 
 import android.content.Context
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 import com.bumptech.glide.Glide
+import com.google.android.material.card.MaterialCardView
 import com.university_project.jobly.R
 import com.university_project.jobly.chatserver.ChatDataModel
 import com.university_project.jobly.chatserver.MessageModel
@@ -21,6 +23,7 @@ class MessageViewAdapter(private val context: Context) : Adapter<RecyclerView.Vi
     private var messageProperty = ChatDataModel()
     private var messageList = listOf<MessageModel>()
     private var userType = ""
+    private var isActive = false
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return if (viewType == ME_VIEW) {
             val view =
@@ -41,7 +44,7 @@ class MessageViewAdapter(private val context: Context) : Adapter<RecyclerView.Vi
             setMeView(meHolder, res)
         } else {
             val oppHolder: MessageOppViewHolder = holder as MessageOppViewHolder
-            setOppView(oppHolder, res)
+            setOppView(oppHolder, res, isActive)
         }
     }
 
@@ -62,19 +65,19 @@ class MessageViewAdapter(private val context: Context) : Adapter<RecyclerView.Vi
     }
 
     class MessageOppViewHolder(oppView: View) : RecyclerView.ViewHolder(oppView) {
-        val opp_profileImg: ImageView = itemView.findViewById(R.id.img_messageProfileImgOpp_id)
+        val opp_profileImg: ImageView = itemView.findViewById(R.id.iv_messangerProfile_id)
         val opp_messageFull: TextView = itemView.findViewById(R.id.tv_messageOpp_id)
         val opp_messageTime: TextView = itemView.findViewById(R.id.tv_messageTimeOpp_id)
         val opp_messageImageView: ImageView = itemView.findViewById(R.id.img_messageImgOpp_id)
-
+        val opp_profileCard: MaterialCardView = itemView.findViewById(R.id.cv_profileImage_id)
         val opp_imageCard: CardView = itemView.findViewById(R.id.cv_messageImageViewOpp_id)
     }
 
-    fun setMessage(myMessage: ChatDataModel, userType: String?) {
+    fun setMessage(myMessage: ChatDataModel, userType: String?, isActive: Boolean) {
         messageProperty = myMessage
         messageList = myMessage.messages
         this.userType = userType!!
-
+        this.isActive = isActive
     }
 
     private fun setMeView(meHolder: MessageMeViewHolder, res: MessageModel) {
@@ -102,9 +105,15 @@ class MessageViewAdapter(private val context: Context) : Adapter<RecyclerView.Vi
         }
     }
 
-    private fun setOppView(oppHolder: MessageOppViewHolder, res: MessageModel) {
+    private fun setOppView(oppHolder: MessageOppViewHolder, res: MessageModel, isActive: Boolean) {
         oppHolder.opp_messageFull.text = res.message
         oppHolder.opp_messageTime.text = TimeStampConverter.getTimeAgo(res.timeStamp)
+
+        if (!isActive) {
+            oppHolder.opp_profileCard.strokeColor = Color.RED
+        }else{
+            oppHolder.opp_profileCard.strokeColor = Color.GREEN
+        }
         if (res.link != "No Image") {
             Glide.with(context)
                 .load(res.link)

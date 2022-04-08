@@ -17,7 +17,10 @@ class ChatViewModel() : ViewModel() {
     fun getMessage(docId: String): LiveData<ChatDataModel> {
         return Repository.getMessage(docId)
     }
-    fun sendMessage(docId: String,messageModel: MessageModel){
-        Repository.sendMessage(docId,messageModel)
+
+    fun sendMessage(docId: String, messageModel: MessageModel) {
+        Repository.sendMessage(docId, messageModel)
     }
+
+    fun isUserActive(userId: String): LiveData<Boolean> = Repository.isUserActive(userId)
 }

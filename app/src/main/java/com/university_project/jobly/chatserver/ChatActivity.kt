@@ -1,16 +1,20 @@
 package com.university_project.jobly.chatserver
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.card.MaterialCardView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -23,9 +27,14 @@ import com.university_project.jobly.utils.SharedInfo
 class ChatActivity : AppCompatActivity() {
     private lateinit var liveData: ChatViewModel
     private lateinit var binding: ActivityChatBinding
+    private lateinit var messangerName: TextView
+    private lateinit var isMessangerActive: TextView
+    private lateinit var messangerProfileCard: MaterialCardView
     private val myAdapter = MessageViewAdapter(this)
     private val storage = Firebase.storage
     private var imageUri = Uri.EMPTY
+
+    @SuppressLint("ResourceAsColor")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityChatBinding.inflate(layoutInflater)
@@ -33,6 +42,9 @@ class ChatActivity : AppCompatActivity() {
         else setTheme(R.style.Theme_SplashJoblyLightNoActoinBar)
         setContentView(binding.root)
         val docId = intent.getStringExtra("docId")
+        messangerName = findViewById(R.id.tv_messangerNameId)
+        isMessangerActive = findViewById(R.id.tv_isMessangerActive_id)
+        messangerProfileCard = findViewById(R.id.cv_messangerCard_id)
         binding.rvViewMessageListId.layoutManager = LinearLayoutManager(this)
         binding.rvViewMessageListId.adapter = myAdapter
         liveData = ViewModelProvider(this)[ChatViewModel::class.java]
@@ -40,12 +52,42 @@ class ChatActivity : AppCompatActivity() {
             SharedInfo.USER.user,
             MODE_PRIVATE
         ).getString(SharedInfo.USER_TYPE.user, null)!!
-        liveData.getMessage(docId!!).observe(this) {
-            myAdapter.setMessage(it, userType)
-            myAdapter.notifyDataSetChanged()
-            if (it.messages.size > 0) {
-                binding.rvViewMessageListId.smoothScrollToPosition(it.messages.size - 1)
+        liveData.getMessage(docId!!).observe(this) { userDetails ->
+            if (userType == "Client") {
+                liveData.isUserActive(userDetails.empId).observe(this) { isActive ->
+                    myAdapter.setMessage(userDetails, userType, isActive)
+
+                    if (userType != userDetails.messages[0].userType) {
+                        messangerName.text = userDetails.empName
+                        if (isActive) {
+                            isMessangerActive.text = "Active Now"
+                            messangerProfileCard.strokeColor = Color.GREEN
+                        } else {
+                            messangerProfileCard.strokeColor = Color.RED
+                            isMessangerActive.text = "Inactive"
+                        }
+                    }
+                    myAdapter.notifyDataSetChanged()
+                    binding.rvViewMessageListId.smoothScrollToPosition(userDetails.messages.size - 1)
+                }
+            } else {
+                liveData.isUserActive(userDetails.cltId).observe(this) { isActive ->
+                    myAdapter.setMessage(userDetails, userType, isActive)
+                    if (userType != userDetails.messages[0].userType) {
+                        messangerName.text = userDetails.cltName
+                        if (isActive) {
+                            isMessangerActive.text = "Active Now"
+                            messangerProfileCard.strokeColor = Color.GREEN
+                        } else {
+                            messangerProfileCard.strokeColor = Color.RED
+                            isMessangerActive.text = "Inactive"
+                        }
+                    }
+                    myAdapter.notifyDataSetChanged()
+                    binding.rvViewMessageListId.smoothScrollToPosition(userDetails.messages.size - 1)
+                }
             }
+
         }
         var uploadImage =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { imageRes: ActivityResult ->

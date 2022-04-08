@@ -30,10 +30,10 @@ class AppliedEmployeeActivity : AppCompatActivity(), SPAppliedEmpClick {
         binding.rvAppliedEmployeeId.layoutManager = LinearLayoutManager(this)
         binding.rvAppliedEmployeeId.adapter = myAdapter
         liveData = ViewModelProvider(this)[ClientPostViewModel::class.java]
-        liveData.getAppliedEmployee(docId!!).observe(this, {
+        liveData.getAppliedEmployee(docId!!).observe(this) {
             myAdapter.setData(it)
             myAdapter.notifyDataSetChanged()
-        })
+        }
     }
 
     override fun onAcceptEmp(appliedDataModel: AppliedDataModel) {

@@ -60,9 +60,9 @@ object Repository {
     fun getMessage(docId: String): LiveData<ChatDataModel> {
         val liveChat = MutableLiveData<ChatDataModel>()
         chatServer.document(docId).addSnapshotListener { chatValue, _ ->
-            val chatDataModel = chatValue?.toObject(ChatDataModel::class.java)
-            chatDataModel?.let {
-                liveChat.value = it
+            chatValue?.let {
+                val chatDataModel = it.toObject(ChatDataModel::class.java)
+                liveChat.value = chatDataModel!!
             }
         }
         return liveChat
@@ -361,7 +361,15 @@ object Repository {
             val EmpId = chatDataModel.employeeId
             val postId = chatDataModel.docId
             val postTitle = "This is post"
-            val messages = ArrayList<MessageModel>()
+            val messages = arrayListOf(
+                MessageModel(
+                    "No Image",
+                    System.currentTimeMillis(),
+                    auth.uid.toString(),
+                    "Hi",
+                    "Client"
+                )
+            )
             var myChatDataModel = ChatDataModel()
             dbProfile.document(CltId).get().addOnSuccessListener { clientVal ->
                 val clientProfileImg = clientVal.data!!["profileImg"].toString()
@@ -434,6 +442,15 @@ object Repository {
             }
 
         // dbPost.document(appliedDataModel.docId).set(false, SetOptions.mergeFieldPaths("appliedEmployee" ))
+    }
+
+    fun isUserActive(userId: String): LiveData<Boolean> {
+        var userActive = MutableLiveData<Boolean>()
+        dbProfile.document(userId).addSnapshotListener { value, _ ->
+            val userData = value?.toObject(EmployeeProfileModel::class.java)
+            userActive.value = userData?.active
+        }
+        return userActive
     }
 }
 

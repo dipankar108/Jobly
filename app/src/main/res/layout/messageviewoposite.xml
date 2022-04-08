@@ -21,14 +21,15 @@
             android:padding="5dp">
 
             <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cv_profileImage_id"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 app:cardCornerRadius="20dp"
-                app:strokeColor="@color/colorGreen"
+                tools:strokeColor="@color/colorGreen"
                 app:strokeWidth="2dp">
 
                 <ImageView
-                    android:id="@+id/img_messageProfileImgOpp_id"
+                    android:id="@+id/iv_messangerProfile_id"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:adjustViewBounds="true"
