@@ -2,11 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/sfl_clientPostViewRefresh_id"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".client.fragment.ClientJobPostFragment"
-    android:id="@+id/sfl_clientPostViewRefresh_id"
-    >
+    android:background="@color/black"
+    tools:context=".client.fragment.ClientJobPostFragment">
 
     <ProgressBar
         android:id="@+id/pb_clientView_id"
@@ -16,6 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_clientPostView_id"
         android:layout_width="match_parent"
@@ -23,6 +24,5 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:listitem="@layout/postitemview"
-        />
+        tools:listitem="@layout/postitemview" />
 </androidx.constraintlayout.widget.ConstraintLayout>

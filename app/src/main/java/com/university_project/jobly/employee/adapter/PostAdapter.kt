@@ -21,7 +21,6 @@ class PostAdapter(private val listener: ClickHandle) :
         val title: TextView = itemView.findViewById(R.id.tv_postViewTitle_id)
         val desc: TextView = itemView.findViewById(R.id.tv_postViewDesc_id)
         val like: ImageView = itemView.findViewById(R.id.img_postViewliked_id)
-        val position: TextView = itemView.findViewById(R.id.tv_postViewPosition_id)
         val timeStamp: TextView = itemView.findViewById(R.id.tv_postViewTimeStamp_id)
         val likeNum: TextView = itemView.findViewById(R.id.tv_jobPostLikeNum_id)
     }
@@ -36,7 +35,6 @@ class PostAdapter(private val listener: ClickHandle) :
         holder.title.text = res.title
         holder.desc.text = res.desc
         holder.likeNum.text = res.isLike.size.toString()
-        holder.position.text=res.skill[0]
         holder.timeStamp.text=TimeStampConverter.getTimeAgo(res.timeStamp)
         holder.desc.setOnClickListener {
             listener.onDescClick(res.docId)

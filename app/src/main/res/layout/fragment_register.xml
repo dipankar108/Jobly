@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
     android:orientation="vertical"
     tools:context=".accountlog.RegisterFragment">
 
@@ -45,7 +46,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="10dp"
-                android:background="@drawable/tv_rectangle"
+                android:background="@drawable/et_account"
                 android:hint="@string/email"
                 android:inputType="textEmailAddress"
                 android:padding="5dp"
@@ -59,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="10dp"
-                android:background="@drawable/tv_rectangle"
+                android:background="@drawable/et_account"
                 android:hint="@string/pass"
                 android:inputType="textPassword"
                 android:padding="5dp"
@@ -73,7 +74,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="10dp"
-                android:background="@drawable/tv_rectangle"
+                android:background="@drawable/et_account"
                 android:ems="10"
                 android:hint="@string/fName"
                 android:inputType="textPersonName"
@@ -89,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="10dp"
-                android:background="@drawable/tv_rectangle"
+                android:background="@drawable/et_account"
                 android:ems="10"
                 android:hint="@string/lName"
                 android:inputType="textPersonName"
@@ -107,12 +108,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/et_reg_lName_id" />
 
-            <AutoCompleteTextView
+            <androidx.appcompat.widget.AppCompatAutoCompleteTextView
                 android:id="@+id/am_et_Reg_skill_createPost_id"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="10dp"
-                android:background="@drawable/tv_rectangle"
+                android:background="@drawable/et_account"
                 android:hint="@string/skill"
                 android:padding="5dp"
                 android:singleLine="true"
@@ -136,7 +137,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@drawable/btn_black_round"
+                android:background="@drawable/et_account"
                 android:text="@string/submit"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"

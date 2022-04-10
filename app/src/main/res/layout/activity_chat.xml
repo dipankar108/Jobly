@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_image"
+    android:background="@drawable/gradient_background"
     android:forceDarkAllowed="true"
     tools:context=".chatserver.ChatActivity">
 
@@ -90,8 +90,7 @@
             android:hint="Enter message here"
             android:padding="5dp"
             android:textColor="@color/colorBackYellow"
-            android:textColorHint="@color/colorBackYellow200"
-            />
+            android:textColorHint="@color/colorBackYellow200" />
 
         <ImageView
             android:id="@+id/img_messageSend_id"

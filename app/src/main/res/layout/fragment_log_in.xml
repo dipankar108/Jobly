@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/transparent"
+    android:background="@drawable/gradient_background"
     tools:context=".accountlog.LogInFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -26,12 +26,12 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_margin="10dp"
-            android:padding="5dp"
-            android:background="@drawable/tv_rectangle"
+            android:background="@drawable/et_account"
             android:hint="@string/email"
             android:inputType="textEmailAddress"
-            android:textColorHint="@color/black_hint"
+            android:padding="5dp"
             android:textColor="@color/black"
+            android:textColorHint="@color/black_hint"
             app:layout_constraintTop_toBottomOf="@+id/tv_reg_name_id"
             tools:layout_editor_absoluteX="0dp" />
 
@@ -40,12 +40,12 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_margin="10dp"
-            android:background="@drawable/tv_rectangle"
+            android:background="@drawable/et_account"
             android:hint="@string/pass"
             android:inputType="textPassword"
             android:padding="5dp"
-            android:textColorHint="@color/black_hint"
             android:textColor="@color/black"
+            android:textColorHint="@color/black_hint"
             app:layout_constraintTop_toBottomOf="@+id/et_log_email_id"
             tools:layout_editor_absoluteX="0dp" />
 
@@ -56,7 +56,7 @@
             android:layout_margin="10dp"
             android:background="@drawable/btn_black_round"
             android:text="@string/logIn"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"

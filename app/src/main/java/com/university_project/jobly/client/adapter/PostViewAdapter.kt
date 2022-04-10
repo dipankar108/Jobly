@@ -17,7 +17,6 @@ class PostViewAdapter(private val listener: ClickHandle) : RecyclerView.Adapter<
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val postTitle: TextView = itemView.findViewById(R.id.tv_postViewTitle_id)
         val postDesc: TextView = itemView.findViewById(R.id.tv_postViewDesc_id)
-        val position: TextView = itemView.findViewById(R.id.tv_postViewPosition_id)
         val timeStamp: TextView = itemView.findViewById(R.id.tv_postViewTimeStamp_id)
         val location: TextView = itemView.findViewById(R.id.tv_postViewLocation_id)
         val delete:ImageView=itemView.findViewById(R.id.img_postViewliked_id)
@@ -37,7 +36,6 @@ class PostViewAdapter(private val listener: ClickHandle) : RecyclerView.Adapter<
         val res = myArrayList[position]
         holder.postTitle.text = res.title
         holder.postDesc.text = res.desc
-        holder.position.text = res.skill[0]
         holder.timeStamp.text = TimeStampConverter.getTimeAgo(res.timeStamp)
         holder.location.text = res.location
         holder.delete.setImageResource(R.drawable.ic_delete)

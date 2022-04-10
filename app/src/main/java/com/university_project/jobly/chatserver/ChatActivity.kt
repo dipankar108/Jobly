@@ -56,7 +56,6 @@ class ChatActivity : AppCompatActivity() {
             if (userType == "Client") {
                 liveData.isUserActive(userDetails.empId).observe(this) { isActive ->
                     myAdapter.setMessage(userDetails, userType, isActive)
-
                     if (userType != userDetails.messages[0].userType) {
                         messangerName.text = userDetails.empName
                         if (isActive) {
