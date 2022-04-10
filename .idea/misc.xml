@@ -17,6 +17,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/drawable/tv_rectangle.xml" value="0.1875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_account_log.xml" value="0.1" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_chat.xml" value="0.18" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_employee.xml" value="0.18229166666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_splash_screen.xml" value="0.18229166666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/chatitemview.xml" value="0.25" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/fragment_client_job_post.xml" value="0.1361111111111111" />
@@ -29,7 +30,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/messageview.xml" value="0.38316400580551524" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/messageviewme.xml" value="0.2" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/messageviewoposite.xml" value="0.25" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/postitemview.xml" value="0.33" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/postitemview.xml" value="0.25" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/progressbarlayout.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/skillitemview.xml" value="0.20416666666666666" />
       </map>

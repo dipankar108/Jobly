@@ -4,8 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="5dp"
-    android:background="@color/colorDarkslateGray"
+    android:layout_marginStart="5dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginBottom="2dp"
+    android:background="@color/white"
+    android:elevation="2dp"
     android:gravity="center"
     android:orientation="vertical"
     app:cardCornerRadius="4dp">
@@ -13,14 +17,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorDarkslateGray"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:background="@color/colorDarkslateGray"
+            android:background="@color/white"
             android:orientation="horizontal">
 
             <TextView
@@ -30,7 +34,7 @@
                 android:gravity="left"
                 android:text="This is job"
 
-                android:textColor="@color/white"
+                android:textColor="@color/black"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -57,7 +61,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_margin="1dp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     tools:text="30" />
             </LinearLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -65,9 +69,9 @@
         <View
             android:layout_width="wrap_content"
             android:layout_height="1dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@color/colorAccent" />
+
+            android:layout_margin="10dp"
+            android:background="@color/colorLightGray" />
 
         <TextView
             android:id="@+id/tv_postViewDesc_id"
@@ -77,20 +81,19 @@
             android:ellipsize="end"
             android:maxLines="3"
             android:text="This is  a job that we need an employee who is very good at android app developement with kotlin mobile programming platform"
-            android:textColor="@color/white" />
+            android:textColor="@color/black" />
 
         <View
             android:layout_width="wrap_content"
             android:layout_height="1dp"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:background="@color/colorAccent" />
+            android:layout_margin="10dp"
+            android:background="@color/colorLightGray" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="4dp"
-            android:background="@color/colorDarkslateGray">
+            android:background="@color/white">
 
             <LinearLayout
                 android:id="@+id/linearLayout3"
@@ -104,14 +107,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Post Time"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/tv_postViewTimeStamp_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="17 days ago"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </LinearLayout>
@@ -128,14 +131,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Experience"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/tv_postViewExperience_id"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="2 Years"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
             </LinearLayout>
@@ -151,7 +154,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Verification"
-                    android:textColor="@color/white" />
+                    android:textColor="@color/black" />
 
                 <TextView
                     android:id="@+id/tv_postViewLocation_id"

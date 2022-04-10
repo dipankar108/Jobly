@@ -1,6 +1,8 @@
 package com.university_project.jobly.employee
 
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -24,6 +26,9 @@ class EmployeeActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEmployeeBinding.inflate(layoutInflater)
+        val actionbar = supportActionBar
+        val colorDrawable = ColorDrawable(Color.parseColor("#79AA8D"))
+        actionbar?.setBackgroundDrawable(colorDrawable)
         setContentView(binding.root)
         binding.bnbEmpId.menu.findItem(R.id.e_allPost_menu_id).isChecked = true
         changedFragment(JobPostFragment())
