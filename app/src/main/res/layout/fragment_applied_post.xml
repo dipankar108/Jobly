@@ -3,14 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPostBack"
     tools:context=".employee.AppliedPostFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_emp_appliedPost_id"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/postitemview"
-        />
+        tools:listitem="@layout/postitemview" />
 
 
 </FrameLayout>

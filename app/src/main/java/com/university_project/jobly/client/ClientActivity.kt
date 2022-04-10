@@ -2,6 +2,8 @@ package com.university_project.jobly.client
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -33,12 +35,15 @@ class ClientActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityClientBinding.inflate(layoutInflater)
+        val actionbar = supportActionBar
+        val colorDrawable = ColorDrawable(Color.parseColor("#79AA8D"))
+        actionbar?.setBackgroundDrawable(colorDrawable)
         setContentView(binding.root)
         changeFragment(ClientJobPostFragment())
         Firebase.auth.uid!!
         Repository.updateActiveStatus(true)
         userLiveData = ViewModelProvider(this)[UserViewModel::class.java]
-        userLiveData.userBanInfo.observe(this, {
+        userLiveData.userBanInfo.observe(this) {
             if (it) {
                 Toast.makeText(
                     this,
@@ -50,7 +55,7 @@ class ClientActivity : AppCompatActivity() {
                 startActivity(intent)
                 finish()
             }
-        })
+        }
         binding.bmnClientNavBar.menu.findItem(R.id.client_myPost_menu_id).isChecked = true
         binding.bmnClientNavBar.setOnItemSelectedListener {
             when (it.itemId) {
