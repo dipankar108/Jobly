@@ -3,6 +3,7 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/user/.gradle/caches/transforms-3/23004df51098526dac9bf211496d844f/transformed/core-1.7.0/res/layout/custom_dialog.xml" value="0.18229166666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/drawable/appbackgroundsplash_background.xml" value="0.1875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/drawable/backgroundsp.xml" value="0.1875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/drawable/btn_black_round.xml" value="0.1875" />
@@ -44,6 +45,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/postitemview.xml" value="0.25" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/progressbarlayout.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/skillitemview.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/updateprofiledialog.xml" value="0.18229166666666666" />
       </map>
     </option>
   </component>

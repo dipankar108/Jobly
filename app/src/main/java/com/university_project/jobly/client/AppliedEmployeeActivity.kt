@@ -9,6 +9,7 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.university_project.jobly.R
 import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.client.adapter.SPAppliedEmpAdapter
 import com.university_project.jobly.client.clientviewmodel.ClientPostViewModel

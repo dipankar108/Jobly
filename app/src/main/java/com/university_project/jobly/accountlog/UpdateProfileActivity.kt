@@ -5,26 +5,26 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.widget.ArrayAdapter
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.university_project.jobly.adapter.SkillAdapter
 import com.university_project.jobly.baseviewmodel.BaseViewModel
+import com.university_project.jobly.baseviewmodel.profile.UserViewModel
 import com.university_project.jobly.databinding.ActivityUpdateProfileBinding
-import com.university_project.jobly.datamodel.EmployeeProfileModel
 import com.university_project.jobly.employee.EmployeeActivity
 import com.university_project.jobly.interfaces.SkillClick
 import com.university_project.jobly.utils.SharedInfo
 
 class UpdateProfileActivity : AppCompatActivity(), SkillClick {
     private lateinit var liveData: BaseViewModel
+    private lateinit var updateProfileLiveData: UserViewModel
     private lateinit var binding: ActivityUpdateProfileBinding
     private var selectedSkills = mutableListOf<String>()
     private var skills = listOf<String>()
@@ -34,7 +34,8 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
     private var pdfUri = Uri.EMPTY
     private lateinit var skillTextAdapter: ArrayAdapter<String>
     private var storageRef = Firebase.storage
-    val skillAdapter = SkillAdapter(this)
+    private lateinit var dialog: AlertDialog.Builder
+    private val skillAdapter = SkillAdapter(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityUpdateProfileBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -47,7 +48,11 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
         }
         binding.rvUpSkillId.adapter = skillAdapter
         val userInfo = sh.getString(SharedInfo.USER_TYPE.user, null)
+        updateProfileLiveData = ViewModelProvider(this)[UserViewModel::class.java]
+        dialog = AlertDialog.Builder(this)
+
         if (userInfo == "Client") {
+
         } else {
             liveData.getEmployeeProfile().observe(this) { user ->
                 if (user.verify) {
@@ -99,76 +104,60 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
         binding.btnUploadCVId.setOnClickListener {
             getContent.launch("application/pdf")
         }
+        binding.etUpFnameId.setOnClickListener {
+            updateProfileWithDialog(binding.etUpFnameId.text.toString(), "First Name", "fname")
+        }
+        binding.etUpLnameId.setOnClickListener {
+            updateProfileWithDialog(binding.etUpLnameId.text.toString(), "Last Name", "lname")
+
+        }
+        binding.etUpEmailId.isEnabled = false
+        binding.etUpAboutYourselfId.setOnClickListener {
+            updateProfileWithDialog(
+                binding.etUpAboutYourselfId.text.toString(),
+                "About YourSelf",
+                "yourself"
+            )
+        }
+        binding.etUpYourHobbyId.setOnClickListener {
+            updateProfileWithDialog(
+                binding.etUpYourHobbyId.text.toString(),
+                "Your Hobby",
+                "hobby"
+            )
+        }
         binding.btnUpSubmitId.setOnClickListener {
-            val fname = binding.etUpFnameId.text.toString()
-            val lname = binding.etUpLnameId.text.toString()
-            val userId = Firebase!!.auth.uid.toString()
-            val userEmail = binding.etUpEmailId.text.toString()
-            val userType = "Employee"
-            val skill = selectedSkills
-            val currentCompany = ""
-            val hobby = binding.etUpYourHobbyId.text.toString()
-            val yourself = binding.etUpAboutYourselfId.text.toString()
-            val banned = false
-            val verify = verified
-            val db = Firebase.firestore.collection("User").document(Firebase.auth.uid.toString())
             val mstorageRef =
                 storageRef.reference.child("cvPDF/${System.currentTimeMillis()}${Firebase.auth.uid}")
             mstorageRef.putFile(pdfUri)
                 .addOnSuccessListener {
                     mstorageRef.downloadUrl.addOnSuccessListener { cvUrl ->
                         if (cvUrl != null) {
-                            updateProfile(
-                                fname,
-                                lname,
-                                userId,
-                                userEmail,
-                                userType,
-                                skill,
-                                currentCompany,
-                                hobby,
-                                yourself,
-                                banned,
-                                verify,
-                                cvUrl.toString()
-                            )
+
                         }
                     }
                 }
         }
     }
 
-    private fun updateProfile(
-        fname: String,
-        lname: String,
-        userId: String,
-        userEmail: String,
-        userType: String,
-        skill: MutableList<String>,
-        currentCompany: String,
-        hobby: String,
-        yourself: String,
-        banned: Boolean,
-        verify: Boolean,
-        it: String
-    ) {
-        val employeeProfileModel = EmployeeProfileModel(
-            userId,
-            fname,
-            lname,
-            userEmail,
-            userPass,
-            userType,
-            skill as ArrayList<String>,
-            currentCompany,
-            hobby,
-            yourself,
-            verify,
-            banned,
-            it
+    private fun updateProfileWithDialog(plaintext: String, hintText: String, field: String) {
+        val view = layoutInflater.inflate(
+            com.university_project.jobly.R.layout.updateprofiledialog,
+            null,
+            false
         )
-        liveData.updateEmpProfile(employeeProfileModel)
-        backToHome()
+        val inputText =
+            view.findViewById<EditText>(com.university_project.jobly.R.id.et_bottomFragment_Update_id)
+        val titleText =
+            view.findViewById<TextView>(com.university_project.jobly.R.id.tv_titleview_update_id)
+        val btnSubmit =
+            view.findViewById<Button>(com.university_project.jobly.R.id.btn_submit_update_id)
+        dialog.setView(view).show()
+        inputText.setText(plaintext)
+        titleText.text = hintText
+        btnSubmit.setOnClickListener {
+            updateProfileLiveData.updateProfile(inputText.text.toString(), field)
+        }
     }
 
 
@@ -187,10 +176,11 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
         backToHome()
     }
 
-    fun backToHome() {
+    private fun backToHome() {
         val intent = Intent(this, EmployeeActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         startActivity(intent)
         finish()
     }
 }
+
