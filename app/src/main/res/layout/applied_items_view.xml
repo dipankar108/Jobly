@@ -1,64 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_appliedItemList_id"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="10dp"
+    android:layout_marginStart="5dp"
+    android:layout_marginTop="2dp"
+    android:layout_marginEnd="5dp"
+    android:layout_marginBottom="2dp"
+    android:background="@color/white"
+    android:elevation="2dp"
     android:gravity="center"
-    android:orientation="horizontal"
-    android:id="@+id/ll_appliedItemList_id"
-    >
+    android:orientation="vertical"
+    app:cardCornerRadius="4dp">
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.7"
-        android:orientation="vertical">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
 
-        <TextView
-            android:id="@+id/tv_clientAppliedTitle_id"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.7"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_clientAppliedTitle_id"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:padding="4dp"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                tools:text="Post title" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/colorLightGray" />
+
+            <TextView
+                android:id="@+id/tv_clientAppliedDesc_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:padding="4dp"
+                android:textColor="@color/black"
+                android:textSize="15sp"
+                tools:text="This is a post description and we need a man to get or work on this description" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.3"
+            android:gravity="center"
+            android:orientation="vertical"
             android:padding="4dp"
-            android:textColor="@color/white"
-            android:textSize="30dp"
-            tools:text="Post title" />
+            android:textColor="@color/white">
 
-        <TextView
-            android:id="@+id/tv_clientAppliedDesc_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ellipsize="end"
-            android:maxLines="2"
-            android:padding="4dp"
-            android:textColor="@color/white"
-            android:textSize="18dp"
-            tools:text="This is a post description and we need a man to get or work on this description" />
+            <TextView
+                android:id="@+id/tv_clientAppliedApplied_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Applied"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                />
+
+            <TextView
+                android:id="@+id/tv_clientAppliedNumber_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                tools:text="10" />
+        </LinearLayout>
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="0.3"
-        android:orientation="vertical"
-        android:padding="4dp"
-        android:textColor="@color/white">
-
-        <TextView
-            android:id="@+id/tv_clientAppliedApplied_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Applied"
-            android:textColor="@color/white"
-            android:textSize="25dp" />
-
-        <TextView
-            android:id="@+id/tv_clientAppliedNumber_id"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="@color/white"
-            android:textSize="25dp"
-            tools:text="10" />
-    </LinearLayout>
-</LinearLayout>
+</androidx.cardview.widget.CardView>

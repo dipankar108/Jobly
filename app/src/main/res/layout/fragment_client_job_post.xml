@@ -5,7 +5,7 @@
     android:id="@+id/sfl_clientPostViewRefresh_id"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPostBack"
+    android:background="@drawable/gradient_background"
     tools:context=".client.fragment.ClientJobPostFragment">
 
     <ProgressBar

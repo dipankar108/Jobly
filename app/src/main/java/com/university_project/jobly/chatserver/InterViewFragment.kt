@@ -3,6 +3,7 @@ package com.university_project.jobly.chatserver
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +20,7 @@ class InterViewFragment : Fragment(), ChatClickService {
     private val binding get() = _binding
     private lateinit var _binding: FragmentInterViewBinding
     private lateinit var liveData: ChatViewModel
-    private val myAdapter = ChatListViewAdapter(this)
+    private lateinit var myAdapter: ChatListViewAdapter
     private var userType = ""
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,6 +33,7 @@ class InterViewFragment : Fragment(), ChatClickService {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        myAdapter = context?.let { ChatListViewAdapter(this, it) }!!
         liveData = ViewModelProvider(requireActivity())[ChatViewModel::class.java]
         binding.rvChatListViewId.layoutManager = LinearLayoutManager(requireContext())
         binding.rvChatListViewId.adapter = myAdapter
@@ -39,10 +41,14 @@ class InterViewFragment : Fragment(), ChatClickService {
         userType = if (sh?.getString(SharedInfo.USER_TYPE.user, null) == "Client") {
             "cltId"
         } else "empId"
-        liveData.getChatList(userType, Firebase.auth.uid.toString()).observe(viewLifecycleOwner, {
-            myAdapter.setChatList(it)
-            myAdapter.notifyDataSetChanged()
-        })
+        liveData.getChatList(userType, Firebase.auth.uid.toString()).observe(viewLifecycleOwner) {
+            myAdapter?.let { myAdapter ->
+                Log.d("FragTAG", "onViewCreated: $it")
+                myAdapter.setChatList(it, userType)
+                myAdapter.notifyDataSetChanged()
+            }
+
+        }
     }
 
     override fun onClickChat(docId: String) {

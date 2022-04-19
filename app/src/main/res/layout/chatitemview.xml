@@ -67,7 +67,7 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_marginStart="10dp"
-                        android:text="5 minutes ago"
+                        android:text="This is last message"
                         android:textColor="@color/black" />
 
                 </LinearLayout>

@@ -13,7 +13,6 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.university_project.jobly.chatserver.ChatDataModel
-import com.university_project.jobly.chatserver.ChatListViewDataModel
 import com.university_project.jobly.chatserver.MessageModel
 import com.university_project.jobly.datamodel.AppliedDataModel
 import com.university_project.jobly.datamodel.CreatePostModel
@@ -29,12 +28,20 @@ object Repository {
     private val fabEmpPost = mutableSetOf<PostDataModel>()
     private val empProfilePost = mutableSetOf<EmployeeProfileModel>()
     private val myApplication = mutableSetOf<PostDataModel>()
-    private val chatList = mutableSetOf<ChatListViewDataModel>()
+    private val chatList = mutableSetOf<ChatDataModel>()
     private var storageRef = Firebase.storage
+    var liveSkill = MutableLiveData<List<String>>()
+
+    /**SIGNING OUT FROM THE DEVICE**/
+    fun signOutClear() {
+        chatList.clear()
+        myJobPost.clear()
+        fabEmpPost.clear()
+        liveSkill.value = listOf()
+    }
 
     /**GETTING EMPLOYEE SKILL LIST**/
     fun getMySkill(): LiveData<List<String>> {
-        var liveSkill = MutableLiveData<List<String>>()
         dbProfile.document(auth.uid.toString()).addSnapshotListener { value, error ->
             value?.data?.get("skill")?.let {
                 liveSkill.value = it as List<String>
@@ -69,38 +76,44 @@ object Repository {
     }
 
     /** Getting chat List For user **/
-    fun getChatList(userType: String, userId: String): LiveData<List<ChatListViewDataModel>> {
-        val liveChatList = MutableLiveData<List<ChatListViewDataModel>>()
+    fun getChatList(userType: String, userId: String): LiveData<List<ChatDataModel>> {
+        val liveChatList = MutableLiveData<List<ChatDataModel>>()
         chatServer.whereEqualTo(userType, userId).addSnapshotListener { value, _ ->
-            value?.let {
-                for (doc in value!!.documentChanges) {
-                    val res = doc.document.data
-                    val empName = res["empName"].toString()
-                    val cltName = res["cltName"].toString()
-                    val cltId = res["cltId"].toString()
-                    val empId = res["empId"].toString()
-                    val postId = res["postId"].toString()
-                    val postTitle = res["postTitle"].toString()
-                    val clientSeen = res["clientSeen"] as Boolean
-                    val empSeen = res["empSeen"] as Boolean
-                    val timeStamp = res["timeStamp"] as Long
-                    val docId = doc.document.id
-                    val clientProfileImg = res["cilentProfileImg"].toString()
-                    val empProfileImg = res["empProfileImg"].toString()
-                    chatList.add(
-                        ChatListViewDataModel(
-                            empName,
-                            cltName,
-                            postTitle,
-                            clientSeen,
-                            empSeen,
-                            timeStamp,
-                            docId,
-                            clientProfileImg,
-                            empProfileImg
-                        )
-                    )
+            value?.let { local ->
+                for (doc in local.documentChanges) {
+                    val chatDataModel = doc.document.toObject(ChatDataModel::class.java)
+                    chatList.add(chatDataModel)
                 }
+                /**
+                for (doc in value!!.documentChanges) {
+                val res = doc.document.data
+                val empName = res["empName"].toString()
+                val cltName = res["cltName"].toString()
+                val cltId = res["cltId"].toString()
+                val empId = res["empId"].toString()
+                val postId = res["postId"].toString()
+                val postTitle = res["postTitle"].toString()
+                val clientSeen = res["clientSeen"] as Boolean
+                val empSeen = res["empSeen"] as Boolean
+                val timeStamp = res["timeStamp"] as Long
+                val docId = doc.document.id
+                val clientProfileImg = res["cilentProfileImg"].toString()
+                val empProfileImg = res["empProfileImg"].toString()
+                chatList.add(
+                ChatListViewDataModel(
+                empName,
+                cltName,
+                postTitle,
+                clientSeen,
+                empSeen,
+                timeStamp,
+                docId,
+                clientProfileImg,
+                empProfileImg
+                )
+                )
+                }
+                 **/
             }
             liveChatList.value = chatList.toTypedArray().toList()
         }

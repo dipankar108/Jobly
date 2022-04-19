@@ -3,12 +3,12 @@ package com.university_project.jobly.client.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.university_project.jobly.R
-import com.university_project.jobly.datamodel.PostDataModel
 import com.university_project.jobly.client.interfaces.AppliedClickedHandle
+import com.university_project.jobly.datamodel.PostDataModel
 
 class AppliedViewAdapter(private val listner: AppliedClickedHandle) :
     RecyclerView.Adapter<AppliedViewAdapter.AppliedViewHolder>() {
@@ -18,7 +18,7 @@ class AppliedViewAdapter(private val listner: AppliedClickedHandle) :
         val appliedTitle: TextView = itemView.findViewById(R.id.tv_clientAppliedTitle_id)
         val appliedDesc: TextView = itemView.findViewById(R.id.tv_clientAppliedDesc_id)
         val appliedNumber: TextView = itemView.findViewById(R.id.tv_clientAppliedNumber_id)
-        val appliedLinearLayout: LinearLayout = itemView.findViewById(R.id.ll_appliedItemList_id)
+        val appliedLinearLayout: CardView = itemView.findViewById(R.id.ll_appliedItemList_id)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppliedViewHolder {

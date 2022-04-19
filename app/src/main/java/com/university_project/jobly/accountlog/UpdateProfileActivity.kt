@@ -55,7 +55,7 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
         val userInfo = sh.getString(SharedInfo.USER_TYPE.user, null)
         if (userInfo == "Client") {
         } else {
-            liveData.getEmployeeProfile().observe(this, { user ->
+            liveData.getEmployeeProfile().observe(this) { user ->
                 if (user.verify) {
                     binding.tvUpVerifyInfoId.text = "You are Verified"
                 } else {
@@ -73,7 +73,7 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
                 skillAdapter.notifyDataSetChanged()
                 userPass = user.userPass
                 cvEmp = user.cvEmp
-            })
+            }
             liveData.getSkill().observe(this, { skill ->
                 skills = skill
                 skillTextAdapter =

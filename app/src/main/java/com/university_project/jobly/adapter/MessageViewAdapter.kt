@@ -97,14 +97,12 @@ class MessageViewAdapter(private val context: Context) : Adapter<RecyclerView.Vi
             meHolder.me_imageCard.visibility = View.GONE
         }
         if (res.userType == "Client") {
-            Log.d("TAG", "setMeView: ${messageProperty.clientProfileImg}")
             Glide.with(context)
                 .load(messageProperty.clientProfileImg)
                 .placeholder(R.drawable.image_loding_anim)
                 .error(R.drawable.ic_profileimg)
                 .into(meHolder.me_profileImg)
         } else {
-            Log.d("TAG", "setMeView: ${messageProperty.empProfileImg}")
             Glide.with(context)
                 .load(messageProperty.empProfileImg)
                 .placeholder(R.drawable.image_loding_anim)

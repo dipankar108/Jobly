@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.JobPostView
-import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.databinding.FragmentJobPostBinding
 import com.university_project.jobly.datamodel.PostDataModel
 import com.university_project.jobly.employee.adapter.PostAdapter
@@ -36,14 +35,14 @@ class JobPostFragment : Fragment(), ClickHandle {
         val myAdapter = PostAdapter(this)
         binding.rvEmpJobPostViewId.layoutManager = LinearLayoutManager(requireContext())
         binding.rvEmpJobPostViewId.adapter = myAdapter
-       // Repository.getChatList(Firebase.auth.uid.toString(),"")
+        // Repository.getChatList(Firebase.auth.uid.toString(),"")
         liveData = ViewModelProvider(this)[EmpViewModel::class.java]
-      liveData.getMYSkill().observe(viewLifecycleOwner,{
-          liveData.getJobPost(it).observe(viewLifecycleOwner, { list ->
-              myAdapter.setDataToList(list.sortedByDescending { it.timeStamp })
-              myAdapter.notifyDataSetChanged()
-          })
-      })
+        liveData.getMYSkill().observe(viewLifecycleOwner) { list ->
+            liveData.getJobPost(list).observe(viewLifecycleOwner) { list ->
+                myAdapter.setDataToList(list.sortedByDescending { it.timeStamp })
+                myAdapter.notifyDataSetChanged()
+            }
+        }
     }
 
     override fun onLikeClick(postDataModel: PostDataModel, b: Boolean) {

@@ -3,12 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
     android:orientation="vertical"
     tools:context=".accountlog.UpdateProfileActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:gravity="center"
         android:orientation="vertical">
 
         <TextView
@@ -20,14 +22,18 @@
             android:id="@+id/et_up_fname_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/et_account"
             android:gravity="center"
+            android:padding="5dp"
             android:text="First Name" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_up_lname_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/et_account"
             android:gravity="center"
+            android:padding="5dp"
             android:text="Last Name" />
 
         <EditText
@@ -55,30 +61,39 @@
             android:id="@+id/et_up_email_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/et_account"
             android:gravity="center"
+            android:inputType="textEmailAddress"
+            android:padding="5dp"
             android:text="Email" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_up_yourHobby_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/et_account"
             android:gravity="center"
             android:maxLines="3"
             android:minLines="2"
+            android:padding="5dp"
             android:text="Your Hobby" />
 
-        <Button
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_uploadCV_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Upload CV"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/btn_black_round"
+            android:text="Upload CV" />
 
-            />
-
-        <com.google.android.material.button.MaterialButton
+        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_up_submit_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:background="@drawable/btn_black_round"
             android:text="Submit" />
     </LinearLayout>
 
