@@ -2,6 +2,8 @@ package com.university_project.jobly.client
 
 import android.app.DownloadManager
 import android.content.Context
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -9,7 +11,6 @@ import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.university_project.jobly.R
 import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.client.adapter.SPAppliedEmpAdapter
 import com.university_project.jobly.client.clientviewmodel.ClientPostViewModel
@@ -25,6 +26,9 @@ class AppliedEmployeeActivity : AppCompatActivity(), SPAppliedEmpClick {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAppliedEmployeeBinding.inflate(layoutInflater)
+        val actionbar = supportActionBar
+        val colorDrawable = ColorDrawable(Color.parseColor("#79AA8D"))
+        actionbar?.setBackgroundDrawable(colorDrawable)
         setContentView(binding.root)
         val myAdapter = SPAppliedEmpAdapter(this)
         val docId = intent.getStringExtra("docId")

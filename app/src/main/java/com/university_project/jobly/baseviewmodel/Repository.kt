@@ -13,6 +13,7 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.university_project.jobly.chatserver.ChatDataModel
+import com.university_project.jobly.chatserver.ChatListViewDataModel
 import com.university_project.jobly.chatserver.MessageModel
 import com.university_project.jobly.datamodel.AppliedDataModel
 import com.university_project.jobly.datamodel.CreatePostModel
@@ -28,7 +29,7 @@ object Repository {
     private val fabEmpPost = mutableSetOf<PostDataModel>()
     private val empProfilePost = mutableSetOf<EmployeeProfileModel>()
     private val myApplication = mutableSetOf<PostDataModel>()
-    private val chatList = mutableSetOf<ChatDataModel>()
+    private val chatList = mutableSetOf<ChatListViewDataModel>()
     private var storageRef = Firebase.storage
     var liveSkill = MutableLiveData<List<String>>()
 
@@ -76,13 +77,16 @@ object Repository {
     }
 
     /** Getting chat List For user **/
-    fun getChatList(userType: String, userId: String): LiveData<List<ChatDataModel>> {
-        val liveChatList = MutableLiveData<List<ChatDataModel>>()
+    fun getChatList(userType: String, userId: String): LiveData<List<ChatListViewDataModel>> {
+        val liveChatList = MutableLiveData<List<ChatListViewDataModel>>()
         chatServer.whereEqualTo(userType, userId).addSnapshotListener { value, _ ->
             value?.let { local ->
                 for (doc in local.documentChanges) {
-                    val chatDataModel = doc.document.toObject(ChatDataModel::class.java)
-                    chatList.add(chatDataModel)
+                    val chatListViewDataModel =
+                        doc.document.toObject(ChatListViewDataModel::class.java)
+
+                    chatListViewDataModel.docId = doc.document.id
+                    chatList.add(chatListViewDataModel)
                 }
                 /**
                 for (doc in value!!.documentChanges) {

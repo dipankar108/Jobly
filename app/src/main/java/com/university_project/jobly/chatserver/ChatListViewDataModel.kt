@@ -7,7 +7,11 @@ data class ChatListViewDataModel(
     val clientSeen: Boolean = false,
     val empSeen: Boolean = false,
     val timeStamp: Long = 0,
-    val docId: String = "",
+    var docId: String = "",
     val clientProfileImg: String = "",
     val empProfileImg: String = "",
+    val lastClientMessage: String = "",
+    val lastEmpMessage: String = "",
+    val lastClientMessageTime: Long = 0,
+    val lastEmpMessageTime: Long = 0
 )

@@ -44,6 +44,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register), SkillClick {
     private var skills = listOf<String>()
     private lateinit var skillAdapter: ArrayAdapter<String>
     private lateinit var rvskillAdapter: SkillAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -90,13 +91,13 @@ class RegisterFragment : Fragment(R.layout.fragment_register), SkillClick {
         binding.rvRegSkillViewId.layoutManager = LinearLayoutManager(requireContext()).also {
             it.orientation = LinearLayoutManager.HORIZONTAL
         }
-        liveData.getSkill().observe(viewLifecycleOwner, {
+        liveData.getSkill().observe(viewLifecycleOwner) {
             skills = it
             skillAdapter =
                 ArrayAdapter(requireContext(), android.R.layout.simple_dropdown_item_1line, skills)
             binding.amEtRegSkillCreatePostId.setAdapter(skillAdapter)
 
-        })
+        }
         binding.amEtRegSkillCreatePostId.setOnItemClickListener { _, _, i, _ ->
             val skillName = skillAdapter.getItem(i).toString().lowercase()
             if (selectedSkills.contains(skillName)) {
