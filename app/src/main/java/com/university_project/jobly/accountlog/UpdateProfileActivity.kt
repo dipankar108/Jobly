@@ -5,13 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
@@ -20,7 +17,6 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.university_project.jobly.adapter.SkillAdapter
 import com.university_project.jobly.baseviewmodel.BaseViewModel
-import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.databinding.ActivityUpdateProfileBinding
 import com.university_project.jobly.datamodel.EmployeeProfileModel
 import com.university_project.jobly.employee.EmployeeActivity
@@ -34,8 +30,6 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
     private var skills = listOf<String>()
     private var userPass = ""
     private var cvEmp = ""
-    private lateinit var lifecycleObserver: LifecycleObserver
-    private lateinit var lifecycleOwner: LifecycleOwner
     private var verified = false
     private var pdfUri = Uri.EMPTY
     private lateinit var skillTextAdapter: ArrayAdapter<String>
@@ -66,6 +60,9 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
                 binding.etUpAboutYourselfId.setText(user.aboutYourself)
                 binding.etUpEmailId.setText(user.userEmail)
                 binding.etUpEmailId.isEnabled = false
+                if (user.cvEmp != "No CV") {
+                    binding.btnUploadCVId.text = "Change CV"
+                }
                 verified = user.verify
                 binding.etUpYourHobbyId.setText(user.hobbyEmp)
                 selectedSkills = user.skill
@@ -74,12 +71,12 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
                 userPass = user.userPass
                 cvEmp = user.cvEmp
             }
-            liveData.getSkill().observe(this, { skill ->
+            liveData.getSkill().observe(this) { skill ->
                 skills = skill
                 skillTextAdapter =
                     ArrayAdapter(this, R.layout.simple_dropdown_item_1line, skills)
                 binding.etUpSkillId.setAdapter(skillTextAdapter)
-            })
+            }
             binding.etUpSkillId.setOnItemClickListener { adapterView, view, i, l ->
 
                 val skillName = skillTextAdapter.getItem(i).toString().lowercase()
@@ -119,8 +116,8 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
                 storageRef.reference.child("cvPDF/${System.currentTimeMillis()}${Firebase.auth.uid}")
             mstorageRef.putFile(pdfUri)
                 .addOnSuccessListener {
-                    mstorageRef.downloadUrl.addOnSuccessListener {
-                        if (it != null) {
+                    mstorageRef.downloadUrl.addOnSuccessListener { cvUrl ->
+                        if (cvUrl != null) {
                             updateProfile(
                                 fname,
                                 lname,
@@ -133,7 +130,7 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
                                 yourself,
                                 banned,
                                 verify,
-                                it.toString()
+                                cvUrl.toString()
                             )
                         }
                     }

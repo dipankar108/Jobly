@@ -3,9 +3,11 @@ package com.university_project.jobly.chatserver
 import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -23,6 +25,7 @@ import com.university_project.jobly.adapter.MessageViewAdapter
 import com.university_project.jobly.databinding.ActivityChatBinding
 import com.university_project.jobly.utils.GetTheme
 import com.university_project.jobly.utils.SharedInfo
+import java.io.ByteArrayOutputStream
 
 class ChatActivity : AppCompatActivity() {
     private lateinit var liveData: ChatViewModel
@@ -114,7 +117,11 @@ class ChatActivity : AppCompatActivity() {
             val userId = Firebase.auth.uid.toString()
             val message = binding.etEnterMessageId.text.toString()
             if (!Uri.EMPTY.equals(imageUri)) {
-                storageRef.putFile(imageUri).addOnSuccessListener {
+                val bitmap: Bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
+                val baos = ByteArrayOutputStream()
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 25, baos)
+                val compressedImage = baos.toByteArray()
+                storageRef.putBytes(compressedImage).addOnSuccessListener {
                     storageRef.downloadUrl.addOnSuccessListener { uri ->
                         link = uri.toString()
                         sendMessage(message, docId, link, timeStamp, userId, userType)

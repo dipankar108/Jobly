@@ -25,7 +25,8 @@
             android:background="@drawable/et_account"
             android:gravity="center"
             android:padding="5dp"
-            android:text="First Name" />
+            android:text="First Name"
+            android:textColor="@color/black" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_up_lname_id"
@@ -34,7 +35,8 @@
             android:background="@drawable/et_account"
             android:gravity="center"
             android:padding="5dp"
-            android:text="Last Name" />
+            android:text="Last Name"
+            android:textColor="@color/black" />
 
         <EditText
             android:id="@+id/et_up_aboutYourself_id"
@@ -43,13 +45,15 @@
             android:gravity="start"
             android:maxLines="10"
             android:minLines="5"
-            android:text="About Your Self" />
+            android:text="About Your Self"
+            android:textColor="@color/black" />
 
         <AutoCompleteTextView
             android:id="@+id/et_up_skill_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center" />
+            android:gravity="center"
+            android:textColor="@color/black" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_up_skill_id"
@@ -65,7 +69,8 @@
             android:gravity="center"
             android:inputType="textEmailAddress"
             android:padding="5dp"
-            android:text="Email" />
+            android:text="Email"
+            android:textColor="@color/black" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_up_yourHobby_id"
@@ -76,7 +81,8 @@
             android:maxLines="3"
             android:minLines="2"
             android:padding="5dp"
-            android:text="Your Hobby" />
+            android:text="Your Hobby"
+            android:textColor="@color/black" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_uploadCV_id"
@@ -85,6 +91,8 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/btn_black_round"
+            android:paddingStart="3dp"
+            android:paddingEnd="3dp"
             android:text="Upload CV" />
 
         <androidx.appcompat.widget.AppCompatButton

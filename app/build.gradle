@@ -2,6 +2,7 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'com.google.gms.google-services'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -9,6 +10,7 @@ android {
     buildToolsVersion "32.0.0"
     buildFeatures {
         viewBinding true
+        dataBinding true
     }
     defaultConfig {
         applicationId "com.university_project.jobly"
