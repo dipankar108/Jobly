@@ -53,7 +53,7 @@ class ClientJobPostFragment : Fragment(), ClickHandle {
     }
 
     private fun getMutableData(postViewAdapter: PostViewAdapter) {
-        liveDataModel.postList.observe(viewLifecycleOwner, { list ->
+        liveDataModel.postList.observe(viewLifecycleOwner) { list ->
             val sortedList = list.sortedByDescending { it.timeStamp }
             sortedList.forEach {
                 Log.d(TAG, "getMutableData: ${it.timeStamp} ${it.title}")
@@ -61,7 +61,7 @@ class ClientJobPostFragment : Fragment(), ClickHandle {
             postViewAdapter.setArrayList(sortedList)
             postViewAdapter.notifyDataSetChanged()
             binding.pbClientViewId.visibility = View.GONE
-        })
+        }
     }
 
     override fun onLikeClick(postDataModel: PostDataModel, b: Boolean) {

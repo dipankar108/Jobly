@@ -3,6 +3,8 @@ package com.university_project.jobly
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
@@ -36,6 +38,9 @@ class CreateJobPost : AppCompatActivity(), SkillClick {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateJobPostBinding.inflate(layoutInflater)
+        val actionbar = supportActionBar
+        val colorDrawable = ColorDrawable(Color.parseColor("#79AA8D"))
+        actionbar?.setBackgroundDrawable(colorDrawable)
         setContentView(binding.root)
         auth = Firebase.auth
         dialog = Dialog(this)
@@ -44,12 +49,12 @@ class CreateJobPost : AppCompatActivity(), SkillClick {
         }
         binding.rvSkillViewId.adapter = rvskillAdapter
         liveData = ViewModelProvider(this)[BaseViewModel::class.java]
-        liveData.getSkill().observe(this, { skill ->
+        liveData.getSkill().observe(this) { skill ->
             skills = skill
             skillAdapter =
                 ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, skills)
             binding.amEtSkillCreatePostId.setAdapter(skillAdapter)
-        })
+        }
         binding.amEtSkillCreatePostId.setOnItemClickListener { _, _, i, _ ->
             val skillName = skillAdapter.getItem(i).toString().lowercase()
             if (selectedSkills.contains(skillName)) {
