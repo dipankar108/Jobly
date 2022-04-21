@@ -13,14 +13,14 @@
         android:roundIcon="@drawable/applogo"
         android:supportsRtl="true"
         android:theme="@style/Theme.Jobly">
-
-
-        <activity android:name=".chatserver.ChatActivity"></activity>
+        <activity
+            android:name=".UpdateClientProfile"
+            android:exported="false" />
+        <activity android:name=".chatserver.ChatActivity" />
         <activity android:name=".accountlog.UpdateProfileActivity" />
         <activity android:name=".client.AppliedEmployeeActivity" />
         <activity android:name=".client.EditPostActivity" />
         <activity android:name=".employee.EmployeeActivity" />
-
         <activity android:name=".JobPostView" />
         <activity android:name=".client.ClientActivity" />
         <activity android:name=".CreateJobPost" />
@@ -32,6 +32,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
