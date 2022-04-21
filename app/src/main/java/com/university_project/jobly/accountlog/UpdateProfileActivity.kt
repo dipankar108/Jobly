@@ -88,7 +88,6 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
                 binding.etUpSkillId.setAdapter(skillTextAdapter)
             }
             binding.etUpSkillId.setOnItemClickListener { adapterView, view, i, l ->
-
                 val skillName = skillTextAdapter.getItem(i).toString().lowercase()
                 if (selectedSkills.contains(skillName)) {
                     showToast("Already Added", this)
@@ -102,7 +101,6 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
                 skillAdapter.notifyDataSetChanged()
             }
         }
-
         val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             pdfUri = uri
         }

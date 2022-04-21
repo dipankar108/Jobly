@@ -534,6 +534,17 @@ object Repository {
         }
         return userActive
     }
+
+    fun getCompany(): LiveData<List<String>> {
+        val comps = MutableLiveData<List<String>>()
+        Firebase.firestore.collection("CompanyList").document("companylist").get()
+            .addOnSuccessListener {
+                comps.value = it.data?.get("companynamelist") as List<String>
+            }.addOnFailureListener {
+            Log.d("TAG", "getCompany: ${it.message}")
+        }
+        return comps
+    }
 }
 
 

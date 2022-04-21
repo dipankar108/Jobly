@@ -6,12 +6,11 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
-import android.widget.Toast
+import android.view.inputmethod.InputMethodManager
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.university_project.jobly.baseviewmodel.BaseViewModel
 import com.university_project.jobly.baseviewmodel.profile.UserViewModel
 import com.university_project.jobly.databinding.ActivityUpdateClientProfileBinding
@@ -24,6 +23,9 @@ class UpdateClientProfile : AppCompatActivity() {
     private lateinit var updateProfileLiveData: UserViewModel
     private var verified = false
     private lateinit var dialog: Dialog
+    private var companys = listOf<String>()
+    private var selectedCompany = ""
+    private lateinit var companyTextAdapter: ArrayAdapter<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityUpdateClientProfileBinding.inflate(layoutInflater)
@@ -39,18 +41,38 @@ class UpdateClientProfile : AppCompatActivity() {
         if (userInfo == "Client") {
             liveData.getClientProfile().observe(this) { user ->
                 if (user.verify) {
-                    binding.tvUpVerifyInfoId.text = "You are Verified"
+                    binding.tvUpeVerifyInfoId.text = "You are Verified"
                 } else {
-                    binding.tvUpVerifyInfoId.text = "You are Unverified"
+                    binding.tvUpeVerifyInfoId.text = "You are Unverified"
                 }
+                liveData.getCompany().observe(this) { comp ->
+                    companys = comp
+                    companyTextAdapter =
+                        ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, companys)
+                    binding.etUpeCnameId.setAdapter(companyTextAdapter)
+                }
+                binding.etUpeCnameId.setOnItemClickListener { _, view, i, _ ->
+                    val skillName = companyTextAdapter.getItem(i).toString()
+                    updateProfileLiveData.updateProfile(skillName, "companyName")
+                    binding.etUpeCnameId.text.clear()
+                    binding.etUpeCnameId.hint = "Edit Company"
+                    val inputMethodManager =
+                        this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+                    inputMethodManager.hideSoftInputFromWindow(binding.etUpeCnameId.windowToken, 0)
+                }
+                Glide.with(this)
+                    .load(user.profileImg)
+                    .placeholder(R.drawable.image_loding_anim)
+                    .error(R.drawable.try_later)
+                    .into(binding.ivUpeProfilePicId)
+                binding.etUpeCNameViewId.text = user.companyName
                 binding.etUpeFnameId.text = user.fname
                 binding.etUpeLnameId.text = user.lname
                 binding.etUpeCLocationId.text = user.companyLocation
-                binding.etUpeCnameId.text = user.companyName
-                binding.etUpeAboutYourselfId.text = user.aboutYourself
+                binding.etUpeAboutYourselfId.text = user.yourself
                 binding.etUpeEmailId.setText(user.userEmail)
                 verified = user.verify
-                binding.etUpeYourHobbyId.setText(user.hobbyClient)
+                binding.etUpeYourHobbyId.text = user.hobby
             }
         }
 
@@ -67,20 +89,13 @@ class UpdateClientProfile : AppCompatActivity() {
                 "companyLocation"
             )
         }
-        binding.etUpeCnameId.setOnClickListener {
-            updateProfileWithDialog(
-                binding.etUpeCnameId.text.toString(),
-                "Company Name",
-                "companyName"
-            )
-        }
-        binding.etUpeAboutYourselfId.setOnClickListener {
-            updateProfileWithDialog(
-                binding.etUpeAboutYourselfId.text.toString(),
-                "First Name",
-                "aboutYourself"
-            )
-        }
+//        binding.etUpeCnameId.setOnClickListener {
+//            updateProfileWithDialog(
+//                binding.etUpeCnameId.text.toString(),
+//                "Company Name",
+//                "companyName"
+//            )
+//        }
         binding.etUpeYourHobbyId.setOnClickListener {
             updateProfileWithDialog(
                 binding.etUpeYourHobbyId.text.toString(),
@@ -142,5 +157,6 @@ class UpdateClientProfile : AppCompatActivity() {
         startActivity(intent)
         finish()
     }
+
 }
 

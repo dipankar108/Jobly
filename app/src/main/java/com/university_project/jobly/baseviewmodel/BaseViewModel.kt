@@ -43,4 +43,5 @@ class BaseViewModel : ViewModel() {
     fun getMyApplication(): LiveData<List<PostDataModel>> = Repository.getEmpAppliedPost()
     fun uploadCV(uri: Uri): LiveData<List<String>> = Repository.uploadCV(uri)
     fun isUserActive(userId: String): LiveData<Boolean> = Repository.isUserActive(userId)
+    fun getCompany(): LiveData<List<String>> = Repository.getCompany()
 }
