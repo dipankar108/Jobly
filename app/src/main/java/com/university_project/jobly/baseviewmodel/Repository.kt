@@ -15,10 +15,7 @@ import com.google.firebase.storage.ktx.storage
 import com.university_project.jobly.chatserver.ChatDataModel
 import com.university_project.jobly.chatserver.ChatListViewDataModel
 import com.university_project.jobly.chatserver.MessageModel
-import com.university_project.jobly.datamodel.AppliedDataModel
-import com.university_project.jobly.datamodel.CreatePostModel
-import com.university_project.jobly.datamodel.EmployeeProfileModel
-import com.university_project.jobly.datamodel.PostDataModel
+import com.university_project.jobly.datamodel.*
 
 object Repository {
     private val auth = Firebase.auth
@@ -138,10 +135,58 @@ object Repository {
     }
 
     /** Creating Post **/
-    fun createJobPost(createPostModel: CreatePostModel): LiveData<Boolean> {
+    fun createJobPost(
+        postTitle: String,
+        postDesc: String,
+        postExperience: Int,
+        postSkills: MutableList<String>,
+        postSalary: Int,
+        postGender: String,
+        isLike: ArrayList<String>,
+        callforinterview: ArrayList<CallForInterViewDataModel>,
+        timeStamp: Long,
+        appliedEmployee: ArrayList<AppliedDataModel>,
+        attachmentLink: Uri
+    ): LiveData<Boolean> {
         val isDone = MutableLiveData(false)
-        dbPost.document().set(createPostModel).addOnSuccessListener {
-            isDone.value = true
+        val mstorageRef =
+            storageRef.reference.child("attachPDF/${System.currentTimeMillis()}${Firebase.auth.uid}")
+        dbProfile.document(auth.uid.toString()).addSnapshotListener { value, error ->
+            value?.let { doc ->
+                val clientProfileModel = doc.toObject(ClientProfileModel::class.java)
+                clientProfileModel?.let {
+                    mstorageRef.putFile(attachmentLink).addOnSuccessListener {
+                        mstorageRef.downloadUrl.addOnSuccessListener { attachUrl ->
+                            if (attachUrl != null) {
+                                val createPostModel = CreatePostModel(
+                                    auth.uid.toString(),
+                                    postTitle,
+                                    postDesc,
+                                    postSkills,
+                                    postExperience,
+                                    postSalary,
+                                    clientProfileModel.companyLocation,
+                                    arrayListOf(),
+                                    arrayListOf(),
+                                    attachUrl.toString(),
+                                    timeStamp,
+                                    clientProfileModel.companyName,
+                                    postGender,
+                                    arrayListOf(),
+                                    arrayListOf()
+                                )
+                                dbPost.document().set(createPostModel).addOnSuccessListener {
+                                    isDone.value = true
+                                }.addOnFailureListener { e ->
+                                    Log.d("TAG", "createJobPost: ${e.message}")
+                                }
+                            }
+                        }
+                    }.addOnFailureListener { e->
+                        Log.d("TAG", "createJobPost: ${e.message}")
+                    }
+                }
+            }
         }
         return isDone
     }
@@ -203,7 +248,9 @@ object Repository {
         val mutableLiveData = MutableLiveData<List<PostDataModel>>()
         val query = dbPost.whereEqualTo("userId", auth.uid.toString())
         query.addSnapshotListener { document, _ ->
-            documentChangesFun(document, "getAllPost")
+            document?.let {
+                documentChangesFun(document, "getAllPost")
+            }
             mutableLiveData.value = myJobPost.toTypedArray().asList()
         }
         return mutableLiveData
@@ -227,7 +274,9 @@ object Repository {
     fun singlePost(docId: String): LiveData<PostDataModel> {
         var post = MutableLiveData<PostDataModel>()
         dbPost.document(docId).addSnapshotListener { document, _ ->
-            post.value = addData(document?.data!!, docId)
+            document?.let {
+                post.value = document.data?.let { it1 -> addData(it1, docId) }
+            }
         }
         return post
     }
@@ -237,6 +286,8 @@ object Repository {
         val skills = MutableLiveData<List<String>>()
         Firebase.firestore.collection("Category").document("Skill").get().addOnSuccessListener {
             skills.value = it.data?.get("skill") as List<String>
+        }.addOnFailureListener {
+            Log.d("TAG", "getSkill: ${it.message}")
         }
         return skills
     }

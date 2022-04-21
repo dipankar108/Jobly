@@ -3,17 +3,27 @@ package com.university_project.jobly.baseviewmodel
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.university_project.jobly.datamodel.CreatePostModel
-import com.university_project.jobly.datamodel.EmployeeProfileModel
-import com.university_project.jobly.datamodel.PostDataModel
+import com.university_project.jobly.datamodel.*
 
 class BaseViewModel : ViewModel() {
     fun getSkill(): LiveData<List<String>> {
         return Repository.getSkill()
     }
 
-    fun makePost(createPostModel: CreatePostModel): LiveData<Boolean> {
-        return Repository.createJobPost(createPostModel)
+    fun makePost(
+        postTitle: String,
+        postDesc: String,
+        postExperience: Int,
+        postSkills: MutableList<String>,
+        postSalary: Int,
+        postGender: String,
+        isLike: ArrayList<String>,
+        callforinterview: ArrayList<CallForInterViewDataModel>,
+        timeStamp: Long,
+        appliedEmployee: ArrayList<AppliedDataModel>,
+        attachmentLink: Uri
+    ): LiveData<Boolean> {
+        return Repository.createJobPost(postTitle,postDesc,postExperience,postSkills,postSalary,postGender,isLike,callforinterview,timeStamp,appliedEmployee,attachmentLink)
     }
 
     fun getEmployeeProfile(): LiveData<EmployeeProfileModel> {

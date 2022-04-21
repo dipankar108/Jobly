@@ -1,14 +1,18 @@
 package com.university_project.jobly
 
+import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.widget.ArrayAdapter
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,7 +25,6 @@ import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.databinding.ActivityCreateJobPostBinding
 import com.university_project.jobly.datamodel.AppliedDataModel
 import com.university_project.jobly.datamodel.CallForInterViewDataModel
-import com.university_project.jobly.datamodel.CreatePostModel
 import com.university_project.jobly.interfaces.SkillClick
 
 class CreateJobPost : AppCompatActivity(), SkillClick {
@@ -35,6 +38,7 @@ class CreateJobPost : AppCompatActivity(), SkillClick {
     private lateinit var binding: ActivityCreateJobPostBinding
     val rvskillAdapter = SkillAdapter(this)
     private lateinit var dialog: Dialog
+    private var attachmentLink = Uri.EMPTY
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreateJobPostBinding.inflate(layoutInflater)
@@ -51,6 +55,7 @@ class CreateJobPost : AppCompatActivity(), SkillClick {
         liveData = ViewModelProvider(this)[BaseViewModel::class.java]
         liveData.getSkill().observe(this) { skill ->
             skills = skill
+            Log.d(TAG, "onCreate: $skill")
             skillAdapter =
                 ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, skills)
             binding.amEtSkillCreatePostId.setAdapter(skillAdapter)
@@ -72,214 +77,104 @@ class CreateJobPost : AppCompatActivity(), SkillClick {
         val spinnerGenderAdapter = ArrayAdapter(
             this, android.R.layout.simple_spinner_dropdown_item, genderList
         )
+        val uploadPdf =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { pdfFile: ActivityResult ->
+                if (pdfFile.resultCode == Activity.RESULT_OK) {
+                    attachmentLink = Uri.parse(pdfFile.data?.data.toString())
+                    binding.btnUploadAttachmentId.text = "CHANGE ATTACHMENT"
+                }
+            }
+        binding.btnUploadAttachmentId.setOnClickListener {
+            val intent = Intent()
+            intent.type = ("application/pdf")
+            intent.action = Intent.ACTION_GET_CONTENT
+            uploadPdf.launch(intent)
+        }
         binding.spGenderCreatePostId.adapter = spinnerGenderAdapter
         binding.btnCreatePostId.setOnClickListener {
             dialog.setContentView(R.layout.progressbarlayout)
-            dialog.show()
-            val postTitle = binding.etTitleCreatePostId.text.toString()
-            val postDesc = binding.etDescCratePostId.text.toString()
-            val postExperience = Integer.parseInt(binding.etRegExperienceId.text.toString())
-            val postSkills = selectedSkills
-            val postSalary = binding.etRegSalaryId.text.toString().toInt()
-            val postLocation = binding.etRegLocationId.text.toString()
-            val postGender = binding.spGenderCreatePostId.selectedItem.toString()
-            val attachmentLink = ""
-            val postCompany = ""
-            val timeStamp = System.currentTimeMillis()
-            val callforinterview: ArrayList<CallForInterViewDataModel> = ArrayList()
-            val isLike = ArrayList<String>()
-            val appliedEmployee = ArrayList<AppliedDataModel>()
-            liveData.makePost(
-                CreatePostModel(
-                    Firebase.auth.uid.toString(),
-                    postTitle,
-                    postDesc,
-                    postSkills,
-                    postExperience,
-                    postSalary,
-                    postLocation,
-                    appliedEmployee,
-                    ArrayList(),
-                    attachmentLink,
-                    timeStamp,
-                    postCompany,
-                    postGender,
-                    callforinterview,
-                    isLike
-                )
-            ).observe(this, {
-                if (it) {
-                    dialog.dismiss()
-                    val intent = Intent(this, ClientActivity::class.java)
-                    startActivity(intent)
-                    finish()
+
+            try {
+                val postTitle = binding.etTitleCreatePostId.text.toString()
+                val postDesc = binding.etDescCratePostId.text.toString()
+                val postExperience = Integer.parseInt(binding.etRegExperienceId.text.toString())
+                val postSkills = selectedSkills
+                val postSalary = binding.etRegSalaryId.text.toString().toInt()
+                val postGender = binding.spGenderCreatePostId.selectedItem.toString()
+                val timeStamp = System.currentTimeMillis()
+                val callforinterview: ArrayList<CallForInterViewDataModel> = ArrayList()
+                val isLike = ArrayList<String>()
+                val appliedEmployee = ArrayList<AppliedDataModel>()
+                if (alltextField(
+                        postTitle,
+                        postDesc,
+                        postExperience,
+                        postSkills,
+                        postSalary,
+                        postGender
+                    )
+                ) {
+                    dialog.show()
+                    liveData.makePost(
+                        postTitle,
+                        postDesc,
+                        postExperience,
+                        postSkills,
+                        postSalary,
+                        postGender,
+                        isLike,
+                        callforinterview,
+                        timeStamp,
+                        appliedEmployee,
+                        attachmentLink
+                    ).observe(this) {
+                        if (it) {
+                            dialog.dismiss()
+                            val intent = Intent(this, ClientActivity::class.java)
+                            startActivity(intent)
+                            finish()
+                        }
+                    }
+                } else {
+                    Toast.makeText(this, "No field can be empty", Toast.LENGTH_SHORT).show()
                 }
-            })
+            } catch (e: Exception) {
+                Toast.makeText(this, "No field can be empty", Toast.LENGTH_SHORT).show()
+            }
         }
-        /**
-        binding.btnCreatePostId.setOnClickListener {
-        val postTitle = binding.etTitleCreatePostId.text.toString()
-        val postDesc = binding.etDescCratePostId.text.toString()
-        val postExperience = binding.etRegSalaryId.text.toString().toInt()
-        val postSalary = binding.etRegSalaryId.text.toString().toInt()
-        val postLocation = binding.etRegLocationId.text.toString()
-        val postGender = binding.spGenderCreatePostId.selectedItem.toString()
-        val attachmentLink = ""
-        val timeStamp = System.currentTimeMillis()
-        val callforinterview: ArrayList<CallForInterViewDataModel> = ArrayList()
-        val isLike: ArrayList<String> = ArrayList()
-        Firebase.firestore.collection("User").document(auth.uid.toString()).get()
-        .addOnSuccessListener {
-        val userInfo = it.data?.get("companyName") as String
-        Firebase.firestore.collection("JobPost")
-        .add(
-        CreatePostModel(
-        auth.uid.toString(),
-        postTitle,
-        postDesc,
-        listOf(selectedSkills) as List<String>,
-        postExperience,
-        postSalary,
-        postLocation,
-        emptyMap(),
-        attachmentLink,
-        timeStamp,
-        userInfo,
-        postGender,
-        callforinterview,
-        isLike
-        )
-        ).addOnSuccessListener {
-        Toast.makeText(this, "Post created", Toast.LENGTH_SHORT).show()
-        val intent = Intent(this, ClientActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        startActivity(intent)
-        finish()
-        }
-        }
+    }
 
-
-        db.get().addOnSuccessListener { results ->
-        for (doc in results) {
-        arrayListCategory.add(doc.id)
+    private fun alltextField(
+        postTitle: String,
+        postDesc: String,
+        postExperience: Int,
+        postSkills: MutableList<String>,
+        postSalary: Int,
+        postGender: String
+    ): Boolean {
+        return when {
+            postTitle.isEmpty() -> {
+                false
+            }
+            postDesc.isEmpty() -> {
+                false
+            }
+            postExperience < 0 -> {
+                false
+            }
+            postSkills.isEmpty() -> {
+                false
+            }
+            postSalary < 0 -> {
+                false
+            }
+            postGender.isEmpty() -> {
+                false
+            }
+            else -> {
+                true
+            }
         }
-        arrayListCategory.sorted()
-        arrayListCategory[arrayListCategory.indexOf("0Select Any Category")] =
-        "Select Any Category"
-        val categoryAdapter = ArrayAdapter(
-        this,
-        android.R.layout.simple_spinner_dropdown_item,
-        arrayListCategory
-        )
-        // binding.spCatagoryCreatePostId.adapter = categoryAdapter
-        }
-
-        binding.spCatagoryCreatePostId.onItemSelectedListener =
-        object : AdapterView.OnItemSelectedListener {
-        override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-        subArray.clear()
-        if (binding.spCatagoryCreatePostId.selectedItem.toString() != "Select Any Category") {
-        binding.spSubCatagoryCreatePostId.isEnabled = true
-        }
-        val docRef =
-        if (binding.spCatagoryCreatePostId.selectedItem.toString() == "Select Any Category") "0Select Any Category" else binding.spCatagoryCreatePostId.selectedItem.toString()
-        db.document(docRef).get()
-        .addOnSuccessListener { result ->
-        for (arr in result.data?.values!!) {
-        subArray.add(arr.toString())
-        }
-        val subCategoryAdapter = ArrayAdapter(
-        this@CreateJobPost,
-        R.layout.support_simple_spinner_dropdown_item,
-        subArray.sorted()
-        )
-        binding.spSubCatagoryCreatePostId.adapter = subCategoryAdapter
-        }
-        }
-
-        override fun onNothingSelected(p0: AdapterView<*>?) {
-
-        }
-        }
-
-        //Getting gender from the database
-        Firebase.firestore.collection("Gender").document(
-        "0OF5b8M1XnLYTOJS6TDE"
-        ).get().addOnSuccessListener {
-        val genderList = ArrayList<String>()
-        for (gender in it.data?.values!!) {
-        genderList.add(gender.toString())
-        }
-        genderList.sorted()
-        genderList[genderList.indexOf("0Select any gender")] = "Select any gender"
-        val madapter =
-        ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, genderList)
-        binding.spGenderCreatePostId.adapter = madapter
-        binding.spGenderCreatePostId.onItemSelectedListener =
-        object : AdapterView.OnItemSelectedListener {
-        override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-        if (binding.spGenderCreatePostId.selectedItem.toString() != "Select any gender") {
-        binding.etRegExperienceId.isEnabled = true
-        binding.etRegSalaryId.isEnabled = true
-        binding.etRegLocationId.isEnabled = true
-        binding.btnCreatePostId.isEnabled = true
-        }
-
-        }
-
-        override fun onNothingSelected(p0: AdapterView<*>?) {
-
-        }
-        }
-        }
-
-        binding.btnCreatePostId.setOnClickListener {
-        val postTitle = binding.etTitleCreatePostId.text.toString()
-        val postDesc = binding.etDescCratePostId.text.toString()
-        val postCategory = binding.spCatagoryCreatePostId.selectedItem.toString()
-        val postSubCategory = binding.spSubCatagoryCreatePostId.selectedItem.toString()
-        val postExperience = binding.etRegSalaryId.text.toString().toInt()
-        val postSalary = binding.etRegSalaryId.text.toString().toInt()
-        val postLocation = binding.etRegLocationId.text.toString()
-        val postGender = binding.spGenderCreatePostId.selectedItem.toString()
-        val attachmentLink = ""
-        val timeStamp = System.currentTimeMillis()
-        val callforinterview: ArrayList<CallForInterViewDataModel> = ArrayList()
-        val isLike: ArrayList<String> = ArrayList()
-        Firebase.firestore.collection("User").document(auth.uid.toString()).get()
-        .addOnSuccessListener {
-        val userInfo = it.data?.get("companyName") as String
-        Firebase.firestore.collection("JobPost")
-        .add(
-        CreatePostModel(
-        auth.uid.toString(),
-        postTitle,
-        postDesc,
-        arrayListOf(postCategory, postSubCategory),
-        postExperience,
-        postSalary,
-        postLocation,
-        emptyMap(),
-        attachmentLink,
-        timeStamp,
-        userInfo,
-        postGender,
-        callforinterview,
-        isLike
-        )
-        ).addOnSuccessListener {
-        Toast.makeText(this, "Post created", Toast.LENGTH_SHORT).show()
-        val intent = Intent(this, ClientActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        startActivity(intent)
-        finish()
-        }
-        }
-
-        }
-
-        }
-         **/
     }
 
     private fun showToast(s: String, context: Context) {

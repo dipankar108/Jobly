@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,7 +23,6 @@ import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.R
 import com.university_project.jobly.adapter.SkillAdapter
 import com.university_project.jobly.baseviewmodel.BaseViewModel
-import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.databinding.FragmentRegisterBinding
 import com.university_project.jobly.datamodel.ClientProfileModel
@@ -148,14 +146,14 @@ class RegisterFragment : Fragment(R.layout.fragment_register), SkillClick {
 
                     dialog.setContentView(R.layout.progressbarlayout)
                     dialog.show()
-                      createAccount(
-                    userEmail,
-                    userPass,
-                    fName,
-                    lName,
-                    userType,
-                    dialog,
-                    selectedSkills
+                    createAccount(
+                        userEmail,
+                        userPass,
+                        fName,
+                        lName,
+                        userType,
+                        dialog,
+                        selectedSkills
                     )
                 }
             }
@@ -178,8 +176,17 @@ class RegisterFragment : Fragment(R.layout.fragment_register), SkillClick {
                 if (userType == "Client") {
                     val user =
                         ClientProfileModel(
-                            auth.uid.toString(), fName, lName, userPass, userEmail, userType, "",
-                            ArrayList(), "", "",
+                            auth.uid.toString(),
+                            fName,
+                            lName,
+                            userPass,
+                            userEmail,
+                            userType,
+                            "",
+                            "",
+                            ArrayList(),
+                            "",
+                            "",
                             verify = false,
                             banned = false,
                             false,

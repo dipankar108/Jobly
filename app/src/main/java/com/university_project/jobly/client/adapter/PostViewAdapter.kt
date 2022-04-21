@@ -5,25 +5,26 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.university_project.jobly.R
 import com.university_project.jobly.datamodel.PostDataModel
 import com.university_project.jobly.interfaces.ClickHandle
 import com.university_project.jobly.utils.TimeStampConverter
 
-class PostViewAdapter(private val listener: ClickHandle) : RecyclerView.Adapter<PostViewAdapter.PostViewHolder>() {
-    private var myArrayList =listOf<PostDataModel>()
+class PostViewAdapter(private val listener: ClickHandle) :
+    RecyclerView.Adapter<PostViewAdapter.PostViewHolder>() {
+    private var myArrayList = listOf<PostDataModel>()
+
     class PostViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val postTitle: TextView = itemView.findViewById(R.id.tv_postViewTitle_id)
         val postDesc: TextView = itemView.findViewById(R.id.tv_postViewDesc_id)
         val timeStamp: TextView = itemView.findViewById(R.id.tv_postViewTimeStamp_id)
-        val location: TextView = itemView.findViewById(R.id.tv_postViewLocation_id)
-        val delete:ImageView=itemView.findViewById(R.id.img_postViewliked_id)
+        val location: TextView = itemView.findViewById(R.id.tv_postViewVerified_id)
+        val delete: ImageView = itemView.findViewById(R.id.img_postViewliked_id)
     }
 
     fun setArrayList(arrayList: List<PostDataModel>) {
-        myArrayList= arrayList
+        myArrayList = arrayList
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PostViewHolder {
@@ -37,15 +38,16 @@ class PostViewAdapter(private val listener: ClickHandle) : RecyclerView.Adapter<
         holder.postTitle.text = res.title
         holder.postDesc.text = res.desc
         holder.timeStamp.text = TimeStampConverter.getTimeAgo(res.timeStamp)
-        holder.location.text = res.location
+        holder.location.text = res.companyName
         holder.delete.setImageResource(R.drawable.ic_delete)
         holder.postDesc.setOnClickListener {
             listener.onDescClick(res.docId)
         }
-        holder.delete.setOnClickListener{
+        holder.delete.setOnClickListener {
             listener.onDeleteClick(res.docId)
         }
     }
+
     override fun getItemCount(): Int {
         return myArrayList.size
     }
