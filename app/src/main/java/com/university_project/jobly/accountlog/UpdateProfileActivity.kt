@@ -3,6 +3,8 @@ package com.university_project.jobly.accountlog
 import android.R
 import android.content.Context
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.widget.*
@@ -39,6 +41,9 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityUpdateProfileBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
+        val actionbar = supportActionBar
+        val colorDrawable = ColorDrawable(Color.parseColor("#79AA8D"))
+        actionbar?.setBackgroundDrawable(colorDrawable)
         setContentView(binding.root)
         liveData = ViewModelProvider(this)[BaseViewModel::class.java]
         val sh = getSharedPreferences(SharedInfo.USER.user, MODE_PRIVATE)

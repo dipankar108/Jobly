@@ -1,9 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/gradient_background"
+    android:orientation="vertical"
     tools:context=".UpdateClientProfile">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_up_verifyInfo_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            tools:src="@drawable/applogo" />
+
+        <TextView
+            android:id="@+id/et_upe_fname_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:autoSizeMinTextSize="15sp"
+            android:background="@drawable/et_account"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="First Name"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/et_upe_lname_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/et_account"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Last Name"
+            android:textColor="@color/black"
+
+            />
+
+        <TextView
+            android:id="@+id/et_upe_cname_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/et_account"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Company Name"
+            android:textColor="@color/black" />
+
+        <TextView
+            android:id="@+id/et_upe_cLocation_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/et_account"
+            android:gravity="center"
+            android:padding="5dp"
+            android:text="Company Location"
+            android:textColor="@color/black"
+
+            />
+
+        <TextView
+            android:id="@+id/et_upe_aboutYourself_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:gravity="start"
+            android:text="About Your Self"
+            android:textColor="@color/black" />
+
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_upe_email_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/et_account"
+            android:enabled="false"
+            android:gravity="center"
+            android:inputType="textEmailAddress"
+            android:padding="5dp"
+            android:text="Email"
+            android:textColor="@color/black" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_upe_yourHobby_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/et_account"
+            android:gravity="center"
+            android:maxLines="3"
+            android:minLines="2"
+            android:padding="5dp"
+            android:text="Your Hobby"
+            android:textColor="@color/black" />
+    </LinearLayout>
+</ScrollView>

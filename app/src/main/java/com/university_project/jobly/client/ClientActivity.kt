@@ -17,6 +17,7 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.CreateJobPost
 import com.university_project.jobly.R
+import com.university_project.jobly.UpdateClientProfile
 import com.university_project.jobly.accountlog.AccountLog
 import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.baseviewmodel.profile.UserViewModel
@@ -115,7 +116,11 @@ class ClientActivity : AppCompatActivity() {
                 this,
                 getSharedPreferences(SharedInfo.USER.user, MODE_PRIVATE).edit()
             )
-
+            R.id.menu_updateProfile_id -> {
+                startActivity(Intent(this, UpdateClientProfile::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                })
+            }
         }
         return true
     }
@@ -123,5 +128,4 @@ class ClientActivity : AppCompatActivity() {
     private fun requireContext(): Context {
         return this@ClientActivity
     }
-
 }

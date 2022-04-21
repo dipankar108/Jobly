@@ -23,23 +23,24 @@ class BaseViewModel : ViewModel() {
         appliedEmployee: ArrayList<AppliedDataModel>,
         attachmentLink: Uri
     ): LiveData<Boolean> {
-        return Repository.createJobPost(postTitle,postDesc,postExperience,postSkills,postSalary,postGender,isLike,callforinterview,timeStamp,appliedEmployee,attachmentLink)
+        return Repository.createJobPost(
+            postTitle,
+            postDesc,
+            postExperience,
+            postSkills,
+            postSalary,
+            postGender,
+            isLike,
+            callforinterview,
+            timeStamp,
+            appliedEmployee,
+            attachmentLink
+        )
     }
 
-    fun getEmployeeProfile(): LiveData<EmployeeProfileModel> {
-        return Repository.getEmpProfile()
-    }
-
-    fun updateEmpProfile(employeeProfileModel: EmployeeProfileModel) {
-        Repository.updateEmployeeProfile(employeeProfileModel)
-    }
-
-    fun getMyApplication(): LiveData<List<PostDataModel>> {
-        return Repository.getEmpAppliedPost()
-    }
-
-    fun uploadCV(uri: Uri): LiveData<List<String>> {
-        return Repository.uploadCV(uri)
-    }
-    fun isUserActive(userId:String):LiveData<Boolean> =Repository.isUserActive(userId)
+    fun getEmployeeProfile(): LiveData<EmployeeProfileModel> = Repository.getEmpProfile()
+    fun getClientProfile(): LiveData<ClientProfileModel> = Repository.getClientProfile()
+    fun getMyApplication(): LiveData<List<PostDataModel>> = Repository.getEmpAppliedPost()
+    fun uploadCV(uri: Uri): LiveData<List<String>> = Repository.uploadCV(uri)
+    fun isUserActive(userId: String): LiveData<Boolean> = Repository.isUserActive(userId)
 }

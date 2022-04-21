@@ -2,8 +2,8 @@ package com.university_project.jobly.datamodel
 
 data class ClientProfileModel(
     val userId: String = "",
-    val fName: String = "",
-    val lName: String = "",
+    val fname: String = "",
+    val lname: String = "",
     val userPass: String = "",
     val userEmail: String = "",
     val userType: String = "",

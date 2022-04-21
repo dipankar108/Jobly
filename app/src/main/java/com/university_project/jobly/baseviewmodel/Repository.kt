@@ -182,7 +182,7 @@ object Repository {
                                 }
                             }
                         }
-                    }.addOnFailureListener { e->
+                    }.addOnFailureListener { e ->
                         Log.d("TAG", "createJobPost: ${e.message}")
                     }
                 }
@@ -205,10 +205,24 @@ object Repository {
         return mutableLiveData
     }
 
+    /**GETTING CLIENT PROFILE**/
+    fun getClientProfile(): LiveData<ClientProfileModel> {
+        val liveData = MutableLiveData<ClientProfileModel>()
+        dbProfile.document(Firebase.auth.uid.toString()).addSnapshotListener { data, error ->
+            data?.let {
+                liveData.value = it.toObject(ClientProfileModel::class.java)
+            }
+        }
+        return liveData
+    }
+
+    /**GETTING EMP PROFILE**/
     fun getEmpProfile(): LiveData<EmployeeProfileModel> {
         val liveData = MutableLiveData<EmployeeProfileModel>()
-        dbProfile.document(Firebase.auth.uid.toString()).get().addOnSuccessListener {
-            liveData.value = it.toObject(EmployeeProfileModel::class.java)
+        dbProfile.document(Firebase.auth.uid.toString()).addSnapshotListener { data, error ->
+            data?.let {
+                liveData.value = it.toObject(EmployeeProfileModel::class.java)
+            }
         }
         return liveData
     }
