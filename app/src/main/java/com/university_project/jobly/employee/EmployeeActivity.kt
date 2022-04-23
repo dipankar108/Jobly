@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.google.firebase.auth.ktx.auth
@@ -18,6 +19,7 @@ import com.university_project.jobly.chatserver.InterViewFragment
 import com.university_project.jobly.databinding.ActivityEmployeeBinding
 import com.university_project.jobly.utils.SharedInfo
 import com.university_project.jobly.utils.UtilClass
+import kotlin.system.exitProcess
 
 class EmployeeActivity : AppCompatActivity() {
     private val TAG = "EmployeeActivityP"
@@ -74,6 +76,17 @@ class EmployeeActivity : AppCompatActivity() {
             this,
             getSharedPreferences(SharedInfo.USER.user, MODE_PRIVATE).edit()
         )
+    }
+
+    override fun onBackPressed() {
+        val alertDialog = AlertDialog.Builder(this)
+        alertDialog.setMessage("Are you sure you want to exit?")
+            .setPositiveButton("Yes") { _, _ ->
+                exitProcess(0)
+            }
+            .setNegativeButton("No") { di, _ ->
+                di.dismiss()
+            }.show()
     }
 
     override fun onDestroy() {

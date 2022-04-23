@@ -2,7 +2,6 @@ package com.university_project.jobly
 
 import android.app.Dialog
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
@@ -14,7 +13,6 @@ import com.bumptech.glide.Glide
 import com.university_project.jobly.baseviewmodel.BaseViewModel
 import com.university_project.jobly.baseviewmodel.profile.UserViewModel
 import com.university_project.jobly.databinding.ActivityUpdateClientProfileBinding
-import com.university_project.jobly.employee.EmployeeActivity
 import com.university_project.jobly.utils.SharedInfo
 
 class UpdateClientProfile : AppCompatActivity() {
@@ -51,7 +49,7 @@ class UpdateClientProfile : AppCompatActivity() {
                         ArrayAdapter(this, android.R.layout.simple_dropdown_item_1line, companys)
                     binding.etUpeCnameId.setAdapter(companyTextAdapter)
                 }
-                binding.etUpeCnameId.setOnItemClickListener { _, view, i, _ ->
+                binding.etUpeCnameId.setOnItemClickListener { _, _, i, _ ->
                     val skillName = companyTextAdapter.getItem(i).toString()
                     updateProfileLiveData.updateProfile(skillName, "companyName")
                     binding.etUpeCnameId.text.clear()
@@ -89,13 +87,6 @@ class UpdateClientProfile : AppCompatActivity() {
                 "companyLocation"
             )
         }
-//        binding.etUpeCnameId.setOnClickListener {
-//            updateProfileWithDialog(
-//                binding.etUpeCnameId.text.toString(),
-//                "Company Name",
-//                "companyName"
-//            )
-//        }
         binding.etUpeYourHobbyId.setOnClickListener {
             updateProfileWithDialog(
                 binding.etUpeYourHobbyId.text.toString(),
@@ -142,20 +133,8 @@ class UpdateClientProfile : AppCompatActivity() {
         }
     }
 
-
     private fun showToast(s: String, context: Context) {
         Toast.makeText(context, s, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun onBackPressed() {
-        backToHome()
-    }
-
-    private fun backToHome() {
-        val intent = Intent(this, EmployeeActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-        startActivity(intent)
-        finish()
     }
 
 }

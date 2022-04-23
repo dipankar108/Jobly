@@ -14,6 +14,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Jobly">
         <activity
+            android:name=".NotificationView"
+            android:exported="false" />
+        <activity
             android:name=".UpdateClientProfile"
             android:exported="false" />
         <activity android:name=".chatserver.ChatActivity" />
