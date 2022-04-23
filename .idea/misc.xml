@@ -31,6 +31,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_update_profile.xml" value="0.22" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/applied_employee_item_view.xml" value="0.18229166666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/applied_items_view.xml" value="0.25" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/changepassword.xml" value="0.128125" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/chatitemview.xml" value="0.25" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/fragment_applied_post.xml" value="0.18229166666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/fragment_client_applied.xml" value="0.18229166666666666" />
@@ -49,6 +50,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/progressbarlayout.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/skillitemview.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/updateprofiledialog.xml" value="0.18229166666666666" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/menu/optionsmenu.xml" value="0.128125" />
       </map>
     </option>
   </component>

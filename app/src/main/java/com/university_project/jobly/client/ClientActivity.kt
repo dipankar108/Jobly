@@ -5,7 +5,6 @@ import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
@@ -25,6 +24,7 @@ import com.university_project.jobly.chatserver.InterViewFragment
 import com.university_project.jobly.client.fragment.ClientAppliedFragment
 import com.university_project.jobly.client.fragment.ClientJobPostFragment
 import com.university_project.jobly.databinding.ActivityClientBinding
+import com.university_project.jobly.utils.ChangePassword
 import com.university_project.jobly.utils.SharedInfo
 import com.university_project.jobly.utils.UtilClass
 import kotlin.system.exitProcess
@@ -110,7 +110,7 @@ class ClientActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_settings_id -> Log.d(TAG, "onOptionsItemSelected: menu sign out clicked")
+            R.id.menu_pass_id -> ChangePassword.changePassword(this)
             R.id.menu_sign_out_id -> UtilClass.signOutNow(
                 this,
                 this,

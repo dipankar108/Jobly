@@ -1,5 +1,6 @@
 package com.university_project.jobly.employee
 
+import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -7,6 +8,8 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
+import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -17,14 +20,18 @@ import com.university_project.jobly.accountlog.UpdateProfileActivity
 import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.chatserver.InterViewFragment
 import com.university_project.jobly.databinding.ActivityEmployeeBinding
+import com.university_project.jobly.utils.ChangePassword
 import com.university_project.jobly.utils.SharedInfo
 import com.university_project.jobly.utils.UtilClass
 import kotlin.system.exitProcess
 
 class EmployeeActivity : AppCompatActivity() {
     private val TAG = "EmployeeActivityP"
-
+    private lateinit var dialog: Dialog
     private lateinit var binding: ActivityEmployeeBinding
+    private lateinit var buttonSubmit: Button
+    private lateinit var oldPass: EditText
+    private lateinit var newPass: EditText
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEmployeeBinding.inflate(layoutInflater)
@@ -32,9 +39,13 @@ class EmployeeActivity : AppCompatActivity() {
         val colorDrawable = ColorDrawable(Color.parseColor("#79AA8D"))
         actionbar?.setBackgroundDrawable(colorDrawable)
         setContentView(binding.root)
+        dialog = Dialog(this)
         binding.bnbEmpId.menu.findItem(R.id.e_allPost_menu_id).isChecked = true
         changedFragment(JobPostFragment())
         Repository.updateActiveStatus(true)
+//        buttonSubmit = findViewById(R.id.btn_submitPass_update_id)
+//        oldPass = findViewById(R.id.et_OldPass_Update_id)
+//        newPass = findViewById(R.id.et_newPassword_Update_id)
         Log.d(TAG, "onCreate: ${Firebase.auth.uid.toString()}")
         binding.bnbEmpId.setOnItemSelectedListener { item ->
             when (item.itemId) {
@@ -59,7 +70,8 @@ class EmployeeActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_settings_id -> Log.d(TAG, "onOptionsItemSelected: Settings menu clicked")
+            R.id.menu_pass_id ->
+                ChangePassword.changePassword(this)
             R.id.menu_sign_out_id -> snout()
             R.id.menu_updateProfile_id -> updateProfile()
         }
