@@ -55,7 +55,6 @@ class LogInFragment : Fragment() {
             title.text = "Update Password"
             inputEmail.hint = "Enter your email here"
             buttonSubmit.setOnClickListener {
-
                 auth.sendPasswordResetEmail(inputEmail.text.toString())
                     .addOnCompleteListener { task ->
                         inputEmail.text.clear()
