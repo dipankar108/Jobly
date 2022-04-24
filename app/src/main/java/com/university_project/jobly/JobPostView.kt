@@ -54,7 +54,7 @@ class JobPostView : AppCompatActivity() {
             if (userInfo == "Client") {
                 Log.d(TAG, "onCreate: Go to edit page")
             } else {
-                liveData.appliedForPost(docID).observe(this, {
+                liveData.appliedForPost(docID).observe(this) {
                     when (it) {
                         "start" -> {
                             dialog.setContentView(R.layout.progressbarlayout)
@@ -84,7 +84,7 @@ class JobPostView : AppCompatActivity() {
 
                         }
                     }
-                })
+                }
             }
         }
     }

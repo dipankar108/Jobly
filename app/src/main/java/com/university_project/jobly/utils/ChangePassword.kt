@@ -22,7 +22,7 @@ object ChangePassword {
                             Toast.LENGTH_SHORT
                         ).show()
                     } else {
-                        Log.d("TAG", "onOptionsItemSelected: Link send faild")
+                        Log.d("TAG", "onOptionsItemSelected: Link send failed")
                         Toast.makeText(
                             context,
                             it.exception?.message,

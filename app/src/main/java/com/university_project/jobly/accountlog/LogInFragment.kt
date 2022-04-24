@@ -1,5 +1,6 @@
 package com.university_project.jobly.accountlog
 
+import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -13,7 +14,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-import com.university_project.jobly.baseviewmodel.Repository
+import com.university_project.jobly.R
 import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.databinding.FragmentLogInBinding
 import com.university_project.jobly.employee.EmployeeActivity
@@ -21,7 +22,7 @@ import com.university_project.jobly.utils.SharedInfo
 
 class LogInFragment : Fragment() {
     private lateinit var _binding: FragmentLogInBinding
-    private val binding get() = _binding!!
+    private val binding get() = _binding
     private lateinit var auth: FirebaseAuth
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,36 +32,56 @@ class LogInFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentLogInBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val dialog = Dialog(view.context)
+        val dview = layoutInflater.inflate(R.layout.progressbarlayout,null, false)
+        dialog.setContentView(dview)
         auth = Firebase.auth
         binding.btnLogSubmitId.setOnClickListener {
+            dialog.show()
             val userEmail = binding.etLogEmailId.text.toString()
             val userPass = binding.etLogPassId.text.toString()
             if (userEmail.isEmpty() || userPass.isEmpty()) {
+                dialog.dismiss()
                 Toast.makeText(context, "Field cannot be empty", Toast.LENGTH_SHORT).show()
             } else {
                 auth.signInWithEmailAndPassword(userEmail, userPass).addOnSuccessListener {
-                    Toast.makeText(context, "Success", Toast.LENGTH_SHORT).show()
-                    Firebase.firestore.collection("User").document(Firebase.auth.uid.toString())
-                        .get().addOnSuccessListener {
-                            val userType = it.data!!["userType"]
-                            val sh = activity?.getSharedPreferences(
-                                SharedInfo.USER.user,
-                                AppCompatActivity.MODE_PRIVATE
-                            )
-                            val editor = sh?.edit()
-                            editor?.putString(SharedInfo.USER_TYPE.user, userType.toString())
-                                ?.apply()
-                            changeActivity(userType)
-                        }.addOnFailureListener {
-                            Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT).show()
+                    val currentUser = auth.currentUser
+                    currentUser?.let { mcurrentUser ->
+                        if (!mcurrentUser.isEmailVerified) {
+                            Firebase.firestore.collection("User")
+                                .document(Firebase.auth.uid.toString())
+                                .get().addOnSuccessListener {
+                                    val userType = it.data!!["userType"]
+                                    val sh = activity?.getSharedPreferences(
+                                        SharedInfo.USER.user,
+                                        AppCompatActivity.MODE_PRIVATE
+                                    )
+                                    val editor = sh?.edit()
+                                    editor?.putString(
+                                        SharedInfo.USER_TYPE.user,
+                                        userType.toString()
+                                    )
+                                        ?.apply()
+                                    changeActivity(userType, dialog)
+                                }.addOnFailureListener {
+                                    Toast.makeText(requireContext(), it.message, Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                        } else {
+                            Toast.makeText(
+                                context,
+                                "Please verify your email first",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
+                    }
 
                 }.addOnFailureListener {
                     Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
@@ -69,14 +90,16 @@ class LogInFragment : Fragment() {
         }
     }
 
-    private fun changeActivity(userType: Any?) {
+    private fun changeActivity(userType: Any?, dialog: Dialog) {
 
         if (userType == "Client") {
+            dialog.dismiss()
             val intent = Intent(requireContext(), ClientActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             startActivity(intent)
             activity?.finish()
         } else {
+            dialog.dismiss()
             val intent = Intent(requireContext(), EmployeeActivity::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
             startActivity(intent)

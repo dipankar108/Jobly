@@ -1,7 +1,6 @@
 package com.university_project.jobly.accountlog
 
 import android.app.Dialog
-import android.content.Intent
 import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
@@ -23,11 +22,9 @@ import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.R
 import com.university_project.jobly.adapter.SkillAdapter
 import com.university_project.jobly.baseviewmodel.BaseViewModel
-import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.databinding.FragmentRegisterBinding
 import com.university_project.jobly.datamodel.ClientProfileModel
 import com.university_project.jobly.datamodel.EmployeeProfileModel
-import com.university_project.jobly.employee.EmployeeActivity
 import com.university_project.jobly.interfaces.SkillClick
 import com.university_project.jobly.utils.GetTheme
 import com.university_project.jobly.utils.screensize.GetScreen
@@ -173,55 +170,73 @@ class RegisterFragment : Fragment(R.layout.fragment_register), SkillClick {
         auth.createUserWithEmailAndPassword(userEmail, userPass).addOnCompleteListener { task ->
             if (task.isSuccessful) {
                 val db = Firebase.firestore.collection("User")
-                if (userType == "Client") {
-                    val user =
-                        ClientProfileModel(
-                            auth.uid.toString(),
-                            fName,
-                            lName,
-                            userPass,
-                            userEmail,
-                            userType,
-                            "",
-                            "",
-                            ArrayList(),
-                            "",
-                            "",
-                            verify = false,
-                            banned = false,
-                            false,
-                            "clientprofileurl"
-                        )
-                    db.document(auth.uid.toString()).set(user)
-                        .addOnSuccessListener {
-                            binding.pbRegId.visibility = GONE
-
-                            startActivity(Intent(requireContext(), ClientActivity::class.java))
+                val currentUser = auth.currentUser
+                currentUser?.let { mcurrentUser ->
+                    mcurrentUser.sendEmailVerification().addOnCompleteListener {
+                        Toast.makeText(
+                            context,
+                            "Verification Link send on your email, Please verify yourself to log in",
+                            Toast.LENGTH_LONG
+                        ).show()
+                        if (userType == "Client") {
+                            val user =
+                                ClientProfileModel(
+                                    auth.uid.toString(),
+                                    fName,
+                                    lName,
+                                    userPass,
+                                    userEmail,
+                                    userType,
+                                    "",
+                                    "",
+                                    ArrayList(),
+                                    "",
+                                    "",
+                                    verify = false,
+                                    banned = false,
+                                    false,
+                                    "clientprofileurl"
+                                )
+//                            db.document(auth.uid.toString()).set(user)
+//                                .addOnSuccessListener {
+//                                    binding.pbRegId.visibility = GONE
+//                                    startActivity(
+//                                        Intent(
+//                                            requireContext(),
+//                                            ClientActivity::class.java
+//                                        )
+//                                    )
+//                                }
+                        } else {
+                            val user =
+                                EmployeeProfileModel(
+                                    auth.uid.toString(),
+                                    fName,
+                                    lName,
+                                    userEmail,
+                                    userPass,
+                                    userType,
+                                    selectedSkill as ArrayList<String>,
+                                    "",
+                                    "",
+                                    "",
+                                    verify = false,
+                                    banned = false,
+                                    ""
+                                )
+//                            db.document(auth.uid.toString()).set(user)
+//                                .addOnSuccessListener {
+//                                    dialog.dismiss()
+//                                    startActivity(
+//                                        Intent(
+//                                            requireContext(),
+//                                            EmployeeActivity::class.java
+//                                        )
+//                                    )
+//                                }
                         }
-                } else {
-                    val user =
-                        EmployeeProfileModel(
-                            auth.uid.toString(),
-                            fName,
-                            lName,
-                            userEmail,
-                            userPass,
-                            userType,
-                            selectedSkill as ArrayList<String>,
-                            "",
-                            "",
-                            "",
-                            verify = false,
-                            banned = false,
-                            ""
-                        )
-                    db.document(auth.uid.toString()).set(user)
-                        .addOnSuccessListener {
-                            dialog.dismiss()
-                            startActivity(Intent(requireContext(), EmployeeActivity::class.java))
-                        }
+                    }
                 }
-
 
             }
         }.addOnFailureListener {

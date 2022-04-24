@@ -83,6 +83,7 @@ class EmployeeActivity : AppCompatActivity() {
     }
 
     private fun snout() {
+        viewModelStore.clear()
         UtilClass.signOutNow(
             this,
             this,

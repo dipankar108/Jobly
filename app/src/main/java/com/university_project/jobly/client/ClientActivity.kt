@@ -111,11 +111,14 @@ class ClientActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_pass_id -> ChangePassword.changePassword(this)
-            R.id.menu_sign_out_id -> UtilClass.signOutNow(
-                this,
-                this,
-                getSharedPreferences(SharedInfo.USER.user, MODE_PRIVATE).edit()
-            )
+            R.id.menu_sign_out_id -> {
+                viewModelStore.clear()
+                UtilClass.signOutNow(
+                    this,
+                    this,
+                    getSharedPreferences(SharedInfo.USER.user, MODE_PRIVATE).edit()
+                )
+            }
             R.id.menu_updateProfile_id -> {
                 startActivity(Intent(this, UpdateClientProfile::class.java).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK

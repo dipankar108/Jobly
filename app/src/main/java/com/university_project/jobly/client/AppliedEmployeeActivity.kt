@@ -22,7 +22,6 @@ class AppliedEmployeeActivity : AppCompatActivity(), SPAppliedEmpClick {
     private val TAG = "AppliedEmployeeActivityP"
     private lateinit var binding: ActivityAppliedEmployeeBinding
     private lateinit var liveData: ClientPostViewModel
-    private val mcontext = this
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAppliedEmployeeBinding.inflate(layoutInflater)

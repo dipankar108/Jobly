@@ -11,6 +11,7 @@ import com.university_project.jobly.baseviewmodel.Repository
 
 object UtilClass {
     fun signOutNow(context: Context, activity: Activity, sh: SharedPreferences.Editor) {
+
         Repository.updateActiveStatus(false)
         Firebase.auth.signOut()
         sh.clear().apply()

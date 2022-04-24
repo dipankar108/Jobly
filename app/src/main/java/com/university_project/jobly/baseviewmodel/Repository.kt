@@ -31,18 +31,12 @@ object Repository {
     var liveSkill = MutableLiveData<List<String>>()
 
     /**SIGNING OUT FROM THE DEVICE**/
-    fun signOutClear() {
-        chatList.clear()
-        myJobPost.clear()
-        fabEmpPost.clear()
-        liveSkill.value = listOf()
-    }
 
     /**GETTING EMPLOYEE SKILL LIST**/
     fun getMySkill(): LiveData<List<String>> {
-        dbProfile.document(auth.uid.toString()).addSnapshotListener { value, error ->
-            value?.data?.get("skill")?.let {
-                liveSkill.value = it as List<String>
+        dbProfile.document(auth.uid.toString()).addSnapshotListener { value, _ ->
+            value?.data?.get("skill")?.let { list ->
+                liveSkill.value = list as List<String>
             }
         }
         return liveSkill
@@ -470,7 +464,11 @@ object Repository {
                         "",
                         clientProfileImg,
                         empProfileImg,
-                        messages
+                        messages,
+                        "No Message",
+                        "No Message",
+                        0,
+                        0
                     )
                     Log.d("TAG", "createChatDoc: $chatDataModel")
                     chatServer.add(myChatDataModel)
@@ -481,7 +479,15 @@ object Repository {
     }
 
     fun sendMessage(docId: String, messageModel: MessageModel) {
-        chatServer.document(docId).update("messages", FieldValue.arrayUnion(messageModel))
+        val sendMessageId = chatServer.document(docId)
+        if (messageModel.userType == "Client") {
+            sendMessageId.update("lastClientMessage", messageModel.message)
+            sendMessageId.update("lastClientMessageTime", System.currentTimeMillis())
+        } else {
+            sendMessageId.update("lastEmpMessage", messageModel.message)
+            sendMessageId.update("lastEmpMessageTime", System.currentTimeMillis())
+        }
+        sendMessageId.update("messages", FieldValue.arrayUnion(messageModel))
             .addOnSuccessListener {
                 Log.d("TAG", "sendMessage: Message Send")
             }
@@ -541,8 +547,8 @@ object Repository {
             .addOnSuccessListener {
                 comps.value = it.data?.get("companynamelist") as List<String>
             }.addOnFailureListener {
-            Log.d("TAG", "getCompany: ${it.message}")
-        }
+                Log.d("TAG", "getCompany: ${it.message}")
+            }
         return comps
     }
 }
