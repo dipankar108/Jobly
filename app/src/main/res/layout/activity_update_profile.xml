@@ -72,17 +72,6 @@
             android:layout_height="match_parent"
             tools:listitem="@layout/skillitemview" />
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/et_up_email_id"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="10dp"
-            android:background="@drawable/et_account"
-            android:gravity="center"
-            android:inputType="textEmailAddress"
-            android:padding="5dp"
-            android:text="Email"
-            android:textColor="@color/black" />
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/et_up_yourHobby_id"
@@ -95,6 +84,18 @@
             android:minLines="2"
             android:padding="5dp"
             android:text="Your Hobby"
+            android:textColor="@color/black" />
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_up_email_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/et_account"
+            android:gravity="center"
+            android:inputType="textEmailAddress"
+            android:padding="5dp"
+            android:text="Email"
             android:textColor="@color/black" />
 
         <androidx.appcompat.widget.AppCompatButton

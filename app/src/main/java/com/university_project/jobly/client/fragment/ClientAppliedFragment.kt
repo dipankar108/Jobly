@@ -38,10 +38,10 @@ class ClientAppliedFragment : Fragment(), AppliedClickedHandle {
     }
 
     private fun setAppliedPostToRecyclerView(appliedViewAdapter: AppliedViewAdapter) {
-        liveDataModel.postList.observe(viewLifecycleOwner, {
+        liveDataModel.postList.observe(viewLifecycleOwner) {
             appliedViewAdapter.setArrayList(it)
             appliedViewAdapter.notifyDataSetChanged()
-        })
+        }
     }
 
     override fun onAppliedClicked(postDataModel: PostDataModel) {
