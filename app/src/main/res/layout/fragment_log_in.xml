@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background"
     tools:context=".accountlog.LogInFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -49,6 +48,30 @@
             app:layout_constraintTop_toBottomOf="@+id/et_log_email_id"
             tools:layout_editor_absoluteX="0dp" />
 
+        <LinearLayout
+            android:id="@+id/linearLayout4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            app:layout_constraintEnd_toEndOf="@+id/et_log_email_id"
+            app:layout_constraintStart_toStartOf="@+id/et_log_email_id"
+            app:layout_constraintTop_toBottomOf="@+id/et_log_pass_id">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FORGOT YOUR PASSWORD"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_resetPassword_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="reset here"
+                android:textColor="@color/purple_700" />
+        </LinearLayout>
+
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btn_log_submit_id"
             android:layout_width="match_parent"
@@ -60,7 +83,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/et_log_pass_id" />
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

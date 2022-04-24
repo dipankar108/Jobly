@@ -7,6 +7,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -39,8 +42,36 @@ class LogInFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val resetDialog = Dialog(view.context)
         val dialog = Dialog(view.context)
-        val dview = layoutInflater.inflate(R.layout.progressbarlayout,null, false)
+        val dview = layoutInflater.inflate(R.layout.progressbarlayout, null, false)
+        val resetView = layoutInflater.inflate(R.layout.updateprofiledialog, null, false)
+        binding.tvResetPasswordId.setOnClickListener {
+            resetDialog.setContentView(resetView)
+            resetDialog.show()
+            val title: TextView = resetView.findViewById(R.id.tv_titleview_update_id)
+            val inputEmail: EditText = resetView.findViewById(R.id.et_bottomFragment_Update_id)
+            val buttonSubmit: Button = resetView.findViewById(R.id.btn_submit_update_id)
+            title.text = "Update Password"
+            inputEmail.hint = "Enter your email here"
+            buttonSubmit.setOnClickListener {
+                auth.sendPasswordResetEmail(inputEmail.text.toString())
+                    .addOnCompleteListener { task ->
+                        resetDialog.dismiss()
+                        if (task.isSuccessful) {
+                            Toast.makeText(
+                                context,
+                                "Reset link send on your email",
+                                Toast.LENGTH_LONG
+                            )
+                                .show()
+                        } else {
+                            Toast.makeText(context, task.exception?.message, Toast.LENGTH_LONG)
+                                .show()
+                        }
+                    }
+            }
+        }
         dialog.setContentView(dview)
         auth = Firebase.auth
         binding.btnLogSubmitId.setOnClickListener {
