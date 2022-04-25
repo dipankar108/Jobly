@@ -75,9 +75,14 @@ object Repository {
                 for (doc in local.documentChanges) {
                     val chatListViewDataModel =
                         doc.document.toObject(ChatListViewDataModel::class.java)
-
                     chatListViewDataModel.docId = doc.document.id
-                    chatList.add(chatListViewDataModel)
+                    if (DocumentChange.Type.MODIFIED != doc.type) {
+                        chatList.removeIf { doc.document.id == chatListViewDataModel.docId }
+                        chatList.add(chatListViewDataModel)
+                    }
+                    if (DocumentChange.Type.ADDED == doc.type) {
+                        chatList.add(chatListViewDataModel)
+                    }
                 }
                 /**
                 for (doc in value!!.documentChanges) {
