@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.view.View
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
@@ -16,6 +17,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
@@ -33,6 +35,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var messangerName: TextView
     private lateinit var isMessangerActive: TextView
     private lateinit var messangerProfileCard: MaterialCardView
+    private lateinit var messangerProfileImg: ImageView
     private val myAdapter = MessageViewAdapter(this)
     private val storage = Firebase.storage
     private var imageUri = Uri.EMPTY
@@ -48,6 +51,7 @@ class ChatActivity : AppCompatActivity() {
         messangerName = findViewById(R.id.tv_messangerNameId)
         isMessangerActive = findViewById(R.id.tv_isMessangerActive_id)
         messangerProfileCard = findViewById(R.id.cv_messangerCard_id)
+        messangerProfileImg = findViewById(R.id.iv_messangerProfile_id)
         binding.rvViewMessageListId.layoutManager = LinearLayoutManager(this)
         binding.rvViewMessageListId.adapter = myAdapter
         liveData = ViewModelProvider(this)[ChatViewModel::class.java]
@@ -58,32 +62,33 @@ class ChatActivity : AppCompatActivity() {
         liveData.getMessage(docId!!).observe(this) { userDetails ->
             if (userType == "Client") {
                 liveData.isUserActive(userDetails.empId).observe(this) { isActive ->
-                    myAdapter.setMessage(userDetails, userType, isActive)
-                    if (userType != userDetails.messages[0].userType) {
-                        messangerName.text = userDetails.empName
-                        if (isActive) {
-                            isMessangerActive.text = "Active Now"
-                            messangerProfileCard.strokeColor = Color.GREEN
-                        } else {
-                            messangerProfileCard.strokeColor = Color.RED
-                            isMessangerActive.text = "Inactive"
-                        }
+                    messangerName.text = userDetails.empName
+                    Glide.with(this).load(userDetails.empProfileImg).error(R.drawable.ic_profileimg)
+                        .placeholder(R.drawable.image_loding_anim).into(messangerProfileImg)
+                    if (isActive) {
+                        isMessangerActive.text = "Active Now"
+                        messangerProfileCard.strokeColor = Color.GREEN
+                    } else {
+                        messangerProfileCard.strokeColor = Color.RED
+                        isMessangerActive.text = "Inactive"
                     }
+                    myAdapter.setMessage(userDetails, userType, isActive)
                     myAdapter.notifyDataSetChanged()
                     binding.rvViewMessageListId.smoothScrollToPosition(userDetails.messages.size - 1)
                 }
             } else {
                 liveData.isUserActive(userDetails.cltId).observe(this) { isActive ->
                     myAdapter.setMessage(userDetails, userType, isActive)
-                    if (userType != userDetails.messages[0].userType) {
-                        messangerName.text = userDetails.cltName
-                        if (isActive) {
-                            isMessangerActive.text = "Active Now"
-                            messangerProfileCard.strokeColor = Color.GREEN
-                        } else {
-                            messangerProfileCard.strokeColor = Color.RED
-                            isMessangerActive.text = "Inactive"
-                        }
+                    Glide.with(this).load(userDetails.clientProfileImg)
+                        .error(R.drawable.ic_profileimg)
+                        .placeholder(R.drawable.image_loding_anim).into(messangerProfileImg)
+                    messangerName.text = userDetails.cltName
+                    if (isActive) {
+                        isMessangerActive.text = "Active Now"
+                        messangerProfileCard.strokeColor = Color.GREEN
+                    } else {
+                        messangerProfileCard.strokeColor = Color.RED
+                        isMessangerActive.text = "Inactive"
                     }
                     myAdapter.notifyDataSetChanged()
                     binding.rvViewMessageListId.smoothScrollToPosition(userDetails.messages.size - 1)
