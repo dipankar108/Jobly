@@ -20,8 +20,8 @@ import com.university_project.jobly.accountlog.UpdateProfileActivity
 import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.chatserver.InterViewFragment
 import com.university_project.jobly.databinding.ActivityEmployeeBinding
-import com.university_project.jobly.utils.ChangePassword
 import com.university_project.jobly.utils.SharedInfo
+import com.university_project.jobly.utils.UpdatePassword
 import com.university_project.jobly.utils.UtilClass
 import kotlin.system.exitProcess
 
@@ -70,8 +70,10 @@ class EmployeeActivity : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.menu_pass_id ->
-                ChangePassword.changePassword(this)
+            R.id.menu_pass_id -> {
+                val updatePassword = UpdatePassword(this, layoutInflater)
+                updatePassword.showDialog()
+            }
             R.id.menu_sign_out_id -> snout()
             R.id.menu_updateProfile_id -> updateProfile()
         }

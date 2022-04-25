@@ -6,7 +6,7 @@ import android.widget.Toast
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 
-object ChangePassword {
+object ResetPassword {
 
     fun changePassword(context: Context) {
         val muser = Firebase.auth.currentUser
