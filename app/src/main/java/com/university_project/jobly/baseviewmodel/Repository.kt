@@ -70,53 +70,54 @@ object Repository {
     /** Getting chat List For user **/
     fun getChatList(userType: String, userId: String): LiveData<List<ChatListViewDataModel>> {
         val liveChatList = MutableLiveData<List<ChatListViewDataModel>>()
-        chatServer.whereEqualTo(userType, userId).addSnapshotListener { value, _ ->
-            value?.let { local ->
-                for (doc in local.documentChanges) {
-                    val chatListViewDataModel =
-                        doc.document.toObject(ChatListViewDataModel::class.java)
-                    chatListViewDataModel.docId = doc.document.id
-                    if (DocumentChange.Type.MODIFIED != doc.type) {
-                        chatList.removeIf { doc.document.id == chatListViewDataModel.docId }
-                        chatList.add(chatListViewDataModel)
+        chatServer.whereEqualTo(userType, userId)
+            .addSnapshotListener { value, _ ->
+                value?.let { local ->
+                    for (doc in local.documentChanges) {
+                        val chatListViewDataModel =
+                            doc.document.toObject(ChatListViewDataModel::class.java)
+                        chatListViewDataModel.docId = doc.document.id
+                        if (DocumentChange.Type.MODIFIED == doc.type) {
+                            chatList.removeIf { it.docId == chatListViewDataModel.docId }
+                            chatList.add(chatListViewDataModel)
+                        }
+                        if (DocumentChange.Type.ADDED == doc.type) {
+                            chatList.add(chatListViewDataModel)
+                        }
                     }
-                    if (DocumentChange.Type.ADDED == doc.type) {
-                        chatList.add(chatListViewDataModel)
+                    /**
+                    for (doc in value!!.documentChanges) {
+                    val res = doc.document.data
+                    val empName = res["empName"].toString()
+                    val cltName = res["cltName"].toString()
+                    val cltId = res["cltId"].toString()
+                    val empId = res["empId"].toString()
+                    val postId = res["postId"].toString()
+                    val postTitle = res["postTitle"].toString()
+                    val clientSeen = res["clientSeen"] as Boolean
+                    val empSeen = res["empSeen"] as Boolean
+                    val timeStamp = res["timeStamp"] as Long
+                    val docId = doc.document.id
+                    val clientProfileImg = res["cilentProfileImg"].toString()
+                    val empProfileImg = res["empProfileImg"].toString()
+                    chatList.add(
+                    ChatListViewDataModel(
+                    empName,
+                    cltName,
+                    postTitle,
+                    clientSeen,
+                    empSeen,
+                    timeStamp,
+                    docId,
+                    clientProfileImg,
+                    empProfileImg
+                    )
+                    )
                     }
+                     **/
                 }
-                /**
-                for (doc in value!!.documentChanges) {
-                val res = doc.document.data
-                val empName = res["empName"].toString()
-                val cltName = res["cltName"].toString()
-                val cltId = res["cltId"].toString()
-                val empId = res["empId"].toString()
-                val postId = res["postId"].toString()
-                val postTitle = res["postTitle"].toString()
-                val clientSeen = res["clientSeen"] as Boolean
-                val empSeen = res["empSeen"] as Boolean
-                val timeStamp = res["timeStamp"] as Long
-                val docId = doc.document.id
-                val clientProfileImg = res["cilentProfileImg"].toString()
-                val empProfileImg = res["empProfileImg"].toString()
-                chatList.add(
-                ChatListViewDataModel(
-                empName,
-                cltName,
-                postTitle,
-                clientSeen,
-                empSeen,
-                timeStamp,
-                docId,
-                clientProfileImg,
-                empProfileImg
-                )
-                )
-                }
-                 **/
+                liveChatList.value = chatList.toTypedArray().toList()
             }
-            liveChatList.value = chatList.toTypedArray().toList()
-        }
         return liveChatList
     }
 

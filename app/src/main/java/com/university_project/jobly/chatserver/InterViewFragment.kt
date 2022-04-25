@@ -3,6 +3,7 @@ package com.university_project.jobly.chatserver
 import android.content.Context.MODE_PRIVATE
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -40,10 +41,15 @@ class InterViewFragment : Fragment(), ChatClickService {
         userType = if (sh?.getString(SharedInfo.USER_TYPE.user, null) == "Client") {
             "cltId"
         } else "empId"
-        liveData.getChatList(userType, Firebase.auth.uid.toString()).observe(viewLifecycleOwner) {
-            myAdapter.setChatList(it, userType)
-            myAdapter.notifyDataSetChanged()
-        }
+        liveData.getChatList(userType, Firebase.auth.uid.toString())
+            .observe(viewLifecycleOwner) { list ->
+              val sortedList=list.sortedByDescending { it.timeStamp }
+                myAdapter.setChatList(sortedList,userType)
+                sortedList.forEach {
+                    Log.d("TAG", "onViewCreated: ${it.timeStamp} ${it.cltName}")
+                }
+                myAdapter.notifyDataSetChanged()
+            }
     }
 
     override fun onClickChat(docId: String) {
