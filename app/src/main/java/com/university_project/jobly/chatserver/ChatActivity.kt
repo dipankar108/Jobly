@@ -52,7 +52,9 @@ class ChatActivity : AppCompatActivity() {
         isMessangerActive = findViewById(R.id.tv_isMessangerActive_id)
         messangerProfileCard = findViewById(R.id.cv_messangerCard_id)
         messangerProfileImg = findViewById(R.id.iv_messangerProfile_id)
-        binding.rvViewMessageListId.layoutManager = LinearLayoutManager(this)
+        val mlayoutManager = LinearLayoutManager(this)
+        //   mlayoutManager.reverseLayout = true
+        binding.rvViewMessageListId.layoutManager = mlayoutManager
         binding.rvViewMessageListId.adapter = myAdapter
         liveData = ViewModelProvider(this)[ChatViewModel::class.java]
         val userType = getSharedPreferences(
@@ -74,7 +76,7 @@ class ChatActivity : AppCompatActivity() {
                     }
                     myAdapter.setMessage(userDetails, userType, isActive)
                     myAdapter.notifyDataSetChanged()
-                    binding.rvViewMessageListId.smoothScrollToPosition(userDetails.messages.size - 1)
+                    binding.rvViewMessageListId.scrollToPosition(userDetails.messages.size - 1)
                 }
             } else {
                 liveData.isUserActive(userDetails.cltId).observe(this) { isActive ->
@@ -91,7 +93,7 @@ class ChatActivity : AppCompatActivity() {
                         isMessangerActive.text = "Inactive"
                     }
                     myAdapter.notifyDataSetChanged()
-                    binding.rvViewMessageListId.smoothScrollToPosition(userDetails.messages.size - 1)
+                    binding.rvViewMessageListId.scrollToPosition(userDetails.messages.size - 1)
                 }
             }
         }
