@@ -489,13 +489,14 @@ object Repository {
         if (messageModel.userType == "Client") {
             sendMessageId.update("lastClientMessage", messageModel.message)
             sendMessageId.update("lastClientMessageTime", System.currentTimeMillis())
+
         } else {
             sendMessageId.update("lastEmpMessage", messageModel.message)
             sendMessageId.update("lastEmpMessageTime", System.currentTimeMillis())
         }
         sendMessageId.update("messages", FieldValue.arrayUnion(messageModel))
             .addOnSuccessListener {
-                Log.d("TAG", "sendMessage: Message Send")
+                sendMessageId.update("timeStamp", System.currentTimeMillis())
             }
     }
 
