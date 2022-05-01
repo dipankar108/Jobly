@@ -117,6 +117,7 @@ class LogInFragment : Fragment() {
 
                 }.addOnFailureListener {
                     Toast.makeText(context, it.message, Toast.LENGTH_SHORT).show()
+                    dialog.dismiss()
                 }
             }
         }
