@@ -24,6 +24,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.university_project.jobly.adapter.SkillAdapter
 import com.university_project.jobly.baseviewmodel.BaseViewModel
+import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.baseviewmodel.profile.UserViewModel
 import com.university_project.jobly.databinding.ActivityUpdateProfileBinding
 import com.university_project.jobly.employee.EmployeeActivity
@@ -104,7 +105,10 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
             val skillName = skillTextAdapter.getItem(i).toString().lowercase()
             if (selectedSkills.contains(skillName)) {
                 showToast("Already Added", this)
-            } else selectedSkills.add(skillName)
+            } else {
+                Repository.updateSkill("union", skillName)
+                selectedSkills.add(skillName)
+            }
             binding.etUpSkillId.text.clear()
             if (selectedSkills.size == 5) {
                 binding.etUpSkillId.isEnabled = false
@@ -260,6 +264,7 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
 
     override fun onSkillDeleteClick(skill: String) {
         selectedSkills.remove(skill)
+        Repository.updateSkill("remove", skill)
         skillAdapter.notifyDataSetChanged()
         binding.etUpSkillId.isEnabled = true
         binding.etUpSkillId.hint = "Add Skill"

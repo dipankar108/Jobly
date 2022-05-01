@@ -306,6 +306,15 @@ object Repository {
         return skills
     }
 
+    /**UPDATING SKILL **/
+    fun updateSkill(updateType: String, skill: String) {
+        if (updateType == "union") {
+            dbProfile.document(auth.uid.toString()).update("skill", FieldValue.arrayUnion(skill))
+        } else {
+            dbProfile.document(auth.uid.toString()).update("skill", FieldValue.arrayUnion(skill))
+        }
+    }
+
     private fun documentChangesFun(document: QuerySnapshot?, s: String) {
         for (dc in document!!.documentChanges) {
             when (dc.type) {
