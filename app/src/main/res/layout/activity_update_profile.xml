@@ -17,11 +17,13 @@
             android:id="@+id/tv_up_verifyInfo_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
+
         <ImageView
             android:id="@+id/iv_up_ProfilePic_id"
             android:layout_width="200dp"
             android:layout_height="200dp"
             tools:src="@drawable/applogo" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -126,7 +128,9 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:background="@drawable/btn_black_round"
-            android:text="Submit" />
+            android:text="Submit"
+
+            android:visibility="gone" />
     </LinearLayout>
 
 </ScrollView>

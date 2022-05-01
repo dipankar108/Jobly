@@ -13,7 +13,7 @@ data class EmployeeProfileModel(
     val aboutYourself: String = "",
     val verify: Boolean = false,
     val banned: Boolean = false,
-    val cvEmp: String = "",
+    val cvEmp: String = "No CV",
     val profileImg: String = "",
     val active: Boolean = true
 )

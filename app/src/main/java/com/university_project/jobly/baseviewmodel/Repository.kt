@@ -416,7 +416,7 @@ object Repository {
             val userData = value?.toObject(EmployeeProfileModel::class.java)
             Log.d("TAG", "applyForPost: ${userData?.cvEmp}")
             userData?.let {
-                if (userData.cvEmp.isNotEmpty()) {
+                if (userData.cvEmp != "No CV") {
                     val appliedDataModel = userData?.let {
                         AppliedDataModel(
                             docId,

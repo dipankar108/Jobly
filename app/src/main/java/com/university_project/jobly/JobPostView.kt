@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.university_project.jobly.accountlog.UpdateProfileActivity
 import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.client.clientviewmodel.ClientPostViewModel
 import com.university_project.jobly.databinding.ActivityJobPostViewBinding
@@ -37,7 +38,7 @@ class JobPostView : AppCompatActivity() {
         auth = Firebase.auth!!
         Log.d(TAG, "onCreate: $docID")
         liveData = ViewModelProvider(this)[ClientPostViewModel::class.java]
-        liveData.getSinglePost(docID).observe(this, { singlePostView ->
+        liveData.getSinglePost(docID).observe(this) { singlePostView ->
             binding.tvSinglePostViewTitleId.text = singlePostView.title
             binding.tvSinglePostViewDescId.text = singlePostView.desc
             binding.tvSinglePostViewCompanyNameId.text = singlePostView.companyName
@@ -45,7 +46,7 @@ class JobPostView : AppCompatActivity() {
             binding.tvSinglePostViewExperienceId.text = singlePostView.experience.toString()
             binding.tvSinglePostViewJobPositionId.text = singlePostView.skill[0]
             binding.tvSinglePostViewLocationId.text = singlePostView.location
-        })
+        }
         val sh = getSharedPreferences(SharedInfo.USER.user, MODE_PRIVATE)
         val userInfo = sh.getString(SharedInfo.USER_TYPE.user, null)
 //        setBtnText(userInfo!!)
@@ -54,8 +55,8 @@ class JobPostView : AppCompatActivity() {
             if (userInfo == "Client") {
                 Log.d(TAG, "onCreate: Go to edit page")
             } else {
-                liveData.appliedForPost(docID).observe(this) {
-                    when (it) {
+                liveData.appliedForPost(docID).observe(this) { applynow ->
+                    when (applynow) {
                         "start" -> {
                             dialog.setContentView(R.layout.progressbarlayout)
                             dialog.show()
@@ -64,7 +65,8 @@ class JobPostView : AppCompatActivity() {
                             dialog.dismiss()
                         }
                         "failed" -> {
-                            Toast.makeText(this, "Upload Failed", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(this, "Upload Failed", Toast.LENGTH_SHORT)
+                                .show()
                             dialog.dismiss()
                         }
                         "nocv" -> {
@@ -76,15 +78,43 @@ class JobPostView : AppCompatActivity() {
                                     "Upload Now"
                                 ) { dialogInterface, _ ->
                                     dialogInterface.dismiss()
+                                    startActivity(
+                                        Intent(
+                                            this,
+                                            UpdateProfileActivity::class.java
+                                        ).apply {
+                                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                                        })
                                 }
                                 .setNegativeButton("Later") { dialogInterface, _ ->
                                     dialogInterface.dismiss()
                                 }.create()
                             alertDialog.show()
-
                         }
-                    }
-                }
+                    }}
+//                Firebase.firestore.collection("User").document(Firebase.auth.uid.toString()).get()
+//                    .addOnSuccessListener {
+//                        val profile = it.toObject(EmployeeProfileModel::class.java)
+//                        if (profile?.cvEmp != "No CV") {
+//
+//                            }
+//                        } else {
+//                            AlertDialog.Builder(this).setTitle("Upload CV first")
+//                                .setCancelable(false)
+//                                .setPositiveButton("Upload Now") { di, _ ->
+//                                    di.dismiss()
+//                                    startActivity(
+//                                        Intent(
+//                                            this,
+//                                            UpdateProfileActivity::class.java
+//                                        ).apply {
+//                                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+//                                        })
+//                                }.setNegativeButton("No") { di, _ ->
+//                                    di.dismiss()
+//                                }.show()
+//                        }
+                   // }
             }
         }
     }
