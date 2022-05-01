@@ -1,19 +1,30 @@
 package com.university_project.jobly
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import com.university_project.jobly.baseviewmodel.BaseViewModel
 import com.university_project.jobly.baseviewmodel.profile.UserViewModel
 import com.university_project.jobly.databinding.ActivityUpdateClientProfileBinding
 import com.university_project.jobly.utils.SharedInfo
+import java.io.ByteArrayOutputStream
 
 class UpdateClientProfile : AppCompatActivity() {
     private lateinit var binding: ActivityUpdateClientProfileBinding
@@ -21,7 +32,10 @@ class UpdateClientProfile : AppCompatActivity() {
     private lateinit var updateProfileLiveData: UserViewModel
     private var verified = false
     private lateinit var dialog: Dialog
+    private lateinit var pleasewaitdialog: Dialog
     private var companys = listOf<String>()
+    private var imageUri = Uri.EMPTY
+    private lateinit var alertDialog: AlertDialog.Builder
     private var selectedCompany = ""
     private lateinit var companyTextAdapter: ArrayAdapter<String>
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,6 +50,8 @@ class UpdateClientProfile : AppCompatActivity() {
         val userInfo = sh.getString(SharedInfo.USER_TYPE.user, null)
         updateProfileLiveData = ViewModelProvider(this)[UserViewModel::class.java]
         dialog = Dialog(this)
+        pleasewaitdialog = Dialog(this)
+        alertDialog = AlertDialog.Builder(this)
         if (userInfo == "Client") {
             liveData.getClientProfile().observe(this) { user ->
                 if (user.verify) {
@@ -73,7 +89,31 @@ class UpdateClientProfile : AppCompatActivity() {
                 binding.etUpeYourHobbyId.text = user.hobby
             }
         }
+        var uploadImage =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { imageRes: ActivityResult ->
+                if (imageRes.resultCode == Activity.RESULT_OK) {
+                    imageUri = Uri.parse(imageRes.data?.data.toString())
+                    alertDialog.setTitle("Are you sure ?").setCancelable(false)
+                        .setPositiveButton(
+                            "Yes"
+                        ) { di, _ ->
+                            uploadProfilePicToFirestore()
+                            di.dismiss()
+                        }.setNegativeButton(
+                            "No"
+                        ) { dialogInterface, _ ->
+                            dialogInterface.dismiss()
+                            imageUri = Uri.EMPTY
+                        }.show()
+                }
+            }
 
+        binding.ivUpeProfilePicId.setOnClickListener {
+            val intent = Intent()
+            intent.type = ("image/*")
+            intent.action = Intent.ACTION_GET_CONTENT
+            uploadImage.launch(intent)
+        }
         binding.etUpeFnameId.setOnClickListener {
             updateProfileWithDialog(binding.etUpeFnameId.text.toString(), "First Name", "fname")
         }
@@ -108,6 +148,32 @@ class UpdateClientProfile : AppCompatActivity() {
                 "Your Hobby",
                 "hobby"
             )
+        }
+    }
+
+    private fun uploadProfilePicToFirestore() {
+        pleasewaitdialog.setContentView(R.layout.progressbarlayout)
+        pleasewaitdialog.setCancelable(false)
+        pleasewaitdialog.show()
+        val storageRef =
+            Firebase.storage.reference.child("profile/image/${System.currentTimeMillis()}")
+        var link = "No Image"
+        if (!Uri.EMPTY.equals(imageUri)) {
+            val bitmap: Bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
+            val baos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 25, baos)
+            val compressedImage = baos.toByteArray()
+            storageRef.putBytes(compressedImage).addOnSuccessListener {
+                storageRef.downloadUrl.addOnSuccessListener { uri ->
+                    link = uri.toString()
+                    updateProfileLiveData.updateProfile(link, "profileImg")
+                    pleasewaitdialog.dismiss()
+
+                }
+            }.addOnFailureListener {
+                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                pleasewaitdialog.dismiss()
+            }
         }
     }
 

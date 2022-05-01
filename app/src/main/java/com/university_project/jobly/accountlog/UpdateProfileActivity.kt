@@ -1,18 +1,24 @@
 package com.university_project.jobly.accountlog
 
 import android.R
+import android.app.Activity
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.widget.*
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
@@ -23,6 +29,7 @@ import com.university_project.jobly.databinding.ActivityUpdateProfileBinding
 import com.university_project.jobly.employee.EmployeeActivity
 import com.university_project.jobly.interfaces.SkillClick
 import com.university_project.jobly.utils.SharedInfo
+import java.io.ByteArrayOutputStream
 
 class UpdateProfileActivity : AppCompatActivity(), SkillClick {
     private lateinit var liveData: BaseViewModel
@@ -37,6 +44,9 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
     private lateinit var skillTextAdapter: ArrayAdapter<String>
     private var storageRef = Firebase.storage
     private lateinit var dialog: AlertDialog.Builder
+    private lateinit var pleasewaitdialog: Dialog
+    private var imageUri = Uri.EMPTY
+    private lateinit var alertDialog: android.app.AlertDialog.Builder
     private val skillAdapter = SkillAdapter(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityUpdateProfileBinding.inflate(layoutInflater)
@@ -55,7 +65,8 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
         val userInfo = sh.getString(SharedInfo.USER_TYPE.user, null)
         updateProfileLiveData = ViewModelProvider(this)[UserViewModel::class.java]
         dialog = AlertDialog.Builder(this)
-
+        pleasewaitdialog = Dialog(this)
+        alertDialog = android.app.AlertDialog.Builder(this)
         if (userInfo == "Client") {
 
         } else {
@@ -74,6 +85,11 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
                     binding.btnUploadCVId.text = "Change CV"
                 }
                 verified = user.verify
+                Glide.with(this)
+                    .load(user.profileImg)
+                    .placeholder(com.university_project.jobly.R.drawable.image_loding_anim)
+                    .error(com.university_project.jobly.R.drawable.try_later)
+                    .into(binding.ivUpProfilePicId)
                 binding.etUpYourHobbyId.setText(user.hobbyEmp)
                 selectedSkills = user.skill
                 skillAdapter.setList(selectedSkills)
@@ -100,6 +116,31 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
                 }
                 skillAdapter.notifyDataSetChanged()
             }
+        }
+        var uploadImage =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { imageRes: ActivityResult ->
+                if (imageRes.resultCode == Activity.RESULT_OK) {
+                    imageUri = Uri.parse(imageRes.data?.data.toString())
+                    alertDialog.setTitle("Are you sure ?").setCancelable(false)
+                        .setPositiveButton(
+                            "Yes"
+                        ) { di, _ ->
+                            uploadProfilePicToFirestore()
+
+                            di.dismiss()
+                        }.setNegativeButton(
+                            "No"
+                        ) { dialogInterface, _ ->
+                            dialogInterface.dismiss()
+                            imageUri = Uri.EMPTY
+                        }.show()
+                }
+            }
+        binding.ivUpProfilePicId.setOnClickListener {
+            val intent = Intent()
+            intent.type = ("image/*")
+            intent.action = Intent.ACTION_GET_CONTENT
+            uploadImage.launch(intent)
         }
         val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             pdfUri = uri
@@ -163,6 +204,31 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
         }
     }
 
+    private fun uploadProfilePicToFirestore() {
+        pleasewaitdialog.setContentView(com.university_project.jobly.R.layout.progressbarlayout)
+        pleasewaitdialog.setCancelable(false)
+        pleasewaitdialog.show()
+        val storageRef =
+            Firebase.storage.reference.child("profile/image/${System.currentTimeMillis()}")
+        var link = "No Image"
+        if (!Uri.EMPTY.equals(imageUri)) {
+            val bitmap: Bitmap = MediaStore.Images.Media.getBitmap(contentResolver, imageUri)
+            val baos = ByteArrayOutputStream()
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 25, baos)
+            val compressedImage = baos.toByteArray()
+            storageRef.putBytes(compressedImage).addOnSuccessListener {
+                storageRef.downloadUrl.addOnSuccessListener { uri ->
+                    link = uri.toString()
+                    updateProfileLiveData.updateProfile(link, "profileImg")
+                    pleasewaitdialog.dismiss()
+
+                }
+            }.addOnFailureListener {
+                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                pleasewaitdialog.dismiss()
+            }
+        }
+    }
 
     private fun showToast(s: String, context: Context) {
         Toast.makeText(context, s, Toast.LENGTH_SHORT).show()

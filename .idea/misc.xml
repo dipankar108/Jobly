@@ -16,7 +16,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/drawable/ic_image.xml" value="0.12" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/drawable/ic_send.xml" value="0.12" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/drawable/tv_rectangle.xml" value="0.1875" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_account_log.xml" value="0.1" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_account_log.xml" value="0.12" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_applied_employee.xml" value="0.18229166666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_chat.xml" value="0.18" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_client.xml" value="0.18229166666666666" />
@@ -30,7 +30,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_update_client_profile.xml" value="0.25" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_update_profile.xml" value="0.22" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/applied_employee_item_view.xml" value="0.33" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/applied_items_view.xml" value="0.25" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/applied_items_view.xml" value="0.12" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/changepassword.xml" value="0.128125" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/chatitemview.xml" value="0.25" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/fragment_applied_post.xml" value="0.18229166666666666" />
