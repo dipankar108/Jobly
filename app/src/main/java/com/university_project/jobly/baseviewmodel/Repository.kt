@@ -219,7 +219,7 @@ object Repository {
     /**GETTING EMP PROFILE**/
     fun getEmpProfile(): LiveData<EmployeeProfileModel> {
         val liveData = MutableLiveData<EmployeeProfileModel>()
-        dbProfile.document(Firebase.auth.uid.toString()).addSnapshotListener { data, error ->
+        dbProfile.document(Firebase.auth.uid.toString()).addSnapshotListener { data, _ ->
             data?.let {
                 liveData.value = it.toObject(EmployeeProfileModel::class.java)
             }

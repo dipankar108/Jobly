@@ -169,6 +169,9 @@ class UpdateClientProfile : AppCompatActivity() {
                     updateProfileLiveData.updateProfile(link, "profileImg")
                     pleasewaitdialog.dismiss()
 
+                }.addOnFailureListener {
+                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                    pleasewaitdialog.dismiss()
                 }
             }.addOnFailureListener {
                 Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()

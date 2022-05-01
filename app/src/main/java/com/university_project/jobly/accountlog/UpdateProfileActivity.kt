@@ -67,55 +67,51 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
         dialog = AlertDialog.Builder(this)
         pleasewaitdialog = Dialog(this)
         alertDialog = android.app.AlertDialog.Builder(this)
-        if (userInfo == "Client") {
-
-        } else {
-            liveData.getEmployeeProfile().observe(this) { user ->
-                if (user.verify) {
-                    binding.tvUpVerifyInfoId.text = "You are Verified"
-                } else {
-                    binding.tvUpVerifyInfoId.text = "You are Unverified"
-                }
-                binding.etUpFnameId.setText(user.fname)
-                binding.etUpLnameId.setText(user.lname)
-                binding.etUpAboutYourselfId.setText(user.aboutYourself)
-                binding.etUpEmailId.setText(user.userEmail)
-                binding.etUpEmailId.isEnabled = false
-                if (user.cvEmp != "No CV") {
-                    binding.btnUploadCVId.text = "Change CV"
-                }
-                verified = user.verify
-                Glide.with(this)
-                    .load(user.profileImg)
-                    .placeholder(com.university_project.jobly.R.drawable.image_loding_anim)
-                    .error(com.university_project.jobly.R.drawable.try_later)
-                    .into(binding.ivUpProfilePicId)
-                binding.etUpYourHobbyId.setText(user.hobbyEmp)
-                selectedSkills = user.skill
-                skillAdapter.setList(selectedSkills)
-                skillAdapter.notifyDataSetChanged()
-                userPass = user.userPass
-                cvEmp = user.cvEmp
+        liveData.getEmployeeProfile().observe(this) { user ->
+            if (user.verify) {
+                binding.tvUpVerifyInfoId.text = "You are Verified"
+            } else {
+                binding.tvUpVerifyInfoId.text = "You are Unverified"
             }
-            liveData.getSkill().observe(this) { skill ->
-                skills = skill
-                skillTextAdapter =
-                    ArrayAdapter(this, R.layout.simple_dropdown_item_1line, skills)
-                binding.etUpSkillId.setAdapter(skillTextAdapter)
+            binding.etUpFnameId.setText(user.fname)
+            binding.etUpLnameId.setText(user.lname)
+            binding.etUpAboutYourselfId.setText(user.aboutYourself)
+            binding.etUpEmailId.setText(user.userEmail)
+            binding.etUpEmailId.isEnabled = false
+            if (user.cvEmp != "No CV") {
+                binding.btnUploadCVId.text = "Change CV"
             }
-            binding.etUpSkillId.setOnItemClickListener { adapterView, view, i, l ->
-                val skillName = skillTextAdapter.getItem(i).toString().lowercase()
-                if (selectedSkills.contains(skillName)) {
-                    showToast("Already Added", this)
-                } else selectedSkills.add(skillName)
-                binding.etUpSkillId.text.clear()
-                if (selectedSkills.size == 5) {
-                    binding.etUpSkillId.isEnabled = false
-                    binding.etUpSkillId.hint = "Remove one skill to enable"
-                    showToast("Max 5 allowed", this)
-                }
-                skillAdapter.notifyDataSetChanged()
+            verified = user.verify
+            Glide.with(this)
+                .load(user.profileImg)
+                .placeholder(com.university_project.jobly.R.drawable.image_loding_anim)
+                .error(com.university_project.jobly.R.drawable.try_later)
+                .into(binding.ivUpProfilePicId)
+            binding.etUpYourHobbyId.setText(user.hobbyEmp)
+            selectedSkills = user.skill
+            skillAdapter.setList(selectedSkills)
+            skillAdapter.notifyDataSetChanged()
+            userPass = user.userPass
+            cvEmp = user.cvEmp
+        }
+        liveData.getSkill().observe(this) { skill ->
+            skills = skill
+            skillTextAdapter =
+                ArrayAdapter(this, R.layout.simple_dropdown_item_1line, skills)
+            binding.etUpSkillId.setAdapter(skillTextAdapter)
+        }
+        binding.etUpSkillId.setOnItemClickListener { adapterView, view, i, l ->
+            val skillName = skillTextAdapter.getItem(i).toString().lowercase()
+            if (selectedSkills.contains(skillName)) {
+                showToast("Already Added", this)
+            } else selectedSkills.add(skillName)
+            binding.etUpSkillId.text.clear()
+            if (selectedSkills.size == 5) {
+                binding.etUpSkillId.isEnabled = false
+                binding.etUpSkillId.hint = "Remove one skill to enable"
+                showToast("Max 5 allowed", this)
             }
+            skillAdapter.notifyDataSetChanged()
         }
         var uploadImage =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { imageRes: ActivityResult ->
@@ -126,7 +122,6 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
                             "Yes"
                         ) { di, _ ->
                             uploadProfilePicToFirestore()
-
                             di.dismiss()
                         }.setNegativeButton(
                             "No"
@@ -144,6 +139,20 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
         }
         val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             pdfUri = uri
+            if (pdfUri != null) {
+                alertDialog.setTitle("Are you sure ?").setCancelable(false)
+                    .setPositiveButton(
+                        "Yes"
+                    ) { di, _ ->
+                        uploadCVToFirestore()
+                        di.dismiss()
+                    }.setNegativeButton(
+                        "No"
+                    ) { dialogInterface, _ ->
+                        dialogInterface.dismiss()
+                        imageUri = Uri.EMPTY
+                    }.show()
+            }
         }
         binding.btnUploadCVId.setOnClickListener {
             getContent.launch("application/pdf")
@@ -170,18 +179,33 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
                 "hobby"
             )
         }
-        binding.btnUpSubmitId.setOnClickListener {
-            val mstorageRef =
-                storageRef.reference.child("cvPDF/${System.currentTimeMillis()}${Firebase.auth.uid}")
-            mstorageRef.putFile(pdfUri)
-                .addOnSuccessListener {
-                    mstorageRef.downloadUrl.addOnSuccessListener { cvUrl ->
-                        if (cvUrl != null) {
 
-                        }
-                    }
-                }
+        binding.btnUpSubmitId.setOnClickListener {
+
         }
+    }
+
+    private fun uploadCVToFirestore() {
+        pleasewaitdialog.setContentView(com.university_project.jobly.R.layout.progressbarlayout)
+        pleasewaitdialog.setCancelable(false)
+        pleasewaitdialog.show()
+        val mstorageRef =
+            storageRef.reference.child("cvPDF/${System.currentTimeMillis()}${Firebase.auth.uid}")
+        mstorageRef.putFile(pdfUri)
+            .addOnSuccessListener {
+                mstorageRef.downloadUrl.addOnSuccessListener { cvUrl ->
+                    if (cvUrl != null) {
+                        updateProfileLiveData.updateProfile(cvUrl.toString(), "cvEmp")
+                        pleasewaitdialog.dismiss()
+                    }
+                }.addOnFailureListener {
+                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                    pleasewaitdialog.dismiss()
+                }
+            }.addOnFailureListener {
+                Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
+                pleasewaitdialog.dismiss()
+            }
     }
 
     private fun updateProfileWithDialog(plaintext: String, hintText: String, field: String) {
