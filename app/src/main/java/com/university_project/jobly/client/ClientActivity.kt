@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
@@ -67,7 +68,8 @@ class ClientActivity : AppCompatActivity() {
                 }
             }
         liveData.isVerified(userType).observe(this) {
-            if (it) {
+            Log.d(TAG, "onCreate: $it")
+            if (!it) {
                 val view = layoutInflater.inflate(R.layout.verification, null, false)
                 dialog.setContentView(view)
                 dialog.show()

@@ -45,7 +45,7 @@ object Repository {
 
     /**VERIFIED STATUS**/
     fun isVerified(userType: String): LiveData<Boolean> {
-        val status = MutableLiveData(false)
+        val status = MutableLiveData(true)
         if (userType == "Client") {
             dbProfile.document(auth.uid.toString()).addSnapshotListener { value, error ->
                 val dbProfile = value?.toObject(ClientProfileModel::class.java)

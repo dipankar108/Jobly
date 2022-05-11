@@ -95,6 +95,8 @@ class EmployeeActivity : AppCompatActivity() {
                         liveData.setVerificationFile(pdfUri, userType)
                     }
                 }
+            } else {
+                mdialog.dismiss()
             }
         }
     }

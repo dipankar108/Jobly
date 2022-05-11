@@ -4,8 +4,11 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -120,6 +123,30 @@ class JobPostView : AppCompatActivity() {
         }
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.reportsomeone, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.menu_report_id -> {
+                latestExampleEmailCreation(arrayOf("dipankar0debnath@gmail.com"),"Report Post","Please dont edit this id: $docID")
+//                startActivity(
+//                    Intent(
+//                        Intent.ACTION_VIEW,
+//                        Uri.parse("mailto:dipankar0debnath@gmail.com")
+//
+//                    ).apply {
+//
+//                        putExtra(Intent.EXTRA_SUBJECT, "Report Post")
+//                        putExtra(Intent.EXTRA_TEXT, "postId : $docID")
+//                    })
+            }
+        }
+        return true
+    }
+
     private fun setBtnText(string: String?) {
         if (string == "Client") {
             binding.btnSinglePostViewSubmitId.text = "Edit"
@@ -136,7 +163,18 @@ class JobPostView : AppCompatActivity() {
             changeActivity(ClientActivity())
         } else changeActivity(EmployeeActivity())
     }
-
+    private fun latestExampleEmailCreation(
+        addresses: Array<String>, subject: String, text: String) {
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:")
+            putExtra(Intent.EXTRA_EMAIL, addresses)
+            putExtra(Intent.EXTRA_SUBJECT, subject)
+            putExtra(Intent.EXTRA_TEXT, text)
+        }
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        }
+    }
     private fun changeActivity(activity: Activity) {
         val intent = Intent(applicationContext, activity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP

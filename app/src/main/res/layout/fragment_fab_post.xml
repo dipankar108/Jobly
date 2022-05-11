@@ -3,16 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".employee.FabPostFragment"
-    android:background="@color/colorPostBack"
-    >
+    android:background="@drawable/gradient_background"
+    tools:context=".employee.FabPostFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_emp_fabPost_id"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/postitemview"
-        />
+        tools:listitem="@layout/postitemview" />
 
 
 </FrameLayout>
