@@ -44,4 +44,8 @@ class BaseViewModel : ViewModel() {
     fun uploadCV(uri: Uri): LiveData<List<String>> = Repository.uploadCV(uri)
     fun isUserActive(userId: String): LiveData<Boolean> = Repository.isUserActive(userId)
     fun getCompany(): LiveData<List<String>> = Repository.getCompany()
+    fun isVerified(userType: String): LiveData<Boolean> = Repository.isVerified(userType)
+    fun setVerificationFile(pdfUri: Uri, userType: String) {
+        Repository.setVerfication(pdfUri, userType)
+    }
 }

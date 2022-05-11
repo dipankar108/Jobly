@@ -1,13 +1,17 @@
 package com.university_project.jobly.client
 
+import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -18,6 +22,7 @@ import com.university_project.jobly.CreateJobPost
 import com.university_project.jobly.R
 import com.university_project.jobly.UpdateClientProfile
 import com.university_project.jobly.accountlog.AccountLog
+import com.university_project.jobly.baseviewmodel.BaseViewModel
 import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.baseviewmodel.profile.UserViewModel
 import com.university_project.jobly.chatserver.InterViewFragment
@@ -33,6 +38,10 @@ class ClientActivity : AppCompatActivity() {
     private val TAG = "ClientActivity"
     private lateinit var userLiveData: UserViewModel
     private lateinit var binding: ActivityClientBinding
+    private lateinit var liveData: BaseViewModel
+    private var userType: String = ""
+    private var pdfUri = Uri.EMPTY
+    private lateinit var dialog: Dialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityClientBinding.inflate(layoutInflater)
@@ -44,6 +53,39 @@ class ClientActivity : AppCompatActivity() {
         Firebase.auth.uid!!
         Repository.updateActiveStatus(true)
         userLiveData = ViewModelProvider(this)[UserViewModel::class.java]
+        liveData = ViewModelProvider(this)[BaseViewModel::class.java]
+        userType = getSharedPreferences(
+            SharedInfo.USER.user,
+            MODE_PRIVATE
+        ).getString(SharedInfo.USER_TYPE.user, null).toString()
+        dialog = Dialog(this)
+        val getContent =
+            registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
+                pdfUri = uri
+                if (pdfUri != null) {
+                    Toast.makeText(this, "Uploaded", Toast.LENGTH_SHORT).show()
+                }
+            }
+        liveData.isVerified(userType).observe(this) {
+            if (it) {
+                val view = layoutInflater.inflate(R.layout.verification, null, false)
+                dialog.setContentView(view)
+                dialog.show()
+                dialog.setCancelable(false)
+                val uploadPDFBtn: Button = view.findViewById(R.id.btn_uploadPdfButtonVer_Id)
+                val sendProf: Button = view.findViewById(R.id.btn_sendPdfButtonVer_Id)
+                uploadPDFBtn.setOnClickListener {
+                    getContent.launch("application/pdf")
+                }
+                sendProf.setOnClickListener {
+                    if (pdfUri != null) {
+                        liveData.setVerificationFile(pdfUri, userType)
+                    }
+                }
+            }
+        }
+
+
         userLiveData.userBanInfo.observe(this) {
             if (it) {
                 Toast.makeText(

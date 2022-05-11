@@ -73,9 +73,9 @@ class JobPostView : AppCompatActivity() {
                             dialog.dismiss()
                             val alertDialog = AlertDialog.Builder(this)
                                 .setCancelable(false)
-                                .setTitle("No CV Found")
+                                .setTitle("No CV\n or Unverified")
                                 .setPositiveButton(
-                                    "Upload Now"
+                                    "Complete Now"
                                 ) { dialogInterface, _ ->
                                     dialogInterface.dismiss()
                                     startActivity(
@@ -91,7 +91,8 @@ class JobPostView : AppCompatActivity() {
                                 }.create()
                             alertDialog.show()
                         }
-                    }}
+                    }
+                }
 //                Firebase.firestore.collection("User").document(Firebase.auth.uid.toString()).get()
 //                    .addOnSuccessListener {
 //                        val profile = it.toObject(EmployeeProfileModel::class.java)
@@ -114,7 +115,7 @@ class JobPostView : AppCompatActivity() {
 //                                    di.dismiss()
 //                                }.show()
 //                        }
-                   // }
+                // }
             }
         }
     }

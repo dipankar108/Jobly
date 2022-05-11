@@ -22,6 +22,7 @@ object Repository {
     private val dbPost = Firebase.firestore.collection("JobPost")
     private val chatServer = Firebase.firestore.collection("ChatServer")
     private val dbProfile = Firebase.firestore.collection("User")
+    private val verificationCollection = Firebase.firestore.collection("Verification")
     private val myJobPost = mutableSetOf<PostDataModel>()
     private val fabEmpPost = mutableSetOf<PostDataModel>()
     private val empProfilePost = mutableSetOf<EmployeeProfileModel>()
@@ -40,6 +41,23 @@ object Repository {
             }
         }
         return liveSkill
+    }
+
+    /**VERIFIED STATUS**/
+    fun isVerified(userType: String): LiveData<Boolean> {
+        val status = MutableLiveData(false)
+        if (userType == "Client") {
+            dbProfile.document(auth.uid.toString()).addSnapshotListener { value, error ->
+                val dbProfile = value?.toObject(ClientProfileModel::class.java)
+                status.value = dbProfile?.verify
+            }
+        } else {
+            dbProfile.document(auth.uid.toString()).addSnapshotListener { value, error ->
+                val dbProfile = value?.toObject(EmployeeProfileModel::class.java)
+                status.value = dbProfile?.verify
+            }
+        }
+        return status
     }
 
     /** Updating active or not  **/
@@ -566,6 +584,31 @@ object Repository {
                 Log.d("TAG", "getCompany: ${it.message}")
             }
         return comps
+    }
+
+    fun setVerfication(pdfUri: Uri, userType: String) {
+        val mstorageRef =
+            storageRef.reference.child("attachverPDF/${System.currentTimeMillis()}${Firebase.auth.uid}")
+        dbProfile.document(auth.uid.toString()).addSnapshotListener { value, error ->
+            value?.let { doc ->
+                mstorageRef.putFile(pdfUri).addOnSuccessListener {
+                    mstorageRef.downloadUrl.addOnSuccessListener { attachUrl ->
+                        if (attachUrl != null) {
+                            val verificationModel = VerificationModel(
+                                attachUrl.toString(),
+                                auth.uid.toString(),
+                                System.currentTimeMillis(),
+                                userType
+                            )
+                            verificationCollection.document(auth.uid.toString())
+                                .set(verificationModel)
+                        }
+                    }.addOnFailureListener { e ->
+                        Log.d("TAG", "createJobPost: ${e.message}")
+                    }
+                }
+            }
+        }
     }
 }
 

@@ -1,15 +1,24 @@
 package com.university_project.jobly.accountlog
 
+import android.app.Dialog
+import android.net.Uri
 import android.os.Bundle
 import android.view.WindowManager
+import android.widget.Button
+import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.university_project.jobly.R
+import com.university_project.jobly.baseviewmodel.BaseViewModel
 import com.university_project.jobly.databinding.ActivityAccountLogBinding
+import com.university_project.jobly.utils.SharedInfo
 
 
 class AccountLog : AppCompatActivity() {
     lateinit var binding: ActivityAccountLogBinding
     private var insideLogin = true
+
     override fun onCreate(savedInstanceState: Bundle?) {
         window.setFlags(
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
@@ -18,9 +27,7 @@ class AccountLog : AppCompatActivity() {
         binding = ActivityAccountLogBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
-        //   val getScreen = GetScreen(resources)
-//        binding.frAccountFrameLayoutId.layoutParams.height =
-//            GetAccountLogProperties.getFrameLayoutHeight(getScreen.getHeight())
+
         setFragment()
         binding.btnAccountCId.setOnClickListener {
             setFragment()
