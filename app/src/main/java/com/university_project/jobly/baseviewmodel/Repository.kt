@@ -290,14 +290,30 @@ object Repository {
 
     //getting post for employee
     fun getEmpPost(categoryList: List<String>): MutableLiveData<List<PostDataModel>> {
-        Firebase.auth.uid!!
         val query = dbPost.whereArrayContainsAny("skill", categoryList)
         val mutableLiveData = MutableLiveData<List<PostDataModel>>()
-        query.addSnapshotListener { document, _ ->
-            document?.let {
-                documentChangesFun(document, "getAllPost")
+        var listCom = listOf<String>()
+        var filterData = mutableSetOf<PostDataModel>()
+        dbProfile.document(auth.uid.toString()).addSnapshotListener { value, _ ->
+            value?.data?.get("company")?.let { list ->
+                listCom = list as List<String>
+                query.addSnapshotListener { document, _ ->
+                    document?.let {
+                        documentChangesFun(document, "getAllPost")
+                    }
+                    if (listCom.isNotEmpty()) {
+                        myJobPost.forEach {
+                            if (listCom.contains(it.companyName)) {
+                                filterData.add(it)
+                            }
+                        }
+                        mutableLiveData.value = filterData.toTypedArray().asList()
+                    } else {
+                        mutableLiveData.value = myJobPost.toTypedArray().asList()
+                    }
+
+                }
             }
-            mutableLiveData.value = myJobPost.toTypedArray().asList()
         }
         return mutableLiveData
     }
@@ -327,9 +343,11 @@ object Repository {
     /**UPDATING SKILL **/
     fun updateSkill(updateType: String, skill: String) {
         if (updateType == "union") {
-            dbProfile.document(auth.uid.toString()).update("skill", FieldValue.arrayUnion(skill))
+            dbProfile.document(auth.uid.toString())
+                .update("skill", FieldValue.arrayUnion(skill))
         } else {
-            dbProfile.document(auth.uid.toString()).update("skill", FieldValue.arrayRemove(skill))
+            dbProfile.document(auth.uid.toString())
+                .update("skill", FieldValue.arrayRemove(skill))
         }
     }
 

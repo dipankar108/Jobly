@@ -67,7 +67,7 @@ class UpdateClientProfile : AppCompatActivity() {
                 }
                 binding.etUpeCnameId.setOnItemClickListener { _, _, i, _ ->
                     val skillName = companyTextAdapter.getItem(i).toString()
-                    updateProfileLiveData.updateProfile(skillName, "companyName")
+                    updateProfileLiveData.updateProfile(skillName.toLowerCase(), "companyName")
                     binding.etUpeCnameId.text.clear()
                     binding.etUpeCnameId.hint = "Edit Company"
                     val inputMethodManager =

@@ -9,6 +9,9 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -31,17 +34,20 @@ class JobPostView : AppCompatActivity() {
     private lateinit var auth: FirebaseAuth
     private lateinit var singlePostView: PostDataModel
     private lateinit var liveData: ClientPostViewModel
+    private lateinit var updatedialog: Dialog
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityJobPostViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
         val bundle = intent.extras
         dialog = Dialog(this)
+        updatedialog = Dialog(this)
         docID = bundle!!.getString("docId").toString()
         auth = Firebase.auth!!
         Log.d(TAG, "onCreate: $docID")
         liveData = ViewModelProvider(this)[ClientPostViewModel::class.java]
         liveData.getSinglePost(docID).observe(this) { singlePostView ->
+            this.singlePostView = singlePostView
             binding.tvSinglePostViewTitleId.text = singlePostView.title
             binding.tvSinglePostViewDescId.text = singlePostView.desc
             binding.tvSinglePostViewCompanyNameId.text = singlePostView.companyName
@@ -52,11 +58,32 @@ class JobPostView : AppCompatActivity() {
         }
         val sh = getSharedPreferences(SharedInfo.USER.user, MODE_PRIVATE)
         val userInfo = sh.getString(SharedInfo.USER_TYPE.user, null)
+        if (userInfo == "Client") {
+            val view = layoutInflater.inflate(R.layout.updateprofiledialog, null, false)
+            val btnInput: Button = view.findViewById(R.id.btn_submit_update_id)
+            val textInput: EditText = view.findViewById(R.id.et_bottomFragment_Update_id)
+            val titleView: TextView = view.findViewById(R.id.tv_titleview_update_id)
+            binding.tvSinglePostViewTitleId.setOnClickListener {
+                dialog.setContentView(view)
+                titleView.text = "Change Title"
+                textInput.setText(singlePostView.title)
+                dialog.show()
+            }
+            binding.tvSinglePostViewDescId.setOnClickListener {
+                dialog.setContentView(view)
+                titleView.text = "Change Description"
+                textInput.maxLines = 3
+                textInput.setText(singlePostView.desc)
+                dialog.show()
+            }
+            binding.btnSinglePostViewSubmitId.text = "You can Edit Post"
+            binding.btnSinglePostViewSubmitId.isEnabled = false
+        }
 //        setBtnText(userInfo!!)
         binding.btnSinglePostViewSubmitId.setOnClickListener {
             Log.d(TAG, "onCreate: $userInfo")
             if (userInfo == "Client") {
-                Log.d(TAG, "onCreate: Go to edit page")
+
             } else {
                 liveData.appliedForPost(docID).observe(this) { applynow ->
                     when (applynow) {
@@ -131,7 +158,11 @@ class JobPostView : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.menu_report_id -> {
-                latestExampleEmailCreation(arrayOf("dipankar0debnath@gmail.com"),"Report Post","Please dont edit this id: $docID")
+                latestExampleEmailCreation(
+                    arrayOf("dipankar0debnath@gmail.com"),
+                    "Report Post",
+                    "Please dont edit this id: $docID"
+                )
 //                startActivity(
 //                    Intent(
 //                        Intent.ACTION_VIEW,
@@ -163,8 +194,10 @@ class JobPostView : AppCompatActivity() {
             changeActivity(ClientActivity())
         } else changeActivity(EmployeeActivity())
     }
+
     private fun latestExampleEmailCreation(
-        addresses: Array<String>, subject: String, text: String) {
+        addresses: Array<String>, subject: String, text: String
+    ) {
         val intent = Intent(Intent.ACTION_SENDTO).apply {
             data = Uri.parse("mailto:")
             putExtra(Intent.EXTRA_EMAIL, addresses)
@@ -175,6 +208,7 @@ class JobPostView : AppCompatActivity() {
             startActivity(intent)
         }
     }
+
     private fun changeActivity(activity: Activity) {
         val intent = Intent(applicationContext, activity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
