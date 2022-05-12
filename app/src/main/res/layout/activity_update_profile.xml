@@ -129,8 +129,25 @@
             android:layout_marginBottom="5dp"
             android:background="@drawable/btn_black_round"
             android:text="Submit"
-
             android:visibility="gone" />
+
+        <AutoCompleteTextView
+            android:id="@+id/et_up_company_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/et_account"
+            android:gravity="center"
+            android:hint="Add Company"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/colorLightGray" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rv_up_company_id"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/skillitemview" />
     </LinearLayout>
 
 </ScrollView>

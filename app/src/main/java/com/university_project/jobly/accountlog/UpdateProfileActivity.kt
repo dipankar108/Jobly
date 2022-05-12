@@ -11,6 +11,7 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -22,33 +23,39 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.university_project.jobly.adapter.CompanyAdapter
 import com.university_project.jobly.adapter.SkillAdapter
 import com.university_project.jobly.baseviewmodel.BaseViewModel
 import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.baseviewmodel.profile.UserViewModel
 import com.university_project.jobly.databinding.ActivityUpdateProfileBinding
 import com.university_project.jobly.employee.EmployeeActivity
+import com.university_project.jobly.interfaces.CompanyClick
 import com.university_project.jobly.interfaces.SkillClick
 import com.university_project.jobly.utils.SharedInfo
 import java.io.ByteArrayOutputStream
 
-class UpdateProfileActivity : AppCompatActivity(), SkillClick {
+class UpdateProfileActivity : AppCompatActivity(), SkillClick, CompanyClick {
     private lateinit var liveData: BaseViewModel
     private lateinit var updateProfileLiveData: UserViewModel
     private lateinit var binding: ActivityUpdateProfileBinding
     private var selectedSkills = mutableListOf<String>()
+    private var selectedCompany = mutableListOf<String>()
     private var skills = listOf<String>()
+    private var company = listOf<String>()
     private var userPass = ""
     private var cvEmp = ""
     private var verified = false
     private var pdfUri = Uri.EMPTY
     private lateinit var skillTextAdapter: ArrayAdapter<String>
+    private lateinit var comTextAdapter: ArrayAdapter<String>
     private var storageRef = Firebase.storage
     private lateinit var dialog: AlertDialog.Builder
     private lateinit var pleasewaitdialog: Dialog
     private var imageUri = Uri.EMPTY
     private lateinit var alertDialog: android.app.AlertDialog.Builder
     private val skillAdapter = SkillAdapter(this)
+    private val comAdapter = CompanyAdapter(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityUpdateProfileBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -63,6 +70,10 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
             it.orientation = LinearLayoutManager.HORIZONTAL
         }
         binding.rvUpSkillId.adapter = skillAdapter
+        binding.rvUpCompanyId.layoutManager = LinearLayoutManager(this).also {
+            it.orientation = LinearLayoutManager.HORIZONTAL
+        }
+        binding.rvUpCompanyId.adapter = comAdapter
         val userInfo = sh.getString(SharedInfo.USER_TYPE.user, null)
         updateProfileLiveData = ViewModelProvider(this)[UserViewModel::class.java]
         dialog = AlertDialog.Builder(this)
@@ -74,9 +85,9 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
             } else {
                 binding.tvUpVerifyInfoId.text = "You are Unverified"
             }
-            binding.etUpFnameId.setText(user.fname)
-            binding.etUpLnameId.setText(user.lname)
-            binding.etUpAboutYourselfId.setText(user.aboutYourself)
+            binding.etUpFnameId.text = user.fname
+            binding.etUpLnameId.text = user.lname
+            binding.etUpAboutYourselfId.text = user.aboutYourself
             binding.etUpEmailId.setText(user.userEmail)
             binding.etUpEmailId.isEnabled = false
             if (user.cvEmp != "No CV") {
@@ -92,6 +103,8 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
             selectedSkills = user.skill
             skillAdapter.setList(selectedSkills)
             skillAdapter.notifyDataSetChanged()
+            comAdapter.setList(user.company)
+            comAdapter.notifyDataSetChanged()
             userPass = user.userPass
             cvEmp = user.cvEmp
         }
@@ -100,6 +113,12 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
             skillTextAdapter =
                 ArrayAdapter(this, R.layout.simple_dropdown_item_1line, skills)
             binding.etUpSkillId.setAdapter(skillTextAdapter)
+        }
+        liveData.getCompany().observe(this) {
+            Log.d("ETAG", "onCreate: $it")
+            company = it
+            comTextAdapter = ArrayAdapter(this, R.layout.simple_dropdown_item_1line, company)
+            binding.etUpCompanyId.setAdapter(comTextAdapter)
         }
         binding.etUpSkillId.setOnItemClickListener { adapterView, view, i, l ->
             val skillName = skillTextAdapter.getItem(i).toString().lowercase()
@@ -116,6 +135,22 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
                 showToast("Max 5 allowed", this)
             }
             skillAdapter.notifyDataSetChanged()
+        }
+        binding.etUpCompanyId.setOnItemClickListener { _, _, i, _ ->
+            val companyName = comTextAdapter.getItem(i).toString().lowercase()
+            if (selectedCompany.contains(companyName)) {
+                showToast("Already Added", this)
+            } else {
+                Repository.updateCompany("union", companyName)
+                selectedCompany.add(companyName)
+            }
+            binding.etUpCompanyId.text.clear()
+            if (selectedCompany.size == 5) {
+                binding.etUpCompanyId.isEnabled = false
+                binding.etUpCompanyId.hint = "Remove one company to enable"
+                showToast("Max 5 allowed", this)
+            }
+            comAdapter.notifyDataSetChanged()
         }
         var uploadImage =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { imageRes: ActivityResult ->
@@ -279,6 +314,31 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick {
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
         startActivity(intent)
         finish()
+    }
+
+    private fun addCompany() {
+//        val skillName = skillTextAdapter.getItem(i).toString().lowercase()
+//        if (selectedSkills.contains(skillName)) {
+//            showToast("Already Added", this)
+//        } else {
+//            Repository.updateSkill("union", skillName)
+//            selectedSkills.add(skillName)
+//        }
+//        binding.etUpSkillId.text.clear()
+//        if (selectedSkills.size == 5) {
+//            binding.etUpSkillId.isEnabled = false
+//            binding.etUpSkillId.hint = "Remove one skill to enable"
+//            showToast("Max 5 allowed", this)
+//        }
+//        skillAdapter.notifyDataSetChanged()
+    }
+
+    override fun onCompDeleteClick(skill: String) {
+        selectedCompany.remove(skill)
+        Repository.updateCompany("remove", skill)
+        skillAdapter.notifyDataSetChanged()
+        binding.etUpCompanyId.isEnabled = true
+        binding.etUpCompanyId.hint = "Add Company"
     }
 }
 

@@ -15,5 +15,6 @@ data class EmployeeProfileModel(
     val banned: Boolean = false,
     val cvEmp: String = "No CV",
     val profileImg: String = "",
-    val active: Boolean = true
+    val active: Boolean = true,
+    val company: ArrayList<String> = ArrayList()
 )

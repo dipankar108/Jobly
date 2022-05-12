@@ -329,7 +329,7 @@ object Repository {
         if (updateType == "union") {
             dbProfile.document(auth.uid.toString()).update("skill", FieldValue.arrayUnion(skill))
         } else {
-            dbProfile.document(auth.uid.toString()).update("skill", FieldValue.arrayUnion(skill))
+            dbProfile.document(auth.uid.toString()).update("skill", FieldValue.arrayRemove(skill))
         }
     }
 
@@ -608,6 +608,16 @@ object Repository {
                     }
                 }
             }
+        }
+    }
+
+    fun updateCompany(updateType: String, company: String) {
+        if (updateType == "union") {
+            dbProfile.document(auth.uid.toString())
+                .update("company", FieldValue.arrayUnion(company))
+        } else {
+            dbProfile.document(auth.uid.toString())
+                .update("company", FieldValue.arrayRemove(company))
         }
     }
 }
