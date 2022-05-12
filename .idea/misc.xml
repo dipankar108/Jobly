@@ -23,7 +23,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_create_job_post.xml" value="0.25" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_edit_post.xml" value="0.1171875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_employee.xml" value="0.18229166666666666" />
-        <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_job_post_view.xml" value="0.1171875" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_job_post_view.xml" value="0.22" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_main.xml" value="0.1171875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_notification_view.xml" value="0.128125" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_splash_screen.xml" value="0.33" />
@@ -48,6 +48,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/messageviewoposite.xml" value="0.25" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/postitemview.xml" value="0.25" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/progressbarlayout.xml" value="0.33" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/singlepostappbar.xml" value="0.1517361111111111" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/skillitemview.xml" value="0.20416666666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/updateprofiledialog.xml" value="0.18229166666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/menu/optionsmenu.xml" value="0.128125" />
