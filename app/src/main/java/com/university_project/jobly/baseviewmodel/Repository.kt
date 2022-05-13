@@ -173,41 +173,68 @@ object Repository {
             value?.let { doc ->
                 val clientProfileModel = doc.toObject(ClientProfileModel::class.java)
                 clientProfileModel?.let {
-                    mstorageRef.putFile(attachmentLink).addOnSuccessListener {
-                        mstorageRef.downloadUrl.addOnSuccessListener { attachUrl ->
-                            if (attachUrl != null) {
-                                val createPostModel = CreatePostModel(
-                                    auth.uid.toString(),
-                                    postTitle,
-                                    postDesc,
-                                    postSkills,
-                                    postExperience,
-                                    postSalary,
-                                    clientProfileModel.companyLocation,
-                                    arrayListOf(),
-                                    arrayListOf(),
-                                    attachUrl.toString(),
-                                    timeStamp,
-                                    clientProfileModel.companyName,
-                                    postGender,
-                                    arrayListOf(),
-                                    arrayListOf()
-                                )
-                                dbPost.document().set(createPostModel).addOnSuccessListener {
-                                    isDone.value = true
-                                }.addOnFailureListener { e ->
-                                    Log.d("TAG", "createJobPost: ${e.message}")
+                    if (attachmentLink != Uri.EMPTY) {
+                        mstorageRef.putFile(attachmentLink).addOnSuccessListener {
+                            mstorageRef.downloadUrl.addOnSuccessListener { attachUrl ->
+                                if (attachUrl != null) {
+                                    val createPostModel = CreatePostModel(
+                                        auth.uid.toString(),
+                                        postTitle,
+                                        postDesc,
+                                        postSkills,
+                                        postExperience,
+                                        postSalary,
+                                        clientProfileModel.companyLocation,
+                                        arrayListOf(),
+                                        arrayListOf(),
+                                        attachUrl.toString(),
+                                        timeStamp,
+                                        clientProfileModel.companyName,
+                                        postGender,
+                                        arrayListOf(),
+                                        arrayListOf()
+                                    )
+                                    dbPost.document().set(createPostModel).addOnSuccessListener {
+                                        isDone.value = true
+                                    }.addOnFailureListener { e ->
+                                        Log.d("TAG", "createJobPost: ${e.message}")
+                                    }
                                 }
                             }
+                        }.addOnFailureListener { e ->
+                            Log.d("TAG", "createJobPostPDF: ${e.message}")
                         }
-                    }.addOnFailureListener { e ->
-                        Log.d("TAG", "createJobPost: ${e.message}")
+                    } else {
+                        val createPostModel = CreatePostModel(
+                            auth.uid.toString(),
+                            postTitle,
+                            postDesc,
+                            postSkills,
+                            postExperience,
+                            postSalary,
+                            clientProfileModel.companyLocation,
+                            arrayListOf(),
+                            arrayListOf(),
+                            "No Attachment",
+                            timeStamp,
+                            clientProfileModel.companyName,
+                            postGender,
+                            arrayListOf(),
+                            arrayListOf()
+                        )
+                        dbPost.document().set(createPostModel).addOnSuccessListener {
+                            isDone.value = true
+                        }.addOnFailureListener { e ->
+                            Log.d("TAG", "createJobPost: ${e.message}")
+                        }
                     }
+
                 }
             }
         }
         return isDone
     }
+
 
     /** getting fab post **/
 

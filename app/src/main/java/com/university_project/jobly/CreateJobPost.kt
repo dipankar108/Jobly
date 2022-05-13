@@ -93,7 +93,7 @@ class CreateJobPost : AppCompatActivity(), SkillClick {
         binding.spGenderCreatePostId.adapter = spinnerGenderAdapter
         binding.btnCreatePostId.setOnClickListener {
             dialog.setContentView(R.layout.progressbarlayout)
-
+            dialog.setCancelable(false)
             try {
                 val postTitle = binding.etTitleCreatePostId.text.toString()
                 val postDesc = binding.etDescCratePostId.text.toString()
