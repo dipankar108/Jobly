@@ -17,6 +17,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:gravity="center"
             android:orientation="vertical">
 
             <TextView
@@ -24,10 +25,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Job Title"
+                android:text="We need an android developer for our company"
                 android:textColor="@color/black"
+                android:textSize="18dp"
                 app:layout_constraintEnd_toEndOf="parent"
-
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
@@ -35,69 +36,143 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Post Desc"
+                android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum."
                 android:textColor="@color/black"
+                android:textSize="15dp"
                 app:layout_constraintTop_toBottomOf="@+id/tv_SinglePostViewTitle_id"
                 tools:layout_editor_absoluteX="0dp" />
 
-            <TextView
-                android:id="@+id/tv_SinglePostViewJobPosition_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Job position"
-                android:textColor="@color/black"
-                app:layout_constraintTop_toBottomOf="@+id/tv_SinglePostViewDesc_id"
-                tools:layout_editor_absoluteX="0dp" />
 
-            <TextView
-                android:id="@+id/tv_SinglePostViewExperience_id"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Experience"
-                android:textColor="@color/black"
-                app:layout_constraintTop_toBottomOf="@+id/tv_SinglePostViewJobPosition_id"
-                tools:layout_editor_absoluteX="0dp" />
+                android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_SinglePostViewSalary_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Salary"
-                android:textColor="@color/black"
-                app:layout_constraintTop_toBottomOf="@+id/tv_SinglePostViewExperience_id"
-                tools:layout_editor_absoluteX="16dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center">
 
-            <TextView
-                android:id="@+id/tv_SinglePostViewLocation_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Location"
-                android:textColor="@color/black"
-                app:layout_constraintTop_toBottomOf="@+id/tv_SinglePostViewSalary_id"
-                tools:layout_editor_absoluteX="0dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Experience : "
+                        android:textColor="@color/black"
+                        android:textSize="16dp"
 
-            <TextView
-                android:id="@+id/tv_SinglePostViewCompanyName_id"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="10dp"
-                android:text="Company Name"
-                android:textColor="@color/black"
-                app:layout_constraintTop_toBottomOf="@+id/tv_SinglePostViewLocation_id"
-                tools:layout_editor_absoluteX="0dp" />
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_SinglePostViewExperience_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="2 Years"
+                        android:textColor="@color/black" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Salary : "
+                        android:textColor="@color/black"
+                        android:textSize="16dp"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_SinglePostViewSalary_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="20000 BDT"
+                        android:textColor="@color/black"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_SinglePostViewExperience_id"
+                        tools:layout_editor_absoluteX="16dp" />
+
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Location : "
+                        android:textColor="@color/black"
+                        android:textSize="16dp"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_SinglePostViewLocation_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="Dhaka, Bangladesh"
+                        android:textColor="@color/black"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_SinglePostViewSalary_id"
+                        tools:layout_editor_absoluteX="0dp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Company : "
+                        android:textColor="@color/black"
+                        android:textSize="16dp"
+
+                        />
+
+                    <TextView
+                        android:id="@+id/tv_SinglePostViewCompanyName_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="10dp"
+                        android:text="Dip It Farm"
+                        android:textColor="@color/black"
+                        app:layout_constraintTop_toBottomOf="@+id/tv_SinglePostViewLocation_id"
+                        tools:layout_editor_absoluteX="0dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_SinglePostViewSubmit_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:text="Apply Now"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toBottomOf="parent" />
+                android:text="Apply Now" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_SinglePostViewDown_id"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Download Attachment" />
+
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

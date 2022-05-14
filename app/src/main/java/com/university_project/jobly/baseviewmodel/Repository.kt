@@ -665,6 +665,17 @@ object Repository {
                 .update("company", FieldValue.arrayRemove(company))
         }
     }
+
+
+    fun updatePost(type: String, text: String, docID: String) {
+        if (type == "experience") {
+            dbPost.document(docID).update(type, text.toInt())
+        } else if (type == "Salary") {
+            dbPost.document(docID).update(type, text)
+        } else {
+            dbPost.document(docID).update(type, text)
+        }
+    }
 }
 
 

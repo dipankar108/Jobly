@@ -6,7 +6,7 @@ data class PostDataModel(
     val desc: String = "",
     val skill: List<String> = listOf(),
     val experience: Int = 0,
-    val Salary: Int = 0,
+    val salary: Int = 0,
     val location: String = "",
     val appliedEmployee: ArrayList<AppliedDataModel> = ArrayList(),
     val employeeId: ArrayList<String> = ArrayList(),
