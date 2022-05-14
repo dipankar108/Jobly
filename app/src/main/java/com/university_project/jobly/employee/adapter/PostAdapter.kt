@@ -23,6 +23,7 @@ class PostAdapter(private val listener: ClickHandle) :
         val like: ImageView = itemView.findViewById(R.id.img_postViewliked_id)
         val timeStamp: TextView = itemView.findViewById(R.id.tv_postViewTimeStamp_id)
         val likeNum: TextView = itemView.findViewById(R.id.tv_jobPostLikeNum_id)
+        val companyName: TextView = itemView.findViewById(R.id.tv_JobPostCompanyName_id)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EmpJobPostViewHolder {
@@ -35,11 +36,12 @@ class PostAdapter(private val listener: ClickHandle) :
         holder.title.text = res.title
         holder.desc.text = res.desc
         holder.likeNum.text = res.isLike.size.toString()
-        holder.timeStamp.text=TimeStampConverter.getTimeAgo(res.timeStamp)
+        holder.timeStamp.text = TimeStampConverter.getTimeAgo(res.timeStamp)
+        holder.companyName.text = res.companyName
         holder.desc.setOnClickListener {
             listener.onDescClick(res.docId)
         }
-            //setting up onClick listener on on like button
+        //setting up onClick listener on on like button
         holder.like.setOnClickListener {
             if (res.isLike.contains(Firebase.auth.uid)) {
                 listener.onLikeClick(res, true)

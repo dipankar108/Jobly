@@ -19,7 +19,7 @@ class PostViewAdapter(private val listener: ClickHandle) :
         val postTitle: TextView = itemView.findViewById(R.id.tv_postViewTitle_id)
         val postDesc: TextView = itemView.findViewById(R.id.tv_postViewDesc_id)
         val timeStamp: TextView = itemView.findViewById(R.id.tv_postViewTimeStamp_id)
-        val location: TextView = itemView.findViewById(R.id.tv_postViewVerified_id)
+        val location: TextView = itemView.findViewById(R.id.tv_JobPostCompanyName_id)
         val delete: ImageView = itemView.findViewById(R.id.img_postViewliked_id)
     }
 

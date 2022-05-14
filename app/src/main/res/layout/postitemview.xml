@@ -153,17 +153,20 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Company"
+                    android:text="Company Name"
                     android:textColor="@color/black" />
 
                 <TextView
-                    android:id="@+id/tv_postViewVerified_id"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tv_JobPostCompanyName_id"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:maxLength="15"
+                    android:maxLines="1"
                     android:textColor="@color/black"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:text="Verified" />
+                    tools:text="dip it afasdfasdfafdfadsfasf" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

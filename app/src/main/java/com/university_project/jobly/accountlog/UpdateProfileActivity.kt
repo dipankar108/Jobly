@@ -34,6 +34,7 @@ import com.university_project.jobly.interfaces.CompanyClick
 import com.university_project.jobly.interfaces.SkillClick
 import com.university_project.jobly.utils.SharedInfo
 import java.io.ByteArrayOutputStream
+import kotlin.math.log
 
 class UpdateProfileActivity : AppCompatActivity(), SkillClick, CompanyClick {
     private lateinit var liveData: BaseViewModel
@@ -50,7 +51,7 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick, CompanyClick {
     private lateinit var skillTextAdapter: ArrayAdapter<String>
     private lateinit var comTextAdapter: ArrayAdapter<String>
     private var storageRef = Firebase.storage
-    private lateinit var dialog: AlertDialog.Builder
+    private lateinit var dialog: Dialog
     private lateinit var pleasewaitdialog: Dialog
     private var imageUri = Uri.EMPTY
     private lateinit var alertDialog: android.app.AlertDialog.Builder
@@ -76,10 +77,11 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick, CompanyClick {
         binding.rvUpCompanyId.adapter = comAdapter
         val userInfo = sh.getString(SharedInfo.USER_TYPE.user, null)
         updateProfileLiveData = ViewModelProvider(this)[UserViewModel::class.java]
-        dialog = AlertDialog.Builder(this)
+        dialog = Dialog(this)
         pleasewaitdialog = Dialog(this)
         alertDialog = android.app.AlertDialog.Builder(this)
         liveData.getEmployeeProfile().observe(this) { user ->
+            Log.d("TAG", "onCreate: ${user.yourself}")
             if (user.verify) {
                 binding.tvUpVerifyInfoId.text = "You are Verified"
             } else {
@@ -87,7 +89,7 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick, CompanyClick {
             }
             binding.etUpFnameId.text = user.fname
             binding.etUpLnameId.text = user.lname
-            binding.etUpAboutYourselfId.text = user.aboutYourself
+            binding.etUpAboutYourselfId.text = user.yourself
             binding.etUpEmailId.setText(user.userEmail)
             binding.etUpEmailId.isEnabled = false
             if (user.cvEmp != "No CV") {
@@ -99,7 +101,7 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick, CompanyClick {
                 .placeholder(com.university_project.jobly.R.drawable.image_loding_anim)
                 .error(com.university_project.jobly.R.drawable.try_later)
                 .into(binding.ivUpProfilePicId)
-            binding.etUpYourHobbyId.setText(user.hobbyEmp)
+            binding.etUpYourHobbyId.setText(user.hobby)
             selectedSkills = user.skill
             skillAdapter.setList(selectedSkills)
             skillAdapter.notifyDataSetChanged()
@@ -220,7 +222,6 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick, CompanyClick {
         }
 
         binding.btnUpSubmitId.setOnClickListener {
-
         }
     }
 
@@ -259,11 +260,13 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick, CompanyClick {
             view.findViewById<TextView>(com.university_project.jobly.R.id.tv_titleview_update_id)
         val btnSubmit =
             view.findViewById<Button>(com.university_project.jobly.R.id.btn_submit_update_id)
-        dialog.setView(view).show()
+        dialog.setContentView(view)
+        dialog.show()
         inputText.setText(plaintext)
         titleText.text = hintText
         btnSubmit.setOnClickListener {
             updateProfileLiveData.updateProfile(inputText.text.toString(), field)
+            dialog.dismiss()
         }
     }
 
