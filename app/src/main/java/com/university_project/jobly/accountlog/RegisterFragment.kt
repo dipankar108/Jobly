@@ -68,7 +68,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register), SkillClick {
         ArrayAdapter.createFromResource(
             requireContext(),
             R.array.userTypeArray,
-            android.R.layout.simple_spinner_item,
+            R.layout.spinnerdesign,
         ).also { adapter ->
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             binding.spinner.adapter = adapter

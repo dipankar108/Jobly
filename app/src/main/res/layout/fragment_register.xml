@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_background"
     android:orientation="vertical"
     tools:context=".accountlog.RegisterFragment">
 
@@ -101,6 +100,7 @@
                 tools:layout_editor_absoluteX="3dp" />
 
             <Spinner
+
                 android:id="@+id/spinner"
                 android:layout_width="409dp"
                 android:layout_height="wrap_content"
@@ -137,8 +137,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:background="@drawable/et_account"
-                android:text="@string/submit"
+                android:background="@drawable/btn_black_round"
+                android:text="Register"
                 android:textColor="@color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.498"

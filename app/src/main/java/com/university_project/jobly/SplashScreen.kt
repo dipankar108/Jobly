@@ -36,7 +36,7 @@ class SplashScreen : AppCompatActivity() {
 
         sh = getSharedPreferences(SharedInfo.USER.user, MODE_PRIVATE)
         val editor = sh.edit()
-        if (auth.uid != null && auth.currentUser?.isEmailVerified == false) {
+        if (auth.uid != null && auth.currentUser?.isEmailVerified == true) {
             if (sh.getString(SharedInfo.USER_TYPE.user, null) == null) {
                 Firebase.firestore.collection("User").document(auth.uid.toString()).get()
                     .addOnSuccessListener {
