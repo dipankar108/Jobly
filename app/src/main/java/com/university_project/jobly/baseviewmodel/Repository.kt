@@ -47,12 +47,12 @@ object Repository {
     fun isVerified(userType: String): LiveData<Boolean> {
         val status = MutableLiveData(true)
         if (userType == "Client") {
-            dbProfile.document(auth.uid.toString()).addSnapshotListener { value, error ->
+            dbProfile.document(auth.uid.toString()).addSnapshotListener { value, _ ->
                 val dbProfile = value?.toObject(ClientProfileModel::class.java)
                 status.value = dbProfile?.verify
             }
         } else {
-            dbProfile.document(auth.uid.toString()).addSnapshotListener { value, error ->
+            dbProfile.document(auth.uid.toString()).addSnapshotListener { value, _ ->
                 val dbProfile = value?.toObject(EmployeeProfileModel::class.java)
                 status.value = dbProfile?.verify
             }
@@ -477,7 +477,7 @@ object Repository {
 
     fun applyForPost(docId: String): LiveData<String> {
         val mutableString = MutableLiveData("start")
-        dbProfile.document(auth.uid.toString()).addSnapshotListener { value, _ ->
+        dbProfile.document(auth.uid.toString()).get().addOnSuccessListener { value ->
             val userData = value?.toObject(EmployeeProfileModel::class.java)
             Log.d("TAG", "applyForPost: ${userData?.cvEmp}")
             userData?.let {
