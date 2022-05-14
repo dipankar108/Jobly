@@ -194,7 +194,6 @@ class JobPostView : AppCompatActivity() {
                     .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                     .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
 
-
                 val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
                 downloadManager.enqueue(req)
             }
