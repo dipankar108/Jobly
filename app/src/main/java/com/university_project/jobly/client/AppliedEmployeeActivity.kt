@@ -48,17 +48,18 @@ class AppliedEmployeeActivity : AppCompatActivity(), SPAppliedEmpClick {
 
     override fun onDownloadEmp(downloadLink: String) {
         Log.d(TAG, "onDownloadEmp: Donload $downloadLink")
-        val req = DownloadManager.Request(Uri.parse(downloadLink))
-            .setDescription(Environment.DIRECTORY_DOWNLOADS)
-            .setTitle("CV${System.currentTimeMillis()}")
-            .setDescription("Downloading")
-            .setAllowedOverMetered(true)
-            .setAllowedOverRoaming(true)
-            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
-            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION)
-
-        val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-        downloadManager.enqueue(req)
+        if (downloadLink != "") {
+            val req = DownloadManager.Request(Uri.parse(downloadLink))
+                .setDescription(Environment.DIRECTORY_DOWNLOADS)
+                .setTitle("CV${System.currentTimeMillis()}")
+                .setDescription("Downloading")
+                .setAllowedOverMetered(true)
+                .setAllowedOverRoaming(true)
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_ONLY_COMPLETION)
+            val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+            downloadManager.enqueue(req)
+        }
     }
 }

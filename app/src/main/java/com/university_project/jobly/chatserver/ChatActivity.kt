@@ -36,6 +36,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var isMessangerActive: TextView
     private lateinit var messangerProfileCard: MaterialCardView
     private lateinit var messangerProfileImg: ImageView
+    private lateinit var messangerTitle: TextView
     private val myAdapter = MessageViewAdapter(this)
     private val storage = Firebase.storage
     private var imageUri = Uri.EMPTY
@@ -52,6 +53,7 @@ class ChatActivity : AppCompatActivity() {
         isMessangerActive = findViewById(R.id.tv_isMessangerActive_id)
         messangerProfileCard = findViewById(R.id.cv_messangerCard_id)
         messangerProfileImg = findViewById(R.id.iv_messangerProfile_id)
+        messangerTitle = findViewById(R.id.tv_jobChatTitle_id)
         val mlayoutManager = LinearLayoutManager(this)
         //   mlayoutManager.reverseLayout = true
         binding.rvViewMessageListId.layoutManager = mlayoutManager
@@ -62,9 +64,11 @@ class ChatActivity : AppCompatActivity() {
             MODE_PRIVATE
         ).getString(SharedInfo.USER_TYPE.user, null)!!
         liveData.getMessage(docId!!).observe(this) { userDetails ->
+            messangerTitle.text = userDetails.jobtitle
             if (userType == "Client") {
                 liveData.isUserActive(userDetails.empId).observe(this) { isActive ->
                     messangerName.text = userDetails.empName
+
                     Glide.with(this).load(userDetails.empProfileImg).error(R.drawable.ic_profileimg)
                         .placeholder(R.drawable.image_loding_anim).into(messangerProfileImg)
                     if (isActive) {

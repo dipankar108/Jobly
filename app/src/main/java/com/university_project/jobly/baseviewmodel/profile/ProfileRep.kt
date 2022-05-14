@@ -1,5 +1,6 @@
 package com.university_project.jobly.baseviewmodel.profile
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -22,6 +23,7 @@ object ProfileRep {
 
     fun updateProfile(value: String, fieldName: String) {
         if (fieldName == "CompanyRQ") {
+            Log.d("TAG", "updateProfile: ${auth.uid.toString()}")
             val companyRQ = CompanyRQ(value, System.currentTimeMillis(), auth.uid.toString())
             Firebase.firestore.collection("CompanyRQ").document(auth.uid.toString()).set(companyRQ)
         } else {

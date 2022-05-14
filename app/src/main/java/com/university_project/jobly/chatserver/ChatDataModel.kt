@@ -1,6 +1,7 @@
 package com.university_project.jobly.chatserver
 
 data class ChatDataModel(
+    val jobtitle: String = "",
     val empName: String = "",
     val cltName: String = "",
     val cltId: String = "",

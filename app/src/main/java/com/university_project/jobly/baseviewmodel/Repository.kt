@@ -531,25 +531,31 @@ object Repository {
                 val clientProfileImg = clientVal.data!!["profileImg"].toString()
                 dbProfile.document(EmpId).get().addOnSuccessListener { empVal ->
                     val empProfileImg = empVal.data!!["profileImg"].toString()
-                    myChatDataModel = ChatDataModel(
-                        empName,
-                        clientName,
-                        CltId,
-                        EmpId,
-                        postId,
-                        postTitle,
-                        false,
-                        false,
-                        System.currentTimeMillis(),
-                        "",
-                        clientProfileImg,
-                        empProfileImg,
-                        messages,
-                        "No Message",
-                        "No Message",
-                        0,
-                        0
-                    )
+                    dbPost.document(chatDataModel.docId).get().addOnSuccessListener {
+                        val dbPostDataModel = it.toObject(PostDataModel::class.java)
+                        if (dbPostDataModel != null) {
+                            myChatDataModel = ChatDataModel(
+                                dbPostDataModel.title,
+                                empName,
+                                clientName,
+                                CltId,
+                                EmpId,
+                                postId,
+                                postTitle,
+                                false,
+                                false,
+                                System.currentTimeMillis(),
+                                "",
+                                clientProfileImg,
+                                empProfileImg,
+                                messages,
+                                "No Message",
+                                "No Message",
+                                0,
+                                0
+                            )
+                        }
+                    }
                     Log.d("TAG", "createChatDoc: $chatDataModel")
                     chatServer.add(myChatDataModel)
                 }

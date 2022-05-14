@@ -234,6 +234,7 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick, CompanyClick {
         mstorageRef.putFile(pdfUri)
             .addOnSuccessListener {
                 mstorageRef.downloadUrl.addOnSuccessListener { cvUrl ->
+
                     if (cvUrl != null) {
                         updateProfileLiveData.updateProfile(cvUrl.toString(), "cvEmp")
                         pleasewaitdialog.dismiss()
