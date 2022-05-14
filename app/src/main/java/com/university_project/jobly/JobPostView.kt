@@ -3,11 +3,14 @@ package com.university_project.jobly
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
+import android.app.DownloadManager
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.text.InputType
 import android.util.Log
 import android.view.Menu
@@ -180,6 +183,20 @@ class JobPostView : AppCompatActivity() {
                 intent.type = ("application/pdf")
                 intent.action = Intent.ACTION_GET_CONTENT
                 uploadPdf.launch(intent)
+            } else {
+                Log.d(TAG, "onDownloadEmp: Download ${singlePostView.attachment}")
+                val req = DownloadManager.Request(Uri.parse(singlePostView.attachment))
+                    .setDescription(Environment.DIRECTORY_DOWNLOADS)
+                    .setTitle("${singlePostView.title}")
+                    .setDescription("Downloading")
+                    .setAllowedOverMetered(true)
+                    .setAllowedOverRoaming(true)
+                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+
+
+                val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
+                downloadManager.enqueue(req)
             }
         }
 //        setBtnText(userInfo!!)
