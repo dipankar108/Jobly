@@ -509,13 +509,13 @@ object Repository {
 
     }
 
-    fun createChatDoc(chatDataModel: AppliedDataModel) {
+    fun createChatDoc(appliedDataModel: AppliedDataModel) {
         dbProfile.document(Firebase.auth.uid.toString()).get().addOnSuccessListener { it ->
             val clientName = "${it["fname"]} ${it["lname"]}"
-            val empName = chatDataModel.fullName
+            val empName = appliedDataModel.fullName
             val CltId = auth.uid.toString()
-            val EmpId = chatDataModel.employeeId
-            val postId = chatDataModel.docId
+            val EmpId = appliedDataModel.employeeId
+            val postId = appliedDataModel.docId
             val postTitle = "This is post"
             val messages = arrayListOf(
                 MessageModel(
@@ -531,11 +531,12 @@ object Repository {
                 val clientProfileImg = clientVal.data!!["profileImg"].toString()
                 dbProfile.document(EmpId).get().addOnSuccessListener { empVal ->
                     val empProfileImg = empVal.data!!["profileImg"].toString()
-                    dbPost.document(chatDataModel.docId).get().addOnSuccessListener {
-                        val dbPostDataModel = it.toObject(PostDataModel::class.java)
-                        if (dbPostDataModel != null) {
+                    dbPost.document(appliedDataModel.docId).get().addOnSuccessListener {
+                        val postData = it.toObject(PostDataModel::class.java)
+                        Log.d("TAGA", "createChatDoc: ${postData?.title}")
+                        if (postData != null) {
                             myChatDataModel = ChatDataModel(
-                                dbPostDataModel.title,
+                                postData.title,
                                 empName,
                                 clientName,
                                 CltId,
@@ -554,10 +555,10 @@ object Repository {
                                 0,
                                 0
                             )
+                            chatServer.add(myChatDataModel)
                         }
                     }
-                    Log.d("TAG", "createChatDoc: $chatDataModel")
-                    chatServer.add(myChatDataModel)
+
                 }
             }
         }
@@ -685,5 +686,4 @@ object Repository {
         }
     }
 }
-
 
