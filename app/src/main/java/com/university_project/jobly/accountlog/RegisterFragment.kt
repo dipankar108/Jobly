@@ -117,20 +117,20 @@ class RegisterFragment : Fragment(R.layout.fragment_register), SkillClick {
 
         }
         binding.btnRegSubmitId.setOnClickListener {
-
+            dialog.show()
+            dialog.setCancelable(false)
             val fName = convertToString(binding.etRegFnameId.text)
             val lName = convertToString(binding.etRegLNameId.text)
             val userPass = convertToString(binding.etRegPassId.text)
             val pass = convertToString(binding.etRegPassId.text)
             val userEmail = convertToString(binding.etRegEmailId.text)
             val userType = convertToString(binding.spinner.selectedItem)
-            if (fName.isEmpty() || lName.isEmpty() || userPass.isEmpty() || pass.isEmpty() || userEmail.isEmpty() || userType == "Select" || selectedSkills.isEmpty()
+            if (fName.isEmpty() || lName.isEmpty() || userPass.isEmpty() || pass.isEmpty() || userEmail.isEmpty() || userType == "Select"
             ) {
                 Toast.makeText(requireContext(), "Please fill every field", Toast.LENGTH_SHORT)
                     .show()
             } else {
                 if (userPass == pass) {
-
                     dialog.setContentView(R.layout.progressbarlayout)
                     dialog.show()
                     createAccount(
@@ -187,43 +187,33 @@ class RegisterFragment : Fragment(R.layout.fragment_register), SkillClick {
                                     false,
                                     "clientprofileurl"
                                 )
-//                            db.document(auth.uid.toString()).set(user)
-//                                .addOnSuccessListener {
-//                                    binding.pbRegId.visibility = GONE
-//                                    startActivity(
-//                                        Intent(
-//                                            requireContext(),
-//                                            ClientActivity::class.java
-//                                        )
-//                                    )
-//                                }
+                            db.document(auth.uid.toString()).set(user)
+                                .addOnSuccessListener {
+                                    dialog.dismiss()
+                                }
                         } else {
-                            val user =
-                                EmployeeProfileModel(
-                                    auth.uid.toString(),
-                                    fName,
-                                    lName,
-                                    userEmail,
-                                    userPass,
-                                    userType,
-                                    selectedSkill as ArrayList<String>,
-                                    "",
-                                    "",
-                                    "",
-                                    verify = false,
-                                    banned = false,
-                                    ""
-                                )
-//                            db.document(auth.uid.toString()).set(user)
-//                                .addOnSuccessListener {
-//                                    dialog.dismiss()
-//                                    startActivity(
-//                                        Intent(
-//                                            requireContext(),
-//                                            EmployeeActivity::class.java
-//                                        )
-//                                    )
-//                                }
+                            if (selectedSkills.isNotEmpty()) {
+                                val user =
+                                    EmployeeProfileModel(
+                                        auth.uid.toString(),
+                                        fName,
+                                        lName,
+                                        userEmail,
+                                        userPass,
+                                        userType,
+                                        selectedSkill as ArrayList<String>,
+                                        "",
+                                        "",
+                                        "",
+                                        verify = false,
+                                        banned = false,
+                                        ""
+                                    )
+                                db.document(auth.uid.toString()).set(user)
+                                    .addOnSuccessListener {
+                                        dialog.dismiss()
+                                    }
+                            }
                         }
                     }
                 }

@@ -113,10 +113,9 @@ class ClientActivity : AppCompatActivity() {
             return@setOnItemSelectedListener true
         }
 
-        binding.fabMainId.setOnClickListener {
-            val intent = Intent(this, CreateJobPost::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-            }
+        binding.fabMainCreatePostId.setOnClickListener {
+            val intent = Intent(this, CreateJobPost::class.java)
+            intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
             startActivity(intent)
         }
     }

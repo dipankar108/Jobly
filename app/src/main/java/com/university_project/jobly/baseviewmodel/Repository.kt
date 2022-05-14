@@ -169,7 +169,7 @@ object Repository {
         val isDone = MutableLiveData(false)
         val mstorageRef =
             storageRef.reference.child("attachPDF/${System.currentTimeMillis()}${Firebase.auth.uid}")
-        dbProfile.document(auth.uid.toString()).addSnapshotListener { value, error ->
+        dbProfile.document(auth.uid.toString()).get().addOnSuccessListener { value ->
             value?.let { doc ->
                 val clientProfileModel = doc.toObject(ClientProfileModel::class.java)
                 clientProfileModel?.let {
