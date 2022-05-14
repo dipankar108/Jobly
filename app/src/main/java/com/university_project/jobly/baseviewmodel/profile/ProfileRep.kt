@@ -4,6 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.university_project.jobly.datamodel.CompanyRQ
 
 object ProfileRep {
     val auth = Firebase.auth
@@ -20,6 +21,11 @@ object ProfileRep {
     }
 
     fun updateProfile(value: String, fieldName: String) {
-        dbProfile.update(fieldName, value)
+        if (fieldName == "CompanyRQ") {
+            val companyRQ = CompanyRQ(value, System.currentTimeMillis(), auth.uid.toString())
+            Firebase.firestore.collection("CompanyRQ").document(auth.uid.toString()).set(companyRQ)
+        } else {
+            dbProfile.update(fieldName, value)
+        }
     }
 }

@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.ktx.firestore
@@ -12,10 +13,7 @@ import com.university_project.jobly.accountlog.AccountLog
 import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.databinding.ActivitySplashScreenBinding
 import com.university_project.jobly.employee.EmployeeActivity
-import com.university_project.jobly.utils.GetTheme
 import com.university_project.jobly.utils.SharedInfo
-import com.university_project.jobly.utils.screensize.GetScreen
-import com.university_project.jobly.utils.screensize.SplashScreenSize
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -28,19 +26,17 @@ class SplashScreen : AppCompatActivity() {
     lateinit var sh: SharedPreferences
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        window.setFlags(
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
+            WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS
+        )
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
-//        if (GetTheme.getDarkTheme(resources)) setTheme(R.style.Theme_SplashJoblyDarkNoActionBar)
-//        else setTheme(R.style.Theme_SplashJoblyLightNoActoinBar)
+
         setContentView(binding.root)
-//        val getScreen = GetScreen(resources)
-//        binding.progressBar.layoutParams.height =
-//            SplashScreenSize.getProgressbarSize(getScreen.getGeneralDp()).toInt()
-//        binding.progressBar.layoutParams.width =
-//            SplashScreenSize.getProgressbarSize(getScreen.getGeneralDp()).toInt()
-//        binding.progressBar.requestLayout()
+
         sh = getSharedPreferences(SharedInfo.USER.user, MODE_PRIVATE)
         val editor = sh.edit()
-        if (auth.uid != null) {
+        if (auth.uid != null && auth.currentUser?.isEmailVerified == false) {
             if (sh.getString(SharedInfo.USER_TYPE.user, null) == null) {
                 Firebase.firestore.collection("User").document(auth.uid.toString()).get()
                     .addOnSuccessListener {

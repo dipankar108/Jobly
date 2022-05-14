@@ -86,7 +86,7 @@ class LogInFragment : Fragment() {
                 auth.signInWithEmailAndPassword(userEmail, userPass).addOnSuccessListener {
                     val currentUser = auth.currentUser
                     currentUser?.let { mcurrentUser ->
-                        if (!mcurrentUser.isEmailVerified) {
+                        if (mcurrentUser.isEmailVerified) {
                             Firebase.firestore.collection("User")
                                 .document(Firebase.auth.uid.toString())
                                 .get().addOnSuccessListener {
@@ -109,9 +109,10 @@ class LogInFragment : Fragment() {
                         } else {
                             Toast.makeText(
                                 context,
-                                "Please verify your email first",
+                                "Check your email for verification",
                                 Toast.LENGTH_LONG
                             ).show()
+                            dialog.dismiss()
                         }
                     }
 

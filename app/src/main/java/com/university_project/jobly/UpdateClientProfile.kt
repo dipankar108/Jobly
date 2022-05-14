@@ -120,6 +120,14 @@ class UpdateClientProfile : AppCompatActivity() {
         binding.etUpeLnameId.setOnClickListener {
             updateProfileWithDialog(binding.etUpeLnameId.text.toString(), "Last Name", "lname")
         }
+        binding.tvUpeAddCompanyId.setOnClickListener {
+
+            updateProfileWithDialog(
+                "None",
+                "Send Company Name",
+                "CompanyRQ"
+            )
+        }
         binding.etUpeCLocationId.setOnClickListener {
             updateProfileWithDialog(
                 binding.etUpeCLocationId.text.toString(),
@@ -198,6 +206,9 @@ class UpdateClientProfile : AppCompatActivity() {
         titleText.text = hintText
         btnSubmit.setOnClickListener {
             updateProfileLiveData.updateProfile(inputText.text.toString(), field)
+            if (field == "CompanyRQ") {
+                Toast.makeText(this, "Request send", Toast.LENGTH_SHORT).show()
+            }
             dialog.dismiss()
         }
     }

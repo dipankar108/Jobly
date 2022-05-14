@@ -171,14 +171,33 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
+            android:maxLines="1"
             android:background="@drawable/et_account"
-            android:focusable="false"
+            android:focusedByDefault="false"
             android:gravity="center"
             android:hint="Add Company"
             android:padding="5dp"
             android:textColor="@color/black"
             android:textColorHint="@color/colorLightGray" />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Not found your company ? "
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tv_upe_addCompany_id"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add here..."
+                android:textColor="@color/colorPrimary" />
+        </LinearLayout>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"

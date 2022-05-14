@@ -128,11 +128,16 @@ class CreateJobPost : AppCompatActivity(), SkillClick {
                         appliedEmployee,
                         attachmentLink
                     ).observe(this) {
+
+                        dialog.dismiss()
                         if (it) {
                             dialog.dismiss()
                             val intent = Intent(this, ClientActivity::class.java)
                             startActivity(intent)
                             finish()
+                        } else {
+                            Toast.makeText(this, "Please complete your profile", Toast.LENGTH_SHORT)
+                                .show()
                         }
                     }
                 } else {
