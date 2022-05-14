@@ -347,13 +347,15 @@ object Repository {
 
     /** Getting single post **/
     fun singlePost(docId: String): LiveData<PostDataModel> {
-        var post = MutableLiveData<PostDataModel>()
+        var post = MutableLiveData<PostDataModel?>()
         dbPost.document(docId).addSnapshotListener { document, _ ->
             document?.let {
-                post.value = document.data?.let { it1 -> addData(it1, docId) }
+                val singlePost = it?.toObject(PostDataModel::class.java)
+                post.value = singlePost
+                // post.value = document.data?.let { it1 -> addData(it1, docId) }
             }
         }
-        return post
+        return post as LiveData<PostDataModel>
     }
 
     /** Getting Category **/
@@ -479,7 +481,7 @@ object Repository {
             val userData = value?.toObject(EmployeeProfileModel::class.java)
             Log.d("TAG", "applyForPost: ${userData?.cvEmp}")
             userData?.let {
-                if (userData.cvEmp != "No CV") {
+                if (userData.cvEmp != "") {
                     val appliedDataModel = userData?.let {
                         AppliedDataModel(
                             docId,

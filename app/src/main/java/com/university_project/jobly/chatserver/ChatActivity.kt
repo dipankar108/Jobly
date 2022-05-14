@@ -131,7 +131,11 @@ class ChatActivity : AppCompatActivity() {
                 storageRef.putBytes(compressedImage).addOnSuccessListener {
                     storageRef.downloadUrl.addOnSuccessListener { uri ->
                         link = uri.toString()
-                        sendMessage(message, docId, link, timeStamp, userId, userType)
+                        if (message.isNotEmpty()) {
+                            sendMessage(message, docId, link, timeStamp, userId, userType)
+                        } else {
+                            sendMessage("...", docId, link, timeStamp, userId, userType)
+                        }
                         binding.pbMessageImagePerId.visibility = View.GONE
                         binding.tvMessageProgressId.visibility = View.GONE
                     }
@@ -170,6 +174,7 @@ class ChatActivity : AppCompatActivity() {
                     userType
                 )
             )
+
         }
         imageUri = Uri.EMPTY
         binding.llUploadImageId.visibility = View.GONE

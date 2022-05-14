@@ -26,7 +26,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
-import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.university_project.jobly.accountlog.UpdateProfileActivity
@@ -66,6 +65,13 @@ class JobPostView : AppCompatActivity() {
         liveData.getSinglePost(docID).observe(this) { singlePostView ->
             Log.d(TAG, "onCreate: ${singlePostView.salary}")
             this.singlePostView = singlePostView
+            val nList = singlePostView.appliedEmployee.toList()
+            if (nList.any { it.employeeId == auth.uid.toString() }) {
+                binding.btnSinglePostViewSubmitId.isEnabled = false
+            }
+            if (singlePostView.attachment == "No Attachment") {
+                binding.btnSinglePostViewDownId.isEnabled = false
+            }
             binding.tvSinglePostViewTitleId.text = singlePostView.title
             binding.tvSinglePostViewDescId.text = singlePostView.desc
             binding.tvSinglePostViewCompanyNameId.text = singlePostView.companyName
@@ -184,15 +190,17 @@ class JobPostView : AppCompatActivity() {
                 intent.action = Intent.ACTION_GET_CONTENT
                 uploadPdf.launch(intent)
             } else {
-                Log.d(TAG, "onDownloadEmp: Download ${singlePostView.attachment}")
+
                 val req = DownloadManager.Request(Uri.parse(singlePostView.attachment))
                     .setDescription(Environment.DIRECTORY_DOWNLOADS)
                     .setTitle("${singlePostView.title}")
                     .setDescription("Downloading")
                     .setAllowedOverMetered(true)
                     .setAllowedOverRoaming(true)
-                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+
                     .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+
 
                 val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
                 downloadManager.enqueue(req)
