@@ -1,18 +1,12 @@
 package com.university_project.jobly.accountlog
 
-import android.app.Dialog
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.WindowManager
-import android.widget.Button
-import android.widget.Toast
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.ViewModelProvider
 import com.university_project.jobly.R
-import com.university_project.jobly.baseviewmodel.BaseViewModel
 import com.university_project.jobly.databinding.ActivityAccountLogBinding
-import com.university_project.jobly.utils.SharedInfo
 
 
 class AccountLog : AppCompatActivity() {
@@ -31,6 +25,14 @@ class AccountLog : AppCompatActivity() {
         setFragment()
         binding.btnAccountCId.setOnClickListener {
             setFragment()
+        }
+        binding.btnAccountContactId.setOnClickListener {
+            val intent = Intent(Intent.ACTION_SENDTO).apply {
+                data = Uri.parse("mailto:dipankar0debnath@gmail.com")
+            }
+            if (intent.resolveActivity(packageManager) != null) {
+                startActivity(intent)
+            }
         }
     }
 

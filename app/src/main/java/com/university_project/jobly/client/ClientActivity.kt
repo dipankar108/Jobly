@@ -22,7 +22,6 @@ import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.CreateJobPost
 import com.university_project.jobly.R
 import com.university_project.jobly.UpdateClientProfile
-import com.university_project.jobly.accountlog.AccountLog
 import com.university_project.jobly.baseviewmodel.BaseViewModel
 import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.baseviewmodel.profile.UserViewModel
@@ -43,6 +42,7 @@ class ClientActivity : AppCompatActivity() {
     private var userType: String = ""
     private var pdfUri = Uri.EMPTY
     private lateinit var dialog: Dialog
+    private lateinit var bandial: AlertDialog.Builder
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityClientBinding.inflate(layoutInflater)
@@ -51,6 +51,7 @@ class ClientActivity : AppCompatActivity() {
         actionbar?.setBackgroundDrawable(colorDrawable)
         setContentView(binding.root)
         changeFragment(ClientJobPostFragment())
+        bandial = AlertDialog.Builder(this)
         Firebase.auth.uid!!
         Repository.updateActiveStatus(true)
         userLiveData = ViewModelProvider(this)[UserViewModel::class.java]
@@ -95,10 +96,15 @@ class ClientActivity : AppCompatActivity() {
                     "You are banned from using our service.Please contact with us If you think we're made wrong decision.Thank you",
                     Toast.LENGTH_LONG
                 ).show()
-                val intent = Intent(this, AccountLog::class.java)
-                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TOP
-                startActivity(intent)
-                finish()
+                bandial.setPositiveButton(
+                    "Contact Us"
+                ) { _, _ ->
+                    latestExampleEmailCreation(
+                        arrayOf("dipankar0debnath@gmail.com"),
+                        "Ban Issue",
+                        "Please dont edit this id: ${Firebase.auth.uid.toString()}"
+                    )
+                }.setCancelable(false).show()
             }
         }
         binding.bmnClientNavBar.menu.findItem(R.id.client_myPost_menu_id).isChecked = true
@@ -116,6 +122,20 @@ class ClientActivity : AppCompatActivity() {
         binding.fabMainCreatePostId.setOnClickListener {
             val intent = Intent(this, CreateJobPost::class.java)
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            startActivity(intent)
+        }
+    }
+
+    private fun latestExampleEmailCreation(
+        addresses: Array<String>, subject: String, text: String
+    ) {
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:")
+            putExtra(Intent.EXTRA_EMAIL, addresses)
+            putExtra(Intent.EXTRA_SUBJECT, subject)
+            putExtra(Intent.EXTRA_TEXT, text)
+        }
+        if (intent.resolveActivity(packageManager) != null) {
             startActivity(intent)
         }
     }

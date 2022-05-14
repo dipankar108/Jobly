@@ -23,6 +23,7 @@ import com.university_project.jobly.R
 import com.university_project.jobly.accountlog.UpdateProfileActivity
 import com.university_project.jobly.baseviewmodel.BaseViewModel
 import com.university_project.jobly.baseviewmodel.Repository
+import com.university_project.jobly.baseviewmodel.profile.UserViewModel
 import com.university_project.jobly.chatserver.InterViewFragment
 import com.university_project.jobly.databinding.ActivityEmployeeBinding
 import com.university_project.jobly.utils.SharedInfo
@@ -32,6 +33,7 @@ import kotlin.system.exitProcess
 
 class EmployeeActivity : AppCompatActivity() {
     private val TAG = "EmployeeActivityP"
+    private lateinit var userLiveData: UserViewModel
     private lateinit var dialog: Dialog
     private lateinit var binding: ActivityEmployeeBinding
     private lateinit var buttonSubmit: Button
@@ -39,6 +41,7 @@ class EmployeeActivity : AppCompatActivity() {
     private lateinit var newPass: EditText
     private lateinit var liveData: BaseViewModel
     private var userType: String = ""
+    private lateinit var bandial: AlertDialog.Builder
     private var pdfUri = Uri.EMPTY
     private lateinit var mdialog: Dialog
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,6 +52,8 @@ class EmployeeActivity : AppCompatActivity() {
         actionbar?.setBackgroundDrawable(colorDrawable)
         setContentView(binding.root)
         dialog = Dialog(this)
+        userLiveData = ViewModelProvider(this)[UserViewModel::class.java]
+        bandial = AlertDialog.Builder(this)
         binding.bnbEmpId.menu.findItem(R.id.e_allPost_menu_id).isChecked = true
         changedFragment(JobPostFragment())
         Repository.updateActiveStatus(true)
@@ -78,6 +83,24 @@ class EmployeeActivity : AppCompatActivity() {
                     Toast.makeText(this, "Uploaded", Toast.LENGTH_SHORT).show()
                 }
             }
+        userLiveData.userBanInfo.observe(this) {
+            if (it) {
+                Toast.makeText(
+                    this,
+                    "You are banned from using our service.Please contact with us If you think we're made wrong decision.Thank you",
+                    Toast.LENGTH_LONG
+                ).show()
+                bandial.setPositiveButton(
+                    "Contact Us"
+                ) { _, _ ->
+                    latestExampleEmailCreation(
+                        arrayOf("dipankar0debnath@gmail.com"),
+                        "Ban Issue",
+                        "Please dont edit this id: ${Firebase.auth.uid.toString()}"
+                    )
+                }.setCancelable(false).show()
+            }
+        }
         liveData.isVerified(userType).observe(this) {
             Log.d(TAG, "onCreate: $it")
             if (!it) {
@@ -149,6 +172,20 @@ class EmployeeActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
         Log.d(TAG, "onDestroy: Destroyed Employee Activity")
+    }
+
+    private fun latestExampleEmailCreation(
+        addresses: Array<String>, subject: String, text: String
+    ) {
+        val intent = Intent(Intent.ACTION_SENDTO).apply {
+            data = Uri.parse("mailto:")
+            putExtra(Intent.EXTRA_EMAIL, addresses)
+            putExtra(Intent.EXTRA_SUBJECT, subject)
+            putExtra(Intent.EXTRA_TEXT, text)
+        }
+        if (intent.resolveActivity(packageManager) != null) {
+            startActivity(intent)
+        }
     }
 
     override fun onPause() {
