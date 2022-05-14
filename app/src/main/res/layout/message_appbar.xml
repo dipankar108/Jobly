@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:ellipsize="end"
-        android:maxLength="16"
+        android:maxLength="20"
         android:text="Job Title"
         android:textColor="@color/white" />
 </LinearLayout>

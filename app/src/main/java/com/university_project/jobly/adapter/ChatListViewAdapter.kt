@@ -23,7 +23,7 @@ class ChatListViewAdapter(private val listener: ChatClickService, private val co
         val myName: TextView = itemView.findViewById(R.id.tv_chatListName_id)
         val desc: TextView = itemView.findViewById(R.id.tv_chatListDesc_id)
         val linearLayout: LinearLayout = itemView.findViewById(R.id.ll_chatItemView_id)
-
+        val jobTitle: TextView = itemView.findViewById(R.id.tv_Fragment_chatTitle_id)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatListViewHolder {
@@ -33,6 +33,8 @@ class ChatListViewAdapter(private val listener: ChatClickService, private val co
 
     override fun onBindViewHolder(holder: ChatListViewHolder, position: Int) {
         val res = chatlist[position]
+        Log.d("TAGA", "onBindViewHolder: ${res.jobtitle}")
+        holder.jobTitle.text = res.jobtitle
         if (userType == "cltId") {
             val profileImg: ImageView = holder.itemView.findViewById(R.id.img_chatListProfile_id)
             holder.desc.text = res.lastEmpMessage
@@ -64,8 +66,6 @@ class ChatListViewAdapter(private val listener: ChatClickService, private val co
 
     fun setChatList(chatlist: List<ChatListViewDataModel>, userType: String) {
         this.userType = userType
-        if (chatlist != null) {
-            this.chatlist = chatlist
-        }
+        this.chatlist = chatlist
     }
 }

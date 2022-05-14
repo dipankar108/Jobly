@@ -44,22 +44,41 @@
                 app:cardCornerRadius="6dp">
 
                 <LinearLayout
-                    android:id="@+id/cv_chatItemsDetails_id"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/colorLightGreen"
                     android:orientation="vertical">
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/tv_chatListName_id"
-                        android:layout_width="match_parent"
+                    <LinearLayout
+                        android:id="@+id/cv_chatItemsDetails_id"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_margin="5dp"
-                        android:layout_marginStart="10dp"
-                        android:fontFamily="monospace"
-                        android:text="Hi"
-                        android:textColor="@color/black"
-                        android:textSize="15dp" />
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <com.google.android.material.textview.MaterialTextView
+                            android:id="@+id/tv_chatListName_id"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="5dp"
+                            android:layout_marginStart="10dp"
+                            android:fontFamily="monospace"
+                            android:text="Hi"
+                            android:textColor="@color/black"
+                            android:textSize="15dp" />
+
+                        <TextView
+                            android:id="@+id/tv_Fragment_chatTitle_id"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:ellipsize="end"
+                            android:maxLines="20"
+                            android:text="This is job title"
+                            android:textColor="@color/black" />
+
+
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/tv_chatListDesc_id"
@@ -67,6 +86,8 @@
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
                         android:layout_marginStart="10dp"
+                        android:ellipsize="end"
+                        android:maxLength="20"
                         android:text="This is last message"
                         android:textColor="@color/black" />
 
