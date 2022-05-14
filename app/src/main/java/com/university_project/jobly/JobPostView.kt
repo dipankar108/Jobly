@@ -197,7 +197,6 @@ class JobPostView : AppCompatActivity() {
                     .setDescription("Downloading")
                     .setAllowedOverMetered(true)
                     .setAllowedOverRoaming(true)
-
                     .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
                     .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
 
