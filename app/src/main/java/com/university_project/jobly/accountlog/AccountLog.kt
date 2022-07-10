@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.university_project.jobly.R
 import com.university_project.jobly.databinding.ActivityAccountLogBinding
@@ -30,8 +31,10 @@ class AccountLog : AppCompatActivity() {
             val intent = Intent(Intent.ACTION_SENDTO).apply {
                 data = Uri.parse("mailto:dipankar0debnath@gmail.com")
             }
-            if (intent.resolveActivity(packageManager) != null) {
+            try {
                 startActivity(intent)
+            } catch (e: Exception) {
+                Toast.makeText(this, "Error Occurred : ${e.message}", Toast.LENGTH_LONG)
             }
         }
     }
