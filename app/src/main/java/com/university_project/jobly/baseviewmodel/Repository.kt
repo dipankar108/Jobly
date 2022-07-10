@@ -1,9 +1,11 @@
 package com.university_project.jobly.baseviewmodel
 
+import android.app.Dialog
 import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.util.Log
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.ktx.auth
@@ -13,6 +15,7 @@ import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.university_project.jobly.R
 import com.university_project.jobly.chatserver.ChatDataModel
 import com.university_project.jobly.chatserver.ChatListViewDataModel
 import com.university_project.jobly.chatserver.MessageModel
@@ -642,6 +645,11 @@ object Repository {
     }
 
     fun setVerfication(pdfUri: Uri, userType: String, context: Context) {
+        val dialog = Dialog(context)
+        dialog.setContentView(R.layout.progressbarlayout)
+        dialog.setCancelable(false)
+        dialog.show()
+
         val mstorageRef =
             storageRef.reference.child("attachverPDF/${System.currentTimeMillis()}${Firebase.auth.uid}")
         dbProfile.document(auth.uid.toString()).addSnapshotListener { value, error ->
@@ -657,9 +665,18 @@ object Repository {
                             )
                             verificationCollection.document(auth.uid.toString())
                                 .set(verificationModel)
+                            dialog.dismiss()
+                            Toast.makeText(
+                                context,
+                                "Verification file send successfully",
+                                Toast.LENGTH_LONG
+                            ).show()
                         }
                     }.addOnFailureListener { e ->
                         Log.d("TAG", "createJobPost: ${e.message}")
+                        Toast.makeText(context, "Error occured : ${e.message}", Toast.LENGTH_LONG)
+                            .show()
+                        dialog.dismiss()
                     }
                 }
             }
