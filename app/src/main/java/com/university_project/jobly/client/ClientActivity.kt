@@ -82,7 +82,7 @@ class ClientActivity : AppCompatActivity() {
                 }
                 sendProf.setOnClickListener {
                     if (pdfUri != null) {
-                        liveData.setVerificationFile(pdfUri, userType)
+                        liveData.setVerificationFile(pdfUri, userType, this)
                     }
                 }
             }

@@ -1,5 +1,6 @@
 package com.university_project.jobly.baseviewmodel
 
+import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.util.Log
@@ -640,7 +641,7 @@ object Repository {
         return comps
     }
 
-    fun setVerfication(pdfUri: Uri, userType: String) {
+    fun setVerfication(pdfUri: Uri, userType: String, context: Context) {
         val mstorageRef =
             storageRef.reference.child("attachverPDF/${System.currentTimeMillis()}${Firebase.auth.uid}")
         dbProfile.document(auth.uid.toString()).addSnapshotListener { value, error ->

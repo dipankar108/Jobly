@@ -1,5 +1,6 @@
 package com.university_project.jobly.baseviewmodel
 
+import android.content.Context
 import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
@@ -45,7 +46,7 @@ class BaseViewModel : ViewModel() {
     fun isUserActive(userId: String): LiveData<Boolean> = Repository.isUserActive(userId)
     fun getCompany(): LiveData<List<String>> = Repository.getCompany()
     fun isVerified(userType: String): LiveData<Boolean> = Repository.isVerified(userType)
-    fun setVerificationFile(pdfUri: Uri, userType: String) {
-        Repository.setVerfication(pdfUri, userType)
+    fun setVerificationFile(pdfUri: Uri, userType: String, context: Context) {
+        Repository.setVerfication(pdfUri, userType, context)
     }
 }
