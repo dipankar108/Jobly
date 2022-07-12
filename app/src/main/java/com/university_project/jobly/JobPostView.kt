@@ -25,7 +25,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
-import com.university_project.jobly.accountlog.UpdateProfileActivity
+import com.university_project.jobly.employee.UpdateProfileActivity
 import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.client.clientviewmodel.ClientPostViewModel
@@ -37,7 +37,7 @@ import com.university_project.jobly.utils.SharedInfo
 
 class JobPostView : AppCompatActivity() {
     private lateinit var binding: ActivityJobPostViewBinding
-    lateinit var docID: String
+    private lateinit var docID: String
     val TAG = "TAG"
     private var attachmentLink = Uri.EMPTY
 
@@ -189,19 +189,8 @@ class JobPostView : AppCompatActivity() {
                 uploadPdf.launch(intent)
             } else {
                 DownloadFile.downloadFile(singlePostView.attachment, singlePostView.title, this)
-                /**            val req = DownloadManager.Request(Uri.parse(singlePostView.attachment))
-                .setDescription(Environment.DIRECTORY_DOWNLOADS)
-                .setTitle("${singlePostView.title}")
-                .setDescription("Downloading")
-                .setAllowedOverMetered(true)
-                .setAllowedOverRoaming(true)
-                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
-                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
-                val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-                downloadManager.enqueue(req)*/
             }
         }
-//        setBtnText(userInfo!!)
         binding.btnSinglePostViewSubmitId.setOnClickListener {
             if (userInfo == "Client") {
 
@@ -244,29 +233,6 @@ class JobPostView : AppCompatActivity() {
                         }
                     }
                 }
-//                Firebase.firestore.collection("User").document(Firebase.auth.uid.toString()).get()
-//                    .addOnSuccessListener {
-//                        val profile = it.toObject(EmployeeProfileModel::class.java)
-//                        if (profile?.cvEmp != "No CV") {
-//
-//                            }
-//                        } else {
-//                            AlertDialog.Builder(this).setTitle("Upload CV first")
-//                                .setCancelable(false)
-//                                .setPositiveButton("Upload Now") { di, _ ->
-//                                    di.dismiss()
-//                                    startActivity(
-//                                        Intent(
-//                                            this,
-//                                            UpdateProfileActivity::class.java
-//                                        ).apply {
-//                                            flags = Intent.FLAG_ACTIVITY_NEW_TASK
-//                                        })
-//                                }.setNegativeButton("No") { di, _ ->
-//                                    di.dismiss()
-//                                }.show()
-//                        }
-                // }
             }
         }
     }
@@ -284,16 +250,6 @@ class JobPostView : AppCompatActivity() {
                     "Report Post",
                     "Please dont edit this id: $docID"
                 )
-//                startActivity(
-//                    Intent(
-//                        Intent.ACTION_VIEW,
-//                        Uri.parse("mailto:dipankar0debnath@gmail.com")
-//
-//                    ).apply {
-//
-//                        putExtra(Intent.EXTRA_SUBJECT, "Report Post")
-//                        putExtra(Intent.EXTRA_TEXT, "postId : $docID")
-//                    })
             }
         }
         return true

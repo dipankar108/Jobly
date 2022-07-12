@@ -35,11 +35,11 @@ class AppliedPostFragment : Fragment(), ClickHandle {
         binding.rvEmpAppliedPostId.layoutManager = LinearLayoutManager(requireContext())
          binding.rvEmpAppliedPostId.adapter = postAdapter
         Log.d("TAG", "onViewCreated: ${Firebase.auth.uid.toString()}")
-        liveData.getMyApplication().observe(viewLifecycleOwner, { application ->
+        liveData.getMyApplication().observe(viewLifecycleOwner) { application ->
             Log.d("TAG", "onViewCreated: $application")
             postAdapter.setDataToList(application)
-           postAdapter.notifyDataSetChanged()
-        })
+            postAdapter.notifyDataSetChanged()
+        }
     }
 
     override fun onLikeClick(postDataModel: PostDataModel, b: Boolean) {

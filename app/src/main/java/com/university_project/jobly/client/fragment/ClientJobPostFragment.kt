@@ -79,21 +79,4 @@ class ClientJobPostFragment : Fragment(), ClickHandle {
        liveDataModel.deletePost(docId)
     }
 
-
-//    private suspend fun myUpdateOperation() {
-//        liveDataModel.getLiveData()
-//        binding.sflClientPostViewRefreshId.isRefreshing=false
-//    }
 }
-
-//{
-//        val db=Firebase.firestore.collection("JobPost")
-//        val query=db.whereEqualTo("userId",auth.uid.toString())
-//        query.get().addOnSuccessListener {
-//            for (doc in it.documents){
-//                //Log.d("TAG", "onViewCreated: $doc")
-//                val createPostModel=doc.toObject(ClientPostDataModel::class.java)
-//                Log.d("TAG", "onViewCreated: ${createPostModel?.desc}")
-//            }
-//        }
-//}

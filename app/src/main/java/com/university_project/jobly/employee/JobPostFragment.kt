@@ -35,7 +35,7 @@ class JobPostFragment : Fragment(), ClickHandle {
         val myAdapter = PostAdapter(this)
         binding.rvEmpJobPostViewId.layoutManager = LinearLayoutManager(requireContext())
         binding.rvEmpJobPostViewId.adapter = myAdapter
-        // Repository.getChatList(Firebase.auth.uid.toString(),"")
+
         liveData = ViewModelProvider(this)[EmpViewModel::class.java]
         liveData.getMYSkill().observe(viewLifecycleOwner) { list ->
             liveData.getJobPost(list).observe(viewLifecycleOwner) { list ->

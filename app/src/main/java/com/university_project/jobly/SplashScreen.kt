@@ -14,9 +14,8 @@ import com.university_project.jobly.client.ClientActivity
 import com.university_project.jobly.databinding.ActivitySplashScreenBinding
 import com.university_project.jobly.employee.EmployeeActivity
 import com.university_project.jobly.utils.SharedInfo
-import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 
 class SplashScreen : AppCompatActivity() {
     lateinit var binding: ActivitySplashScreenBinding
@@ -60,7 +59,7 @@ class SplashScreen : AppCompatActivity() {
                 }
             }
         } else {
-            GlobalScope.launch {
+            runBlocking {
                 delay(500)
                 startActivity(Intent(this@SplashScreen, AccountLog::class.java))
                 finish()
@@ -70,7 +69,7 @@ class SplashScreen : AppCompatActivity() {
     }
 
     private fun changeActivity(userInfo: String) {
-        //ProcessLifecycleOwner.get().lifecycle.addObserver(AppLifeCycleListner())
+
         if (userInfo == "Client") {
             val intent = Intent(context, ClientActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)

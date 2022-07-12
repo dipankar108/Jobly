@@ -21,7 +21,6 @@ import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.CreateJobPost
 import com.university_project.jobly.R
-import com.university_project.jobly.UpdateClientProfile
 import com.university_project.jobly.baseviewmodel.BaseViewModel
 import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.baseviewmodel.profile.UserViewModel

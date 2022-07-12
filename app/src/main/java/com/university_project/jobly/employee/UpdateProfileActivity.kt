@@ -1,4 +1,4 @@
-package com.university_project.jobly.accountlog
+package com.university_project.jobly.employee
 
 import android.R
 import android.app.Activity
@@ -29,10 +29,8 @@ import com.university_project.jobly.baseviewmodel.BaseViewModel
 import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.baseviewmodel.profile.UserViewModel
 import com.university_project.jobly.databinding.ActivityUpdateProfileBinding
-import com.university_project.jobly.employee.EmployeeActivity
 import com.university_project.jobly.interfaces.CompanyClick
 import com.university_project.jobly.interfaces.SkillClick
-import com.university_project.jobly.utils.SharedInfo
 import java.io.ByteArrayOutputStream
 
 class UpdateProfileActivity : AppCompatActivity(), SkillClick, CompanyClick {
@@ -65,7 +63,6 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick, CompanyClick {
         actionbar?.setBackgroundDrawable(colorDrawable)
         setContentView(binding.root)
         liveData = ViewModelProvider(this)[BaseViewModel::class.java]
-        val sh = getSharedPreferences(SharedInfo.USER.user, MODE_PRIVATE)
         binding.etUpSkillId.hint = "Add Skill"
         binding.rvUpSkillId.layoutManager = LinearLayoutManager(this).also {
             it.orientation = LinearLayoutManager.HORIZONTAL
@@ -75,7 +72,6 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick, CompanyClick {
             it.orientation = LinearLayoutManager.HORIZONTAL
         }
         binding.rvUpCompanyId.adapter = comAdapter
-        val userInfo = sh.getString(SharedInfo.USER_TYPE.user, null)
         updateProfileLiveData = ViewModelProvider(this)[UserViewModel::class.java]
         dialog = Dialog(this)
         pleasewaitdialog = Dialog(this)
@@ -102,7 +98,7 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick, CompanyClick {
                 .placeholder(com.university_project.jobly.R.drawable.image_loding_anim)
                 .error(com.university_project.jobly.R.drawable.try_later)
                 .into(binding.ivUpProfilePicId)
-            binding.etUpYourHobbyId.setText(user.hobby)
+            binding.etUpYourHobbyId.text = user.hobby
             selectedSkills = user.skill
             skillAdapter.setList(selectedSkills)
             skillAdapter.notifyDataSetChanged()
@@ -123,7 +119,7 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick, CompanyClick {
             comTextAdapter = ArrayAdapter(this, R.layout.simple_dropdown_item_1line, company)
             binding.etUpCompanyId.setAdapter(comTextAdapter)
         }
-        binding.etUpSkillId.setOnItemClickListener { adapterView, view, i, l ->
+        binding.etUpSkillId.setOnItemClickListener { _, _, i, _ ->
             val skillName = skillTextAdapter.getItem(i).toString().lowercase()
             if (selectedSkills.contains(skillName)) {
                 showToast("Already Added", this)
@@ -331,22 +327,6 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick, CompanyClick {
         finish()
     }
 
-    private fun addCompany() {
-//        val skillName = skillTextAdapter.getItem(i).toString().lowercase()
-//        if (selectedSkills.contains(skillName)) {
-//            showToast("Already Added", this)
-//        } else {
-//            Repository.updateSkill("union", skillName)
-//            selectedSkills.add(skillName)
-//        }
-//        binding.etUpSkillId.text.clear()
-//        if (selectedSkills.size == 5) {
-//            binding.etUpSkillId.isEnabled = false
-//            binding.etUpSkillId.hint = "Remove one skill to enable"
-//            showToast("Max 5 allowed", this)
-//        }
-//        skillAdapter.notifyDataSetChanged()
-    }
 
     override fun onCompDeleteClick(skill: String) {
         selectedCompany.remove(skill)

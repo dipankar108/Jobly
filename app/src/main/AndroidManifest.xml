@@ -20,10 +20,10 @@
             android:name=".NotificationView"
             android:exported="false" />
         <activity
-            android:name=".UpdateClientProfile"
+            android:name=".client.UpdateClientProfile"
             android:exported="false" />
         <activity android:name=".chatserver.ChatActivity" />
-        <activity android:name=".accountlog.UpdateProfileActivity" />
+        <activity android:name=".employee.UpdateProfileActivity" />
         <activity android:name=".client.AppliedEmployeeActivity" />
         <activity android:name=".client.EditPostActivity" />
         <activity android:name=".employee.EmployeeActivity" />

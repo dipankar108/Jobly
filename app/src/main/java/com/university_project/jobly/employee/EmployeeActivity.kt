@@ -10,7 +10,6 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
@@ -20,7 +19,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.university_project.jobly.R
-import com.university_project.jobly.accountlog.UpdateProfileActivity
 import com.university_project.jobly.baseviewmodel.BaseViewModel
 import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.baseviewmodel.profile.UserViewModel
@@ -36,9 +34,6 @@ class EmployeeActivity : AppCompatActivity() {
     private lateinit var userLiveData: UserViewModel
     private lateinit var dialog: Dialog
     private lateinit var binding: ActivityEmployeeBinding
-    private lateinit var buttonSubmit: Button
-    private lateinit var oldPass: EditText
-    private lateinit var newPass: EditText
     private lateinit var liveData: BaseViewModel
     private var userType: String = ""
     private lateinit var bandial: AlertDialog.Builder
@@ -57,9 +52,6 @@ class EmployeeActivity : AppCompatActivity() {
         binding.bnbEmpId.menu.findItem(R.id.e_allPost_menu_id).isChecked = true
         changedFragment(JobPostFragment())
         Repository.updateActiveStatus(true)
-//        buttonSubmit = findViewById(R.id.btn_submitPass_update_id)
-//        oldPass = findViewById(R.id.et_OldPass_Update_id)
-//        newPass = findViewById(R.id.et_newPassword_Update_id)
         Log.d(TAG, "onCreate: ${Firebase.auth.uid.toString()}")
         binding.bnbEmpId.setOnItemSelectedListener { item ->
             when (item.itemId) {

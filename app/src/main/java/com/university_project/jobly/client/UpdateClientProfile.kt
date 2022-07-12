@@ -1,4 +1,4 @@
-package com.university_project.jobly
+package com.university_project.jobly.client
 
 import android.app.Activity
 import android.app.AlertDialog
@@ -20,6 +20,8 @@ import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.university_project.jobly.ImageViewActivity
+import com.university_project.jobly.R
 import com.university_project.jobly.baseviewmodel.BaseViewModel
 import com.university_project.jobly.baseviewmodel.profile.UserViewModel
 import com.university_project.jobly.databinding.ActivityUpdateClientProfileBinding

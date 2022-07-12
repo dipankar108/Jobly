@@ -37,11 +37,11 @@ class FabPostFragment : Fragment(), ClickHandle {
         val postAdapter = PostAdapter(this)
         binding.rvEmpFabPostId.layoutManager = LinearLayoutManager(requireContext())
         binding.rvEmpFabPostId.adapter = postAdapter
-        liveData.getAllFabPost().observe(viewLifecycleOwner, {
+        liveData.getAllFabPost().observe(viewLifecycleOwner) {
             Log.d("TAG", "onViewCreated: $it")
             postAdapter.setDataToList(it)
             postAdapter.notifyDataSetChanged()
-        })
+        }
     }
 
     override fun onLikeClick(postDataModel: PostDataModel, b: Boolean) {
