@@ -37,6 +37,7 @@ class UpdateClientProfile : AppCompatActivity() {
     private var imageUri = Uri.EMPTY
     private lateinit var alertDialog: AlertDialog.Builder
     private var selectedCompany = ""
+    private var imageUrl = ""
     private lateinit var companyTextAdapter: ArrayAdapter<String>
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,6 +75,7 @@ class UpdateClientProfile : AppCompatActivity() {
                         this.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
                     inputMethodManager.hideSoftInputFromWindow(binding.etUpeCnameId.windowToken, 0)
                 }
+                imageUrl = user.profileImg
                 Glide.with(this)
                     .load(user.profileImg)
                     .placeholder(R.drawable.image_loding_anim)
@@ -109,10 +111,20 @@ class UpdateClientProfile : AppCompatActivity() {
             }
 
         binding.ivUpeProfilePicId.setOnClickListener {
-            val intent = Intent()
-            intent.type = ("image/*")
-            intent.action = Intent.ACTION_GET_CONTENT
-            uploadImage.launch(intent)
+            AlertDialog.Builder(this).setMessage("Select one")
+                .setPositiveButton("View") { di, _ ->
+                    startActivity(Intent(this, ImageViewActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        putExtra("imageUrl", imageUrl)
+                    })
+                    di.dismiss()
+                }.setNegativeButton("Upload") { di, _ ->
+                    val intent = Intent()
+                    intent.type = ("image/*")
+                    intent.action = Intent.ACTION_GET_CONTENT
+                    uploadImage.launch(intent)
+                    di.dismiss()
+                }.show()
         }
         binding.etUpeFnameId.setOnClickListener {
             updateProfileWithDialog(binding.etUpeFnameId.text.toString(), "First Name", "fname")

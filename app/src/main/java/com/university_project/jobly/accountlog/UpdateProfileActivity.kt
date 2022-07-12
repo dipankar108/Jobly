@@ -15,7 +15,6 @@ import android.util.Log
 import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +22,7 @@ import com.bumptech.glide.Glide
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.university_project.jobly.ImageViewActivity
 import com.university_project.jobly.adapter.CompanyAdapter
 import com.university_project.jobly.adapter.SkillAdapter
 import com.university_project.jobly.baseviewmodel.BaseViewModel
@@ -34,7 +34,6 @@ import com.university_project.jobly.interfaces.CompanyClick
 import com.university_project.jobly.interfaces.SkillClick
 import com.university_project.jobly.utils.SharedInfo
 import java.io.ByteArrayOutputStream
-import kotlin.math.log
 
 class UpdateProfileActivity : AppCompatActivity(), SkillClick, CompanyClick {
     private lateinit var liveData: BaseViewModel
@@ -54,6 +53,7 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick, CompanyClick {
     private lateinit var dialog: Dialog
     private lateinit var pleasewaitdialog: Dialog
     private var imageUri = Uri.EMPTY
+    private var imageUrl = ""
     private lateinit var alertDialog: android.app.AlertDialog.Builder
     private val skillAdapter = SkillAdapter(this)
     private val comAdapter = CompanyAdapter(this)
@@ -87,6 +87,7 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick, CompanyClick {
             } else {
                 binding.tvUpVerifyInfoId.text = "You are Unverified"
             }
+            imageUrl = user.profileImg
             binding.etUpFnameId.text = user.fname
             binding.etUpLnameId.text = user.lname
             binding.etUpAboutYourselfId.text = user.yourself
@@ -173,10 +174,20 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick, CompanyClick {
                 }
             }
         binding.ivUpProfilePicId.setOnClickListener {
-            val intent = Intent()
-            intent.type = ("image/*")
-            intent.action = Intent.ACTION_GET_CONTENT
-            uploadImage.launch(intent)
+            android.app.AlertDialog.Builder(this).setMessage("Select one")
+                .setPositiveButton("View") { di, _ ->
+                    startActivity(Intent(this, ImageViewActivity::class.java).apply {
+                        flags = Intent.FLAG_ACTIVITY_NEW_TASK
+                        putExtra("imageUrl", imageUrl)
+                    })
+                    di.dismiss()
+                }.setNegativeButton("Upload") { di, _ ->
+                    val intent = Intent()
+                    intent.type = ("image/*")
+                    intent.action = Intent.ACTION_GET_CONTENT
+                    uploadImage.launch(intent)
+                    di.dismiss()
+                }.show()
         }
         val getContent = registerForActivityResult(ActivityResultContracts.GetContent()) { uri ->
             pdfUri = uri
