@@ -22,6 +22,7 @@ import com.google.android.material.card.MaterialCardView
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.university_project.jobly.ImageViewActivity
 import com.university_project.jobly.R
 import com.university_project.jobly.adapter.MessageViewAdapter
 import com.university_project.jobly.databinding.ActivityChatBinding
@@ -29,7 +30,7 @@ import com.university_project.jobly.utils.GetTheme
 import com.university_project.jobly.utils.SharedInfo
 import java.io.ByteArrayOutputStream
 
-class ChatActivity : AppCompatActivity() {
+class ChatActivity : AppCompatActivity(), ImageClick {
     private lateinit var liveData: ChatViewModel
     private lateinit var binding: ActivityChatBinding
     private lateinit var messangerName: TextView
@@ -37,7 +38,7 @@ class ChatActivity : AppCompatActivity() {
     private lateinit var messangerProfileCard: MaterialCardView
     private lateinit var messangerProfileImg: ImageView
     private lateinit var messangerTitle: TextView
-    private val myAdapter = MessageViewAdapter(this)
+    private val myAdapter = MessageViewAdapter(this, this)
     private val storage = Firebase.storage
     private var imageUri = Uri.EMPTY
 
@@ -184,5 +185,12 @@ class ChatActivity : AppCompatActivity() {
         binding.llUploadImageId.visibility = View.GONE
         binding.etEnterMessageId.text?.clear()
         binding.pbMessageImagePerId.visibility = View.GONE
+    }
+
+    override fun imageClicked(imageUrl: String) {
+        startActivity(Intent(this, ImageViewActivity::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+            putExtra("imageUrl", imageUrl)
+        })
     }
 }

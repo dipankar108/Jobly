@@ -2,7 +2,6 @@ package com.university_project.jobly.adapter
 
 import android.content.Context
 import android.graphics.Color
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,10 +14,12 @@ import com.bumptech.glide.Glide
 import com.google.android.material.card.MaterialCardView
 import com.university_project.jobly.R
 import com.university_project.jobly.chatserver.ChatDataModel
+import com.university_project.jobly.chatserver.ImageClick
 import com.university_project.jobly.chatserver.MessageModel
 import com.university_project.jobly.utils.TimeStampConverter
 
-class MessageViewAdapter(private val context: Context) : Adapter<RecyclerView.ViewHolder>() {
+class MessageViewAdapter(private val context: Context, private val imageClick: ImageClick) :
+    Adapter<RecyclerView.ViewHolder>() {
     private val ME_VIEW = 1
     private val OPPS_VIEW = 2
     private var messageProperty = ChatDataModel()
@@ -109,6 +110,9 @@ class MessageViewAdapter(private val context: Context) : Adapter<RecyclerView.Vi
                 .error(R.drawable.ic_profileimg)
                 .into(meHolder.me_profileImg)
         }
+        meHolder.me_messageImageView.setOnClickListener {
+            imageClick.imageClicked(res.link)
+        }
     }
 
     private fun setOppView(oppHolder: MessageOppViewHolder, res: MessageModel, isActive: Boolean) {
@@ -146,5 +150,9 @@ class MessageViewAdapter(private val context: Context) : Adapter<RecyclerView.Vi
                 .error(R.drawable.ic_profileimg)
                 .into(oppHolder.opp_profileImg)
         }
+        oppHolder.opp_messageImageView.setOnClickListener {
+            imageClick.imageClicked(res.link)
+        }
     }
+
 }

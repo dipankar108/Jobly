@@ -3,14 +3,11 @@ package com.university_project.jobly
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.Dialog
-import android.app.DownloadManager
-import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
 import android.text.InputType
 import android.util.Log
 import android.view.Menu
@@ -35,6 +32,7 @@ import com.university_project.jobly.client.clientviewmodel.ClientPostViewModel
 import com.university_project.jobly.databinding.ActivityJobPostViewBinding
 import com.university_project.jobly.datamodel.PostDataModel
 import com.university_project.jobly.employee.EmployeeActivity
+import com.university_project.jobly.utils.DownloadFile
 import com.university_project.jobly.utils.SharedInfo
 
 class JobPostView : AppCompatActivity() {
@@ -190,17 +188,17 @@ class JobPostView : AppCompatActivity() {
                 intent.action = Intent.ACTION_GET_CONTENT
                 uploadPdf.launch(intent)
             } else {
-
-                val req = DownloadManager.Request(Uri.parse(singlePostView.attachment))
-                    .setDescription(Environment.DIRECTORY_DOWNLOADS)
-                    .setTitle("${singlePostView.title}")
-                    .setDescription("Downloading")
-                    .setAllowedOverMetered(true)
-                    .setAllowedOverRoaming(true)
-                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
-                    .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+                DownloadFile.downloadFile(singlePostView.attachment, singlePostView.title, this)
+                /**            val req = DownloadManager.Request(Uri.parse(singlePostView.attachment))
+                .setDescription(Environment.DIRECTORY_DOWNLOADS)
+                .setTitle("${singlePostView.title}")
+                .setDescription("Downloading")
+                .setAllowedOverMetered(true)
+                .setAllowedOverRoaming(true)
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE)
+                .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
                 val downloadManager = getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager
-                downloadManager.enqueue(req)
+                downloadManager.enqueue(req)*/
             }
         }
 //        setBtnText(userInfo!!)

@@ -23,6 +23,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_create_job_post.xml" value="0.25" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_edit_post.xml" value="0.1171875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_employee.xml" value="0.18229166666666666" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_image_view.xml" value="0.25798611111111114" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_job_post_view.xml" value="0.22" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_main.xml" value="0.1171875" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/activity_notification_view.xml" value="0.128125" />
@@ -53,6 +54,7 @@
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/spinnerdesign.xml" value="0.13368055555555555" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/layout/updateprofiledialog.xml" value="0.18229166666666666" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/menu/addcompany.xml" value="0.13368055555555555" />
+        <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/menu/imageviw.xml" value="0.25729166666666664" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/menu/optionsmenu.xml" value="0.128125" />
         <entry key="..\:/Users/user/AndroidStudioProjects/Jobly/app/src/main/res/menu/reportsomeone.xml" value="0.23506944444444444" />
       </map>
