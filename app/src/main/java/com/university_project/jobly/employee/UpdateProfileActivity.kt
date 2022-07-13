@@ -294,6 +294,7 @@ class UpdateProfileActivity : AppCompatActivity(), SkillClick, CompanyClick {
                 storageRef.downloadUrl.addOnSuccessListener { uri ->
                     link = uri.toString()
                     updateProfileLiveData.updateProfile(link, "profileImg")
+                    updateProfileLiveData.updateChatImage(link, "empId", "empProfileImg");
                     pleasewaitdialog.dismiss()
 
                 }

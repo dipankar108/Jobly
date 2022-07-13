@@ -11,6 +11,7 @@ object ProfileRep {
     val auth = Firebase.auth
     private var userInfo = MutableLiveData(false)
     val dbProfile = Firebase.firestore.collection("User").document(auth.uid.toString())
+    private val chatServer = Firebase.firestore.collection("ChatServer")
     fun getUserData(): MutableLiveData<Boolean> {
         dbProfile.addSnapshotListener { it, _ ->
             it?.let {
@@ -19,6 +20,19 @@ object ProfileRep {
 
         }
         return userInfo
+    }
+
+    fun updateChatImage(url: String,fieldName: String,updateFieldName:String) {
+        chatServer.whereEqualTo(fieldName, auth.uid.toString()).get()
+            .addOnSuccessListener { documents ->
+                for (documentId in documents) {
+                    chatServer.document(documentId.id).update(updateFieldName, url).addOnCompleteListener {
+                        Log.d("TAGM", "updateChatImage: Updated")
+                    }.addOnFailureListener { e ->
+                        Log.d("TAGM", "uploadProfilePicToFirestore: ${e.message}")
+                    }
+                }
+            }
     }
 
     fun updateProfile(value: String, fieldName: String) {

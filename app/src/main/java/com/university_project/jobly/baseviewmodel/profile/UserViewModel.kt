@@ -9,4 +9,8 @@ class UserViewModel : ViewModel() {
     fun updateProfile(value: String, fieldName: String) {
         ProfileRep.updateProfile(value, fieldName)
     }
+
+    fun updateChatImage(url: String, fieldName: String, updateFieldName: String) {
+        ProfileRep.updateChatImage(url, fieldName, updateFieldName)
+    }
 }
