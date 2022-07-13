@@ -24,10 +24,10 @@ import com.university_project.jobly.baseviewmodel.Repository
 import com.university_project.jobly.baseviewmodel.profile.UserViewModel
 import com.university_project.jobly.chatserver.InterViewFragment
 import com.university_project.jobly.databinding.ActivityEmployeeBinding
+import com.university_project.jobly.utils.Disconnect
 import com.university_project.jobly.utils.SharedInfo
 import com.university_project.jobly.utils.UpdatePassword
 import com.university_project.jobly.utils.UtilClass
-import kotlin.system.exitProcess
 
 class EmployeeActivity : AppCompatActivity() {
     private val TAG = "EmployeeActivityP"
@@ -154,7 +154,8 @@ class EmployeeActivity : AppCompatActivity() {
         val alertDialog = AlertDialog.Builder(this)
         alertDialog.setMessage("Are you sure you want to exit?")
             .setPositiveButton("Yes") { _, _ ->
-                exitProcess(0)
+                Disconnect.disconnect()
+                super.onBackPressed()
             }
             .setNegativeButton("No") { di, _ ->
                 di.dismiss()
@@ -162,6 +163,7 @@ class EmployeeActivity : AppCompatActivity() {
     }
 
     override fun onDestroy() {
+        Disconnect.disconnect()
         super.onDestroy()
         Log.d(TAG, "onDestroy: Destroyed Employee Activity")
     }

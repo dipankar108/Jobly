@@ -28,10 +28,10 @@ import com.university_project.jobly.chatserver.InterViewFragment
 import com.university_project.jobly.client.fragment.ClientAppliedFragment
 import com.university_project.jobly.client.fragment.ClientJobPostFragment
 import com.university_project.jobly.databinding.ActivityClientBinding
+import com.university_project.jobly.utils.Disconnect
 import com.university_project.jobly.utils.SharedInfo
 import com.university_project.jobly.utils.UpdatePassword
 import com.university_project.jobly.utils.UtilClass
-import kotlin.system.exitProcess
 
 class ClientActivity : AppCompatActivity() {
     private val TAG = "ClientActivity"
@@ -148,7 +148,8 @@ class ClientActivity : AppCompatActivity() {
         val alertDialog = AlertDialog.Builder(requireContext())
         alertDialog.setMessage("Are you sure you want to exit?")
             .setPositiveButton("Yes") { _, _ ->
-                exitProcess(0)
+                Disconnect.disconnect()
+                super.onBackPressed()
             }
             .setNegativeButton("No") { di, _ ->
                 di.dismiss()
@@ -168,6 +169,11 @@ class ClientActivity : AppCompatActivity() {
     override fun onPause() {
         super.onPause()
         Repository.updateActiveStatus(false)
+    }
+
+    override fun onDestroy() {
+        Disconnect.disconnect()
+        super.onDestroy()
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

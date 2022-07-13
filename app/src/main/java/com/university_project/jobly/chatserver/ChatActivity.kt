@@ -26,6 +26,7 @@ import com.university_project.jobly.ImageViewActivity
 import com.university_project.jobly.R
 import com.university_project.jobly.adapter.MessageViewAdapter
 import com.university_project.jobly.databinding.ActivityChatBinding
+import com.university_project.jobly.utils.Disconnect
 import com.university_project.jobly.utils.GetTheme
 import com.university_project.jobly.utils.SharedInfo
 import java.io.ByteArrayOutputStream
@@ -192,5 +193,10 @@ class ChatActivity : AppCompatActivity(), ImageClick {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
             putExtra("imageUrl", imageUrl)
         })
+    }
+
+    override fun onDestroy() {
+        Disconnect.disconnect()
+        super.onDestroy()
     }
 }
