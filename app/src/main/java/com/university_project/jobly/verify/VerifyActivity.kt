@@ -32,6 +32,8 @@ class VerifyActivity : AppCompatActivity() {
     private var dob: String = "none"
     private var userType: String = "none"
     private var id: String = "none"
+    private var docID: String = "none"
+    private lateinit var modelVerify: ModelVerify
     private val dbVer = Firebase.firestore.collection("VerificationNID")
     private val dbProfile = Firebase.firestore.collection("User")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,6 +57,7 @@ class VerifyActivity : AppCompatActivity() {
                         .addOnSuccessListener { texts ->
                             //   mTextButton.setEnabled(true)
                             processTextRecognitionResult(texts as Text)
+
                             dialog.dismiss()
                         }
                         .addOnFailureListener(
@@ -77,77 +80,81 @@ class VerifyActivity : AppCompatActivity() {
             dialog.setContentView(R.layout.progressbarlayout)
             dialog.setCancelable(false)
             dialog.show()
-            if (name != "none" && dob != "none" && id != "none") {
-                // Log.d("VERIFICATION", "processTextRecognitionResult: $name $dob $id")
-                dbVer.whereEqualTo("id", id).addSnapshotListener { value, error ->
-                    value?.let {
-                        Log.d("VERIFICATION", "onCreate: ${value.documents}")
-                        for (doc in it.documentChanges) {
-                            val modelVerify = doc.document.toObject(ModelVerify::class.java)
-                            val docid = doc.document.id.toString();
-                            Log.d("VERIFICATION", "onCreate: $modelVerify")
-                            if (!modelVerify.alreadyExists) {
-                                if (name == modelVerify.name && id == modelVerify.id && dob == modelVerify.dob) {
-                                    dbProfile.document(Firebase.auth.uid.toString())
-                                        .update("verify", true).addOnSuccessListener {
-                                            dialog.dismiss()
-                                            dbVer.document(docid)
-                                                .update("registerId", Firebase.auth.uid.toString())
-                                                .addOnSuccessListener {
-                                                    dbVer.document(docid)
-                                                        .update("alreadyExists", true)
-                                                        .addOnSuccessListener {
-                                                            if (userType == "Client") {
-                                                                startActivity(
-                                                                    Intent(
-                                                                        this,
-                                                                        ClientActivity::class.java
-                                                                    ).apply {
-                                                                        finish()
-                                                                    })
-                                                            } else {
-                                                                startActivity(
-                                                                    Intent(
-                                                                        this,
-                                                                        EmployeeActivity::class.java
-                                                                    ).apply {
-                                                                        finish()
-                                                                    })
-                                                            }
-                                                            Toast.makeText(
-                                                                this,
-                                                                "Success",
-                                                                Toast.LENGTH_LONG
-                                                            )
-                                                                .show()
-                                                        }
-                                                }
+            if (!modelVerify.alreadyExists) {
+                if (name == modelVerify.name && id == modelVerify.id && dob == modelVerify.dob) {
+                    dbProfile.document(Firebase.auth.uid.toString())
+                        .update("verify", true).addOnSuccessListener {
 
-
-                                        }.addOnFailureListener {
+                            dbVer.document(docID)
+                                .update("registerId", Firebase.auth.uid.toString())
+                                .addOnSuccessListener {
+                                    dbVer.document(docID)
+                                        .update("alreadyExists", true)
+                                        .addOnSuccessListener {
                                             dialog.dismiss()
-                                            Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show()
+                                            if (userType == "Client") {
+                                                startActivity(
+                                                    Intent(
+                                                        this,
+                                                        ClientActivity::class.java
+                                                    ).apply {
+                                                        finish()
+                                                    })
+                                            } else {
+                                                startActivity(
+                                                    Intent(
+                                                        this,
+                                                        EmployeeActivity::class.java
+                                                    ).apply {
+                                                        finish()
+                                                    })
+                                            }
+                                            Toast.makeText(
+                                                this,
+                                                "Success",
+                                                Toast.LENGTH_LONG
+                                            )
+                                                .show()
                                         }
-                                } else {
-                                    dialog.dismiss()
-                                    Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show()
                                 }
-                            } else {
-                                dialog.dismiss()
-//                                Toast.makeText(this, "NID Already Registered", Toast.LENGTH_LONG)
-//                                    .show()
-                                binding.tvNIDAlreadyRegisteredId.visibility = View.VISIBLE
-                            }
+
+
+                        }.addOnFailureListener {
+                            dialog.dismiss()
+                            Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show()
                         }
-                    }
-                    //  var mname = verModel.name;
+                } else {
+                    dialog.dismiss()
+                    Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show()
                 }
             } else {
                 dialog.dismiss()
-                Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show()
             }
         }
 
+    }
+
+    private fun checkVerificationStatus() {
+        if (name != "none" && dob != "none" && id != "none") {
+            dbVer.whereEqualTo("id", id).addSnapshotListener { value, error ->
+                value?.let {
+                    for (doc in it.documentChanges) {
+                        modelVerify = doc.document.toObject(ModelVerify::class.java)
+                        docID = doc.document.id
+                    }
+                    if (modelVerify.alreadyExists) {
+                        binding.tvNIDAlreadyRegisteredId.text = "NID already Registered"
+                        binding.tvNIDAlreadyRegisteredId.visibility = View.VISIBLE
+                    } else {
+                        binding.tvNIDAlreadyRegisteredId.text = "Ready to verify"
+                        binding.tvNIDAlreadyRegisteredId.visibility = View.VISIBLE
+                    }
+                }
+
+            }
+        } else {
+            Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun processTextRecognitionResult(texts: Text) {
@@ -169,5 +176,6 @@ class VerifyActivity : AppCompatActivity() {
                 name = textm.replace("Name: ", "")
             }
         }
+        checkVerificationStatus()
     }
 }
