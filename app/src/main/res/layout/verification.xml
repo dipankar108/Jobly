@@ -15,18 +15,19 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send your ID card Back and front part in a single pdf file"
+        android:text="Upload your NID Image (Front site)"
         android:textColor="@color/black" />
 
     <Button
         android:id="@+id/btn_uploadPdfButtonVer_Id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Upload PDF" />
+        android:text="Verify Now" />
 
     <Button
         android:id="@+id/btn_sendPdfButtonVer_Id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Send Now" />
+        android:text="Send Now"
+        android:visibility="gone" />
 </LinearLayout>

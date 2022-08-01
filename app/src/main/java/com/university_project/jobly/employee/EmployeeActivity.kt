@@ -28,6 +28,7 @@ import com.university_project.jobly.utils.Disconnect
 import com.university_project.jobly.utils.SharedInfo
 import com.university_project.jobly.utils.UpdatePassword
 import com.university_project.jobly.utils.UtilClass
+import com.university_project.jobly.verify.VerifyActivity
 
 class EmployeeActivity : AppCompatActivity() {
     private val TAG = "EmployeeActivityP"
@@ -103,11 +104,16 @@ class EmployeeActivity : AppCompatActivity() {
                 val uploadPDFBtn: Button = view.findViewById(R.id.btn_uploadPdfButtonVer_Id)
                 val sendProf: Button = view.findViewById(R.id.btn_sendPdfButtonVer_Id)
                 uploadPDFBtn.setOnClickListener {
-                    getContent.launch("application/pdf")
+                    //  getContent.launch("application/pdf")
+                    dialog.dismiss()
+                    startActivity(Intent(this, VerifyActivity::class.java).apply {
+                        putExtra("userType", "Employee")
+                        finish()
+                    })
                 }
                 sendProf.setOnClickListener {
                     if (pdfUri != null) {
-                        liveData.setVerificationFile(pdfUri, userType, this)
+                        // liveData.setVerificationFile(pdfUri, userType, this)
                     }
                 }
             } else {

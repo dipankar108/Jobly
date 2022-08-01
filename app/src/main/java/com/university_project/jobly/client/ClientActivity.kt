@@ -32,6 +32,7 @@ import com.university_project.jobly.utils.Disconnect
 import com.university_project.jobly.utils.SharedInfo
 import com.university_project.jobly.utils.UpdatePassword
 import com.university_project.jobly.utils.UtilClass
+import com.university_project.jobly.verify.VerifyActivity
 
 class ClientActivity : AppCompatActivity() {
     private val TAG = "ClientActivity"
@@ -50,6 +51,7 @@ class ClientActivity : AppCompatActivity() {
         actionbar?.setBackgroundDrawable(colorDrawable)
         setContentView(binding.root)
         changeFragment(ClientJobPostFragment())
+
         bandial = AlertDialog.Builder(this)
         Firebase.auth.uid!!
         Repository.updateActiveStatus(true)
@@ -77,11 +79,15 @@ class ClientActivity : AppCompatActivity() {
                 val uploadPDFBtn: Button = view.findViewById(R.id.btn_uploadPdfButtonVer_Id)
                 val sendProf: Button = view.findViewById(R.id.btn_sendPdfButtonVer_Id)
                 uploadPDFBtn.setOnClickListener {
-                    getContent.launch("application/pdf")
+                    //  getContent.launch("application/pdf")
+                    startActivity(Intent(this, VerifyActivity::class.java).apply {
+                        putExtra("userType", "Client")
+                        finish()
+                    })
                 }
                 sendProf.setOnClickListener {
                     if (pdfUri != null) {
-                        liveData.setVerificationFile(pdfUri, userType, this)
+                        //liveData.setVerificationFile(pdfUri, userType, this)
                     }
                 }
             }

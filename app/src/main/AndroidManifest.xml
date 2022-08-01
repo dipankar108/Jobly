@@ -14,10 +14,15 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Jobly">
         <activity
-            android:name=".ImageViewActivity"
-            android:exported="false" />
+            android:name=".verify.VerifyActivity"
+            android:exported="false">
+            <meta-data
+                android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+                android:value="ocr" />
+        </activity>
+        >
         <activity
-            android:name=".NotificationView"
+            android:name=".ImageViewActivity"
             android:exported="false" />
         <activity
             android:name=".client.UpdateClientProfile"
@@ -25,7 +30,6 @@
         <activity android:name=".chatserver.ChatActivity" />
         <activity android:name=".employee.UpdateProfileActivity" />
         <activity android:name=".client.AppliedEmployeeActivity" />
-        <activity android:name=".client.EditPostActivity" />
         <activity android:name=".employee.EmployeeActivity" />
         <activity android:name=".JobPostView" />
         <activity android:name=".client.ClientActivity" />
