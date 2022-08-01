@@ -90,28 +90,40 @@ class VerifyActivity : AppCompatActivity() {
                                 if (name == modelVerify.name && id == modelVerify.id && dob == modelVerify.dob) {
                                     dbProfile.document(Firebase.auth.uid.toString())
                                         .update("verify", true).addOnSuccessListener {
-
                                             dialog.dismiss()
                                             dbVer.document(docid)
                                                 .update("registerId", Firebase.auth.uid.toString())
-                                            dbVer.document(docid).update("alreadyExits", true)
-                                            if (userType == "Client") {
-                                                startActivity(
-                                                    Intent(
-                                                        this, ClientActivity::class.java
-                                                    ).apply {
-                                                        finish()
-                                                    })
-                                            } else {
-                                                startActivity(
-                                                    Intent(
-                                                        this, EmployeeActivity::class.java
-                                                    ).apply {
-                                                        finish()
-                                                    })
-                                            }
-                                            Toast.makeText(this, "Success", Toast.LENGTH_LONG)
-                                                .show()
+                                                .addOnSuccessListener {
+                                                    dbVer.document(docid)
+                                                        .update("alreadyExists", true)
+                                                        .addOnSuccessListener {
+                                                            if (userType == "Client") {
+                                                                startActivity(
+                                                                    Intent(
+                                                                        this,
+                                                                        ClientActivity::class.java
+                                                                    ).apply {
+                                                                        finish()
+                                                                    })
+                                                            } else {
+                                                                startActivity(
+                                                                    Intent(
+                                                                        this,
+                                                                        EmployeeActivity::class.java
+                                                                    ).apply {
+                                                                        finish()
+                                                                    })
+                                                            }
+                                                            Toast.makeText(
+                                                                this,
+                                                                "Success",
+                                                                Toast.LENGTH_LONG
+                                                            )
+                                                                .show()
+                                                        }
+                                                }
+
+
                                         }.addOnFailureListener {
                                             dialog.dismiss()
                                             Toast.makeText(this, "Failed", Toast.LENGTH_LONG).show()
